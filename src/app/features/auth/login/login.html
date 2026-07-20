@@ -39,7 +39,7 @@
                 }
             </div>
 
-            <p-button type="submit" label="تسجيل الدخول" icon="pi pi-sign-in" styleClass="w-full h-14 text-lg font-semibold"> </p-button>
+            <p-button type="submit" label="تسجيل الدخول" icon="pi pi-sign-in" styleClass="w-full h-14 text-lg font-semibold" [loading]="isLoading()" [disabled]="loginForm.invalid || isLoading()"> </p-button>
         </form>
     </div>
 </div>

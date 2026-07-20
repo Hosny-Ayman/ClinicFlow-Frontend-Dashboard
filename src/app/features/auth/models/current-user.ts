@@ -1,5 +1,5 @@
 export interface CurrentUser {
-    userId: number;
+    id: number;
     fullName: string;
     email: string;
     clinicId: number;

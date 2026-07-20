@@ -1,9 +1,10 @@
 import { AuthService } from '@/app/core/service/auth.service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { SettingService } from '@/app/core/service/setting.service';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -15,8 +16,9 @@ export class Login {
     private readonly fb = inject(NonNullableFormBuilder);
     private readonly authService = inject(AuthService);
     private readonly settingService = inject(SettingService);
+    readonly isLoading = signal(false);
 
-    protected readonly logo = this.settingService.logo;
+    readonly logo = this.settingService.logo;
 
     readonly loginForm = this.fb.group({
         email: this.fb.control('', {
@@ -43,14 +45,20 @@ export class Login {
             return;
         }
 
-        this.authService.login(this.loginForm.getRawValue()).subscribe({
-            next: (response) => {
-                console.log('Success');
-            },
+        this.isLoading.set(true);
 
-            error: (error) => {
-                console.log('Failed');
-            }
-        });
+        this.authService
+            .login(this.loginForm.getRawValue())
+            .pipe(finalize(() => this.isLoading.set(false)))
+            .subscribe({
+                next: (response) => {
+                    console.log('Success');
+                    this.authService.loadCurrentUser();
+                },
+
+                error: (error) => {
+                    console.log('Failed');
+                }
+            });
     }
 }
