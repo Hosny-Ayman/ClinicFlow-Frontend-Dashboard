@@ -1,4 +1,4 @@
-import { ApiResponse } from '@/app/features/auth/models/api-response';
+import { ApiResponse } from '@/app/core/models/api-response';
 import { CurrentUser } from '@/app/features/auth/models/current-user';
 import { LoginRequest } from '@/app/features/auth/models/login-request';
 import { environment } from '@/environments/environment';

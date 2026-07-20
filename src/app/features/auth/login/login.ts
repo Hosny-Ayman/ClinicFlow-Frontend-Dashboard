@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
+import { SettingService } from '@/app/core/service/setting.service';
 
 @Component({
     selector: 'app-login',
@@ -13,6 +14,9 @@ import { Button } from 'primeng/button';
 export class Login {
     private readonly fb = inject(NonNullableFormBuilder);
     private readonly authService = inject(AuthService);
+    private readonly settingService = inject(SettingService);
+
+    protected readonly logo = this.settingService.logo;
 
     readonly loginForm = this.fb.group({
         email: this.fb.control('', {
