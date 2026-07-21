@@ -1,4 +1,4 @@
-import { SettingService } from '@/app/core/service/setting.service';
+import { SettingService } from '@/app/core/services/setting.service';
 import { Component, inject } from '@angular/core';
 
 @Component({

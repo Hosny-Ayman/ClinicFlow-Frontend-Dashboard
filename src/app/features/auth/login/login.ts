@@ -1,10 +1,12 @@
-import { AuthService } from '@/app/core/service/auth.service';
+import { AuthService } from '@/app/core/services/auth.service';
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
-import { SettingService } from '@/app/core/service/setting.service';
-import { finalize } from 'rxjs';
+import { SettingService } from '@/app/core/services/setting.service';
+import { finalize, switchMap } from 'rxjs';
+import { NotificationService } from '@/app/core/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -17,8 +19,9 @@ export class Login {
     private readonly authService = inject(AuthService);
     private readonly settingService = inject(SettingService);
     readonly isLoading = signal(false);
-
     readonly logo = this.settingService.logo;
+    private readonly notification = inject(NotificationService);
+    private readonly router = inject(Router);
 
     readonly loginForm = this.fb.group({
         email: this.fb.control('', {
@@ -49,15 +52,19 @@ export class Login {
 
         this.authService
             .login(this.loginForm.getRawValue())
-            .pipe(finalize(() => this.isLoading.set(false)))
+            .pipe(
+                switchMap(() => this.authService.loadCurrentUser()),
+                finalize(() => this.isLoading.set(false))
+            )
+
             .subscribe({
                 next: (response) => {
-                    console.log('Success');
-                    this.authService.loadCurrentUser();
+                    this.router.navigate(['/']);
+                    this.notification.success('تم تسجيل الدخول بنجاح');
                 },
 
                 error: (error) => {
-                    console.log('Failed');
+                    this.notification.error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
                 }
             });
     }
