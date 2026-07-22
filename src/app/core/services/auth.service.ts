@@ -46,4 +46,12 @@ export class AuthService {
             console.log('Initializer End');
         });
     }
+
+    refresh(): Observable<void> {
+        return this.http.post<void>(`${environment.apiUrl}/Authentication/refresh`, null);
+    }
+
+    logout(): Observable<void> {
+        return this.http.post<void>(`${environment.apiUrl}/Authentication/logout`, null);
+    }
 }
