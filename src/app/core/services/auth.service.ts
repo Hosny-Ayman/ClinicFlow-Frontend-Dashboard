@@ -4,6 +4,7 @@ import { LoginRequest } from '@/app/features/auth/models/login-request';
 import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, firstValueFrom, Observable, of, tap, throwError } from 'rxjs';
 
 @Injectable({
@@ -13,6 +14,8 @@ export class AuthService {
     private readonly http = inject(HttpClient);
 
     readonly currentUser = signal<CurrentUser | null>(null);
+
+    private readonly router = inject(Router);
 
     login(request: LoginRequest): Observable<ApiResponse<string>> {
         return this.http.post<ApiResponse<string>>(`${environment.apiUrl}/Authentication/login`, request);
@@ -52,6 +55,11 @@ export class AuthService {
     }
 
     logout(): Observable<void> {
-        return this.http.post<void>(`${environment.apiUrl}/Authentication/logout`, null);
+        return this.http.post<void>(`${environment.apiUrl}/Authentication/logout`, null).pipe(
+            tap(() => {
+                this.currentUser.set(null);
+                this.router.navigate(['/auth/login']);
+            })
+        );
     }
 }

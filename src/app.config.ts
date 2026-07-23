@@ -8,11 +8,12 @@ import { MessageService } from 'primeng/api';
 import { credentialsInterceptor } from './app/core/interceptors/credentials.interceptor';
 import { AuthService } from './app/core/services/auth.service';
 import { refreshInterceptor } from './app/core/interceptors/refresh.interceptor';
+import { loadingInterceptor } from './app/core/interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideRouter(appRoutes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })),
-        provideHttpClient(withFetch(), withInterceptors([credentialsInterceptor, refreshInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([credentialsInterceptor, loadingInterceptor, refreshInterceptor])),
         provideAppInitializer(() => {
             const authService = inject(AuthService);
 
