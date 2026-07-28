@@ -63,7 +63,6 @@ import { AuthService } from '@/app/core/services/auth.service';
                 </div>
             </div>
 
-            <!-- زرار الإشعارات مع البادج -->
             <button class="layout-topbar-action relative" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveToClass="hidden" leaveActiveClass="animate-fadeout" [hideOnOutsideClick]="true">
                 <i class="pi pi-bell p-overlay-badge" pBadge value="3" severity="danger"></i>
             </button>
@@ -112,7 +111,6 @@ export class AppTopbar implements OnDestroy {
                     this.userMenu.hide();
                 }
 
-                // هنأخر الـ Logout جزء من الثانية عشان الأنيميشن يخلص براحته والـ DOM ينضف
                 setTimeout(() => {
                     this.authService.logout().subscribe();
                 }, 150);
@@ -136,7 +134,6 @@ export class AppTopbar implements OnDestroy {
             this.userMenu.hide();
         }
 
-        // ده تنظيف إجباري بيمسح أي منيو متعلقة في الـ body بالعافية لو حصل أي تأخير
         const orphanedMenus = document.querySelectorAll('.p-menu-overlay');
         orphanedMenus.forEach((menu) => menu.remove());
     }

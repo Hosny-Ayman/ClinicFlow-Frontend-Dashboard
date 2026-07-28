@@ -59,7 +59,7 @@ export class Login {
 
             .subscribe({
                 next: (response) => {
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/dashboard']);
                     this.notification.success('تم تسجيل الدخول بنجاح');
                 },
 

@@ -1,0 +1,51 @@
+<section class="hero" dir="rtl">
+    <div class="hero-content">
+        <div class="hero-text-section">
+            <span class="hero-badge"> إدارة عيادتك بكل سهولة </span>
+
+            <h1>
+                شغّل عيادتك.<br />
+                <span>واثمر تأثيرك.</span>
+            </h1>
+
+            <p>كل ما تحتاجه لإدارة المواعيد، والمرضى، والأطباء، والفواتير والمزيد — في مكان واحد.</p>
+
+            <div class="hero-actions">
+                <p-button label="إنشاء عيادتك" icon="pi pi-building" styleClass="primary-btn" routerLink="/createClinic"> </p-button>
+
+                <p-button label="تسجيل الدخول" icon="pi pi-lock" styleClass="secondary-btn" severity="secondary" variant="outlined" routerLink="/auth/login"> </p-button>
+            </div>
+
+            <div class="hero-features">
+                <div class="feature-card">
+                    <i class="pi pi-calendar"></i>
+                    <span>إدارة المواعيد</span>
+                </div>
+
+                <div class="feature-card">
+                    <i class="pi pi-users"></i>
+                    <span>سجلات المرضى</span>
+                </div>
+
+                <div class="feature-card">
+                    <i class="pi pi-file"></i>
+                    <span>سجلات طبية</span>
+                </div>
+
+                <div class="feature-card">
+                    <i class="pi pi-chart-line"></i>
+                    <span>الفواتير والمدفوعات</span>
+                </div>
+
+                <div class="feature-card">
+                    <i class="pi pi-shield"></i>
+                    <span>آمن وموثوق</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-image-section">
+            <img [src]="Image()?.imageUrl || 'assets/reception.jpg'" alt="ClinicFlow Reception" />
+        </div>
+    </div>
+</section>

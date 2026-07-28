@@ -37,8 +37,6 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
                 catchError((refreshError) => {
                     authService.currentUser.set(null);
 
-                    router.navigate(['/auth/login']);
-
                     return throwError(() => refreshError);
                 })
             );

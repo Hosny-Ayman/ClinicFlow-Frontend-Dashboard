@@ -1,0 +1,23 @@
+<nav class="navbar" dir="rtl">
+    <div class="navbar-container">
+
+        <button class="mobile-menu-btn" (click)="isMenuOpen = !isMenuOpen">
+            <i class="pi" [class.pi-bars]="!isMenuOpen" [class.pi-times]="isMenuOpen"></i>
+        </button>
+
+        <div class="nav-right" [class.open]="isMenuOpen">
+            <div class="nav-menu">
+                @for(item of navItems; track item.route){
+                    <a [routerLink]="item.route" class="nav-item" (click)="isMenuOpen = false">
+                        {{ item.label }}
+                    </a>
+                }
+            </div>
+        </div>
+
+        <a routerLink="/" class="logo">
+            <img [src]="logo()?.imageUrl || 'assets/logo.svg'" alt="ClinicFlow" />
+            <span>ClinicFlow</span>
+        </a>
+    </div>
+</nav>

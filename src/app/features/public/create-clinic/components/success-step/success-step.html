@@ -1,0 +1,93 @@
+<div class="max-w-3xl mx-auto w-full text-right" dir="rtl">
+    <div class="bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 rounded-4xl p-8 md:p-12 flex flex-col items-center">
+        <div class="relative flex justify-center items-center mb-6 mt-4 w-full">
+            <div class="absolute w-2 h-2 rounded-full bg-yellow-400 top-0 right-[35%]"></div>
+            <div class="absolute w-1.5 h-1.5 rounded-full bg-blue-300 bottom-2 right-[30%]"></div>
+            <div class="absolute w-2.5 h-2.5 rounded-full bg-blue-400 top-4 left-[35%]"></div>
+            <div class="absolute w-1.5 h-1.5 rounded-full bg-pink-300 bottom-0 left-[38%]"></div>
+            <div class="absolute w-2 h-2 rounded-full bg-green-200 top-12 right-[25%]"></div>
+
+            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#00a67e] flex items-center justify-center shadow-[0_0_0_8px_rgba(0,166,126,0.1)] z-10">
+                <i class="pi pi-check text-white text-3xl font-extrabold"></i>
+            </div>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-[#183153] mb-3 text-center">تم إنشاء عيادتك بنجاح!</h2>
+        <p class="text-xl md:text-2xl font-bold text-[#183153] mb-4 text-center">مرحبا بك في <span class="text-[#00a67e]">ClinicFlow</span></p>
+        <p class="text-gray-500 font-medium text-base md:text-lg max-w-md text-center leading-relaxed mb-10">
+            تم إنشاء عيادتك وحساب المدير بنجاح.
+            <br />
+            يمكنك الآن تسجيل الدخول إلى لوحة التحكم والبدء في إدارة عيادتك.
+        </p>
+
+        <div class="w-full border border-gray-200 bg-[#fbfcfc] rounded-2xl p-6 md:p-8 mb-8">
+            <h3 class="text-xl font-extrabold text-[#183153] mb-6 text-right">ملخص عيادتك</h3>
+
+            <div class="flex flex-col">
+                <div class="flex justify-between items-center py-4 border-b border-gray-200">
+                    <span class="text-[#183153] font-bold text-sm md:text-base">{{ data.clinicName }}</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-600 font-bold text-sm md:text-base">اسم العيادة</span>
+                        <i class="pi pi-building text-[#183153] text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center py-4 border-b border-gray-200">
+                    <span class="text-[#183153] font-bold text-sm md:text-base">{{ data.clinicEmail }}</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-600 font-bold text-sm md:text-base">البريد الإلكتروني</span>
+                        <i class="pi pi-envelope text-[#183153] text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center py-4 border-b border-gray-200">
+                    <span class="text-[#183153] font-bold text-sm md:text-base text-left" dir="ltr">{{ data.clinicPhone }}</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-600 font-bold text-sm md:text-base">رقم الهاتف</span>
+                        <i class="pi pi-phone text-[#183153] text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center py-4 border-b border-gray-200">
+                    <span class="text-[#183153] font-bold text-sm md:text-base">{{ data.clinicAddress }}</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-600 font-bold text-sm md:text-base">العنوان</span>
+                        <i class="pi pi-map-marker text-[#183153] text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center py-4 border-b border-gray-200">
+                    <span class="text-[#183153] font-bold text-sm md:text-base text-left" dir="ltr"> {{ data.createdAt | date:'dd MMMM yyyy, hh:mm a' }} </span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-600 font-bold text-sm md:text-base">تاريخ الإنشاء</span>
+                        <i class="pi pi-calendar text-[#183153] text-lg"></i>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center py-4">
+                    <span class="text-[#183153] font-bold text-sm md:text-base">{{ data.ownerName }}</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-600 font-bold text-sm md:text-base">حساب المدير</span>
+                        <i class="pi pi-user text-[#183153] text-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col items-center gap-5">
+            <button
+                type="button"
+                (click)="goToDashboard.emit()"
+                class="w-full cursor-pointer flex justify-center items-center gap-3 bg-[#00a67e] hover:bg-[#008f6b] border-none rounded-2xl px-8 py-4 text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+                <i class="pi pi-rocket text-xl"></i>
+                الانتقال إلى لوحة التحكم
+            </button>
+
+            <a routerLink="/" class="flex items-center gap-3 text-[#183153] font-extrabold text-base md:text-lg hover:text-[#00a67e] transition-colors cursor-pointer">
+                <i class="pi pi-arrow-left text-sm mt-0.5"></i>
+                العودة إلى الصفحة الرئيسية
+            </a>
+        </div>
+    </div>
+</div>

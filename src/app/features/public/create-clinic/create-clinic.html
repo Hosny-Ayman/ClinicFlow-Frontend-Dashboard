@@ -1,0 +1,17 @@
+<div class="max-w-5xl mx-auto py-10 px-4">
+    <app-clinic-stepper [currentStep]="activeStep()"> </app-clinic-stepper>
+
+    @if (activeStep() === 1) {
+
+    <app-clinic-information-step [form]="clinicForm" (next)="nextStep()"> </app-clinic-information-step>
+
+    } @else if (activeStep() === 2) {
+
+    <app-admin-account-step [form]="adminForm" (submit)="createClinic()" (previous)="previousStep()"> </app-admin-account-step>
+
+    } @else {
+
+    <app-success-step [data]="clinicResponse" (goToDashboard)="autoLogin()"></app-success-step>
+
+    }
+</div>
