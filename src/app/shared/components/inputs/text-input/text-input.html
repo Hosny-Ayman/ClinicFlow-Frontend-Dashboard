@@ -1,0 +1,33 @@
+<div class="flex flex-col text-right w-full">
+    <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">
+        {{ label() }}
+        <span class="text-red-500 mx-1">*</span>
+    </label>
+
+    <div class="relative w-full">
+        <i [class]="icon() + ' absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl z-10 pointer-events-none'"></i>
+
+        <input
+            pInputText
+            [class]="'w-full rounded-2xl pr-12! py-4 text-lg border outline-none transition-all bg-white text-right focus:border-[#00a67e] focus:shadow-[0_0_0_4px_rgba(0,166,126,0.1)] ' + (type() === 'password' ? 'pl-12!' : 'pl-4!')"
+            [class.border-red-500]="showError"
+            [class.border-gray-200]="!showError"
+            [type]="type() === 'password' ? (isPasswordVisible ? 'text' : 'password') : type()"
+            [placeholder]="placeholder()"
+            [formControl]="control()"
+        />
+
+        @if(type() === 'password') {
+        <i
+            class="pi absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl z-10 cursor-pointer hover:text-gray-600 transition-colors"
+            [class.pi-eye]="!isPasswordVisible"
+            [class.pi-eye-slash]="isPasswordVisible"
+            (click)="isPasswordVisible = !isPasswordVisible"
+        ></i>
+        }
+    </div>
+
+    @if(showError) {
+    <small class="text-red-500 block mt-2 text-sm font-semibold"> {{ validationMessage }} </small>
+    }
+</div>

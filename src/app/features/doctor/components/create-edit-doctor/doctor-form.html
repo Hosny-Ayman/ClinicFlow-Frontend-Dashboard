@@ -1,0 +1,109 @@
+<form [formGroup]="doctorForm" (ngSubmit)="onSubmit()" class="max-w-7xl mx-auto w-full mt-12 mb-12 px-4">
+    <div dir="rtl" class="bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 rounded-4xl p-8 md:p-12 text-right">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+            <div class="lg:border-l lg:border-gray-100 lg:pl-12">
+                <app-user-form [userForm]="doctorForm.controls.user"></app-user-form>
+            </div>
+
+            <div>
+                <div class="mb-10 text-right">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">{{ isEditMode ? 'تعديل بيانات الطبيب' : 'معلومات الطبيب' }}</h2>
+                    <p class="text-gray-500 font-medium text-base md:text-lg">{{ isEditMode ? 'قم بتحديث المعلومات الحالية للطبيب' : 'أدخل بيانات الطبيب الأساسية لإنشاء حساب جديد' }}</p>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                        <div class="flex flex-col text-right w-full">
+                            <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">التخصص <span class="text-red-500 mx-1">*</span></label>
+                            <p-select
+                                [options]="specialties"
+                                formControlName="specialtieName"
+                                placeholder="اختر التخصص"
+                                Class="w-full rounded-2xl h-14 text-lg border-gray-200 focus:border-[#00a67e] shadow-none flex items-center bg-white"
+                                [style]="{'width': '100%'}"
+                            ></p-select>
+                        </div>
+
+                        <app-number-input label="سنوات الخبرة" suffixText="سنوات" placeholder="مثال: 5" [control]="doctorForm.controls.experienceYears"> </app-number-input>
+                    </div>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                        <app-number-input label="سعر الكشف (ج.م)" suffixText="ج.م" placeholder="مثال: 300" [control]="doctorForm.controls.consultationFee"> </app-number-input>
+
+                        <div class="flex flex-col text-right w-full">
+                            <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">النوع</label>
+                            <div class="flex items-center gap-8 h-14">
+                                <div class="flex items-center gap-3 cursor-pointer">
+                                    <p-radioButton [value]="1" formControlName="gender" inputId="male"></p-radioButton>
+                                    <label for="male" class="text-lg text-[#183153] font-medium cursor-pointer">ذكر</label>
+                                </div>
+                                <div class="flex items-center gap-3 cursor-pointer">
+                                    <p-radioButton [value]="2" formControlName="gender" inputId="female"></p-radioButton>
+                                    <label for="female" class="text-lg text-[#183153] font-medium cursor-pointer">أنثى</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col text-right w-full">
+                        <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">نبذة عن الطبيب</label>
+                        <textarea
+                            pTextarea
+                            formControlName="bio"
+                            rows="3"
+                            placeholder="اكتب نبذة مختصرة عن خبراتك ومؤهلاتك"
+                            class="w-full rounded-2xl p-4 text-lg border outline-none transition-all bg-white text-right focus:border-[#00a67e] focus:shadow-[0_0_0_4px_rgba(0,166,126,0.1)] border-[#d9e1ec] resize-none"
+                        ></textarea>
+                    </div>
+
+                    <div class="flex flex-col text-right w-full">
+                        <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">الصورة الشخصية</label>
+                        <input type="file" #fileInput class="hidden" accept="image/png, image/jpeg" (change)="onFileSelected($event)" />
+
+                        <div
+                            (click)="!selectedFileUrl && fileInput.click()"
+                            class="border-2 border-dashed border-[#00a67e] rounded-2xl p-6 flex flex-col items-center justify-center hover:bg-[#f0f9f6] transition-colors bg-white relative min-h-50"
+                            [class.border-solid]="selectedFileUrl"
+                            [class.cursor-pointer]="!selectedFileUrl"
+                        >
+                            @if(selectedFileUrl) {
+                            <div class="relative w-40 h-40 group mx-auto">
+                                <img [src]="selectedFileUrl" class="w-full h-full object-cover rounded-2xl shadow-md border border-gray-100" />
+
+                                <button type="button" (click)="removeImage($event)" class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg transition-all z-20">
+                                    <i class="pi pi-times text-sm"></i>
+                                </button>
+
+                                <div (click)="fileInput.click()" class="absolute inset-0 bg-black/50 hidden group-hover:flex flex-col items-center justify-center rounded-2xl transition-all z-10 cursor-pointer">
+                                    <i class="pi pi-camera text-white text-xl mb-1"></i>
+                                    <span class="font-bold text-white text-sm">تغيير الصورة</span>
+                                </div>
+                            </div>
+                            } @else {
+                            <div class="py-4 flex flex-col items-center">
+                                <i class="pi pi-cloud-upload text-4xl text-[#00a67e] mb-3"></i>
+                                <span class="font-bold text-[#00a67e] text-lg">اختر صورة</span>
+                                <span class="text-gray-400 text-sm mt-1">(2MB أقصى, JPG, PNG)</span>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-center items-center pt-10 mt-12 border-t border-gray-100 gap-6 w-full">
+            <button type="button" class="cursor-pointer w-full sm:w-50 flex items-center justify-center gap-3 bg-white hover:bg-gray-50 border border-[#d9e1ec] rounded-2xl px-6 py-4 text-lg font-bold text-[#183153] transition-all duration-200">
+                <i class="pi pi-arrow-right text-sm"></i> رجوع
+            </button>
+            <button
+                type="submit"
+                [disabled]="doctorForm.invalid"
+                class="cursor-pointer w-full sm:w-62.5 flex items-center justify-center gap-3 bg-[#00a67e] hover:bg-[#008f6b] disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed border-none rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+                {{ isEditMode ? 'حفظ التعديلات' : 'حفظ وإضافة' }}
+                <i class="pi text-sm" [class.pi-pencil]="isEditMode" [class.pi-check]="!isEditMode"></i>
+            </button>
+        </div>
+    </div>
+</form>

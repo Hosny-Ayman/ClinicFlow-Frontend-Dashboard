@@ -1,0 +1,27 @@
+<div class="flex flex-col text-right w-full">
+    <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">
+        {{ label() }}
+        <span class="text-red-500 mx-1">*</span>
+    </label>
+
+    <div class="relative w-full">
+        @if(suffixText()) {
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium text-sm z-10"> {{ suffixText() }} </span>
+        }
+
+        <input
+            pInputText
+            appNumbersOnly
+            inputmode="numeric"
+            [class]="'w-full rounded-2xl pr-4! py-4 text-lg border outline-none transition-all bg-white text-right focus:border-[#00a67e] focus:shadow-[0_0_0_4px_rgba(0,166,126,0.1)] ' + (suffixText() ? 'pl-16!' : 'pl-4!')"
+            [class.border-red-500]="showError"
+            [class.border-gray-200]="!showError"
+            [placeholder]="placeholder()"
+            [formControl]="control()"
+        />
+    </div>
+
+    @if(showError) {
+    <small class="text-red-500 block mt-2 text-sm font-semibold"> {{ validationMessage }} </small>
+    }
+</div>

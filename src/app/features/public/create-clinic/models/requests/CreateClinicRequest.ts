@@ -1,4 +1,4 @@
-import { CreateClinicDtoRequest } from './Create-ClinicCto-Request';
+import { CreateClinicDtoRequest } from './Create-ClinicDto-Request';
 import { CreateUserDtoRequest } from './Create-UserDto-Request ';
 
 export interface CreateClinicRequest {

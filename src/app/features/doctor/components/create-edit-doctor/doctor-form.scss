@@ -1,0 +1,9 @@
+:host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight {
+    border-color: #00a67e;
+    background: #00a67e;
+}
+
+:host ::ng-deep .p-select:not(.p-disabled).p-focus {
+    border-color: #00a67e;
+    box-shadow: 0 0 0 4px rgba(0, 166, 126, 0.1);
+}

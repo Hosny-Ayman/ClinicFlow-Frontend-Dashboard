@@ -1,0 +1,22 @@
+<div dir="rtl" class="w-full text-right h-full">
+    <div class="mb-10 text-right">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">معلومات الحساب</h2>
+        <p class="text-gray-500 font-medium text-base md:text-lg">أدخل بيانات حساب المستخدم</p>
+    </div>
+
+    <div class="space-y-8">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <app-text-input label="الاسم الأول" placeholder="ادخل الاسم الأول" icon="pi pi-user" [control]="userForm().controls.firstName"></app-text-input>
+            <app-text-input label="الاسم الأخير" placeholder="ادخل الاسم الأخير" icon="pi pi-user" [control]="userForm().controls.lastName"></app-text-input>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <app-text-input label="البريد الإلكتروني" placeholder="ادخل البريد الإلكتروني" icon="pi pi-envelope" type="email" [control]="userForm().controls.email"></app-text-input>
+            <app-text-input label="رقم الهاتف" placeholder="ادخل رقم الهاتف" icon="pi pi-phone" [control]="userForm().controls.phoneNumber"></app-text-input>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <app-text-input label="كلمة المرور" placeholder="ادخل كلمة المرور" icon="pi pi-lock" type="password" [control]="userForm().controls.password"></app-text-input>
+        </div>
+    </div>
+</div>

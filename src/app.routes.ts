@@ -39,6 +39,11 @@ export const appRoutes: Routes = [
     },
 
     {
+        path: 'doctor',
+        loadChildren: () => import('./app/features/doctor/doctor.routes').then((c) => c.doctor)
+    },
+
+    {
         path: 'notfound',
         component: Notfound
     },
