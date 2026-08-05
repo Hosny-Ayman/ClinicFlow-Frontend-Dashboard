@@ -44,6 +44,15 @@ export const appRoutes: Routes = [
     },
 
     {
+        path: 'receptionist',
+        loadChildren: () => import('./app/features/user/user.routes').then((c) => c.user)
+    },
+    {
+        path: 'clinicWorkingHours',
+        loadChildren: () => import('./app/features/clinic-working-hour/clinic-working-hour.routes').then((c) => c.ClinicWorkingHours)
+    },
+
+    {
         path: 'notfound',
         component: Notfound
     },

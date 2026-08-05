@@ -1,7 +1,8 @@
 import { createUserFormGroup } from '@/app/shared/builders/user-form.builder';
 import { UserForm } from '@/app/shared/components/user-form/user-form';
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectorRef, Component, inject, OnInit, input, effect } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common'; // ضفنا دي عشان نتحكم في التنسيق ديناميكياً
 
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
@@ -16,7 +17,7 @@ import { NotificationService } from '@/app/core/services/notification.service';
 
 @Component({
     selector: 'app-doctor-form',
-    imports: [UserForm, ReactiveFormsModule, SelectModule, TextareaModule, RadioButtonModule, InputTextModule, NumberInput],
+    imports: [UserForm, ReactiveFormsModule, SelectModule, TextareaModule, RadioButtonModule, InputTextModule, NumberInput, NgClass],
     templateUrl: './doctor-form.html',
     styleUrl: './doctor-form.scss'
 })
@@ -30,6 +31,9 @@ export class DoctorForm implements OnInit {
     private userId: number | null = null;
     private readonly notificationService = inject(NotificationService);
 
+    hideUserSection = input<boolean>(false);
+    prefilledUserData = input<any>(null);
+
     doctorForm = this.fb.group({
         user: createUserFormGroup(this.fb),
         specialtieName: this.fb.nonNullable.control('', UserValidators.required),
@@ -42,6 +46,34 @@ export class DoctorForm implements OnInit {
 
     specialties: any[] = [];
     selectedFileUrl: string | ArrayBuffer | null = null;
+
+    constructor() {
+        // مراقبة الداتا اللي جاية من الأب (الـ Wizard)
+        effect(() => {
+            // لو اليوزر اختار "أنا الطبيب صاحب العيادة"، هنلغي الفاليديشن بتاع اليوزر عشان الفورم متضربش
+            if (this.hideUserSection()) {
+                // ضفنا as FormGroup هنا
+                const userGroup = this.doctorForm.get('user') as FormGroup;
+
+                if (userGroup) {
+                    Object.keys(userGroup.controls).forEach((key) => {
+                        const control = userGroup.get(key);
+                        control?.clearValidators();
+                        control?.updateValueAndValidity();
+                    });
+                }
+            }
+
+            if (this.prefilledUserData()) {
+                this.doctorForm.patchValue({
+                    user: this.prefilledUserData()
+                });
+                if (this.prefilledUserData().id) {
+                    this.userId = this.prefilledUserData().id;
+                }
+            }
+        });
+    }
 
     ngOnInit(): void {
         this.loadSpecialities();
@@ -128,17 +160,22 @@ export class DoctorForm implements OnInit {
         const formValue = this.doctorForm.getRawValue();
         const formData = new FormData();
 
-        formData.append('User.FirstName', formValue.user.firstName);
-        formData.append('User.LastName', formValue.user.lastName);
-        formData.append('User.Email', formValue.user.email);
-        formData.append('User.PhoneNumber', formValue.user.phoneNumber);
+        if (!this.hideUserSection()) {
+            formData.append('User.FirstName', formValue.user.firstName);
+            formData.append('User.LastName', formValue.user.lastName);
+            formData.append('User.Email', formValue.user.email);
+            formData.append('User.PhoneNumber', formValue.user.phoneNumber);
 
-        if (!this.isEditMode && formValue.user.password) {
-            formData.append('User.Password', formValue.user.password);
+            if (!this.isEditMode && formValue.user.password) {
+                formData.append('User.Password', formValue.user.password);
+            }
+        }
+
+        if (this.userId) {
+            formData.append('User.Id', this.userId.toString());
         }
 
         if (this.isEditMode && this.doctorId) {
-            formData.append('User.Id', this.userId!.toString());
             formData.append('Doctor.Id', this.doctorId);
         }
 
@@ -167,12 +204,12 @@ export class DoctorForm implements OnInit {
         if (this.isEditMode) {
             this.doctorService.UpdateDoctor(formData as any).subscribe({
                 next: () => this.notificationService.success('تم حفظ التعديلات بنجاح'),
-                error: () => this.notificationService.error('حدث خطاء اثناء حفظ البينات')
+                error: () => this.notificationService.error('حدث خطأ أثناء حفظ البيانات')
             });
         } else {
             this.doctorService.CreateDoctor(formData as any).subscribe({
                 next: () => this.notificationService.success('تم إضافة الطبيب بنجاح'),
-                error: () => this.notificationService.error('حدث خطاء اثناء حفظ البينات')
+                error: () => this.notificationService.error('حدث خطأ أثناء حفظ البيانات')
             });
         }
     }

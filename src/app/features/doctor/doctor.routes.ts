@@ -7,7 +7,7 @@ export const doctor: Routes = [
     },
 
     {
-        path: ':id/edit',
+        path: 'edit',
         loadComponent: () => import('./components/create-edit-doctor/doctor-form').then((m) => m.DoctorForm)
     }
 ];

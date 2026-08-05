@@ -1,14 +1,21 @@
 <form [formGroup]="doctorForm" (ngSubmit)="onSubmit()" class="max-w-7xl mx-auto w-full mt-12 mb-12 px-4">
     <div dir="rtl" class="bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 rounded-4xl p-8 md:p-12 text-right">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <!-- استخدمنا ngClass عشان نقسم الشاشة لعمودين لو اليوزر فورم ظاهرة، ولو مخفية نخليها عمود واحد متسنتر -->
+        <div class="grid grid-cols-1 gap-12" [ngClass]="{'lg:grid-cols-2 lg:gap-16': !hideUserSection()}">
+            <!-- فورم اليوزر هتظهر بس لو hideUserSection بـ false -->
+            @if(!hideUserSection()) {
             <div class="lg:border-l lg:border-gray-100 lg:pl-12">
                 <app-user-form [userForm]="doctorForm.controls.user"></app-user-form>
             </div>
+            }
 
-            <div>
+            <!-- فورم الطبيب (لو ظهرت لوحدها هتاخد كلاسات التوسيط max-w-2xl mx-auto) -->
+            <div [ngClass]="{'mx-auto w-full max-w-2xl': hideUserSection()}">
                 <div class="mb-10 text-right">
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">{{ isEditMode ? 'تعديل بيانات الطبيب' : 'معلومات الطبيب' }}</h2>
-                    <p class="text-gray-500 font-medium text-base md:text-lg">{{ isEditMode ? 'قم بتحديث المعلومات الحالية للطبيب' : 'أدخل بيانات الطبيب الأساسية لإنشاء حساب جديد' }}</p>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">{{ hideUserSection() ? 'معلومات الطبيب (صاحب العيادة)' : (isEditMode ? 'تعديل بيانات الطبيب' : 'معلومات الطبيب') }}</h2>
+                    <p class="text-gray-500 font-medium text-base md:text-lg">
+                        {{ hideUserSection() ? 'أدخل بياناتك المهنية كطبيب صاحب العيادة' : (isEditMode ? 'قم بتحديث المعلومات الحالية للطبيب' : 'أدخل بيانات الطبيب الأساسية لإنشاء حساب جديد') }}
+                    </p>
                 </div>
 
                 <div class="space-y-8">
@@ -19,7 +26,7 @@
                                 [options]="specialties"
                                 formControlName="specialtieName"
                                 placeholder="اختر التخصص"
-                                Class="w-full rounded-2xl h-14 text-lg border-gray-200 focus:border-[#00a67e] shadow-none flex items-center bg-white"
+                                styleClass="w-full rounded-2xl h-14 text-lg border-gray-200 focus:border-[#00a67e] shadow-none flex items-center bg-white"
                                 [style]="{'width': '100%'}"
                             ></p-select>
                         </div>
@@ -101,7 +108,7 @@
                 [disabled]="doctorForm.invalid"
                 class="cursor-pointer w-full sm:w-62.5 flex items-center justify-center gap-3 bg-[#00a67e] hover:bg-[#008f6b] disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed border-none rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200"
             >
-                {{ isEditMode ? 'حفظ التعديلات' : 'حفظ وإضافة' }}
+                {{ isEditMode ? 'حفظ التعديلات' : (hideUserSection() ? 'حفظ' : 'حفظ وإضافة') }}
                 <i class="pi text-sm" [class.pi-pencil]="isEditMode" [class.pi-check]="!isEditMode"></i>
             </button>
         </div>
