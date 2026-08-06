@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../../services/user.service'; // تأكد من مسار السيرفيس عندك
+import { UserService } from '../../services/user.service';
 import { NotificationService } from '@/app/core/services/notification.service';
 import { createUserFormGroup } from '@/app/shared/builders/user-form.builder';
 import { UserForm } from '@/app/shared/components/user-form/user-form';
@@ -13,6 +13,7 @@ import { UserForm } from '@/app/shared/components/user-form/user-form';
     styleUrl: './receptionist-form.scss'
 })
 export class ReceptionistForm implements OnInit {
+    stepCompleted = output<void>();
     private fb = inject(FormBuilder);
     private cdr = inject(ChangeDetectorRef);
     private readonly route = inject(ActivatedRoute);
@@ -20,14 +21,12 @@ export class ReceptionistForm implements OnInit {
     private readonly userService = inject(UserService);
     private readonly notificationService = inject(NotificationService);
 
-    // استخدمنا نفس البيلدر بتاع اليوزر عشان نوحد الشغل
     receptionistForm = this.fb.group({
         user: createUserFormGroup(this.fb)
     });
 
     ngOnInit(): void {
         if (this.isEditMode) {
-            // بنشيل الفاليديشن من الباسورد في حالة التعديل
             const passwordControl = this.receptionistForm.get('user.password');
             if (passwordControl) {
                 passwordControl.clearValidators();
@@ -62,7 +61,6 @@ export class ReceptionistForm implements OnInit {
 
         const formValue = this.receptionistForm.getRawValue().user;
 
-        // تجهيز الداتا عشان تتبعت للباك إند
         const requestPayload: any = {
             id: this.isEditMode ? Number(this.receptionistId) : null,
             firstName: formValue.firstName,
@@ -73,7 +71,6 @@ export class ReceptionistForm implements OnInit {
         };
 
         if (this.isEditMode) {
-            // لو بنعمل إيديت ومكتبش باسورد، بنمسحه من الـ payload عشان ميتبعتش فاضي
             if (!requestPayload.password) {
                 delete requestPayload.password;
             }
@@ -84,7 +81,10 @@ export class ReceptionistForm implements OnInit {
             });
         } else {
             this.userService.CreateReceptionists(requestPayload).subscribe({
-                next: () => this.notificationService.success('تم إضافة موظف الاستقبال بنجاح'),
+                next: () => {
+                    this.notificationService.success('تم إضافة موظف الاستقبال بنجاح');
+                    this.stepCompleted.emit();
+                },
                 error: () => this.notificationService.error('حدث خطأ أثناء حفظ البيانات')
             });
         }

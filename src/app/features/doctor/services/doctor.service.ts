@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '@/app/core/models/api-response';
 import { environment } from '@/environments/environment';
 import { GetDoctorFullInformationRequest } from '../models/responses/get-doctor-full-information';
+import { CreateAndEditDoctorRequest } from '../models/requests/create-and-edit-doctor-request';
 
 @Injectable({
     providedIn: 'root'
@@ -14,6 +15,10 @@ export class DoctorService {
 
     CreateDoctor(data: FormData): Observable<ApiResponse<CreateAndEditDoctorWithUserequest>> {
         return this.htpp.post<ApiResponse<CreateAndEditDoctorWithUserequest>>(`${environment.apiUrl}/Doctors`, data);
+    }
+
+    CreateDoctorSteps(data: FormData): Observable<ApiResponse<CreateAndEditDoctorRequest>> {
+        return this.htpp.post<ApiResponse<CreateAndEditDoctorRequest>>(`${environment.apiUrl}/Doctors/steps`, data);
     }
 
     GetDoctor(doctorId: number): Observable<ApiResponse<GetDoctorFullInformationRequest>> {

@@ -1,1 +1,109 @@
-<p>clinic-setup-card works!</p>
+<p-dialog
+    [(visible)]="isVisible"
+    [modal]="true"
+    [closable]="false"
+    [showHeader]="false"
+    appendTo="body"
+    [style]="{ width: '100vw', height: '100vh', margin: '0', maxHeight: '100vh' }"
+    [contentStyle]="{ padding: '0', height: '100vh', overflow: 'hidden' }"
+>
+    <div dir="rtl" class="w-full h-full bg-gray-50 flex flex-col">
+        <div class="bg-white px-4 md:px-8 py-4 md:py-6 border-b border-gray-100 shrink-0">
+            <div class="text-center mb-4 md:mb-6">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153]">إعداد عيادتك</h2>
+                <p class="text-gray-500 font-medium mt-1 text-sm md:text-base">الخطوة {{ currentStep }} من 3</p>
+            </div>
+
+            <div class="flex items-center justify-between max-w-3xl mx-auto relative px-2 md:px-0">
+                <div class="absolute top-1/2 left-4 right-4 md:left-0 md:right-0 h-1 -translate-y-1/2 bg-gray-200 z-0"></div>
+                <div class="absolute top-1/2 right-4 md:right-0 h-1 -translate-y-1/2 bg-[#00a67e] z-0 transition-all duration-500" [style.width]="currentStep === 1 ? '0%' : (currentStep === 2 ? '50%' : '100%')"></div>
+
+                @for(step of [1, 2, 3]; track step) {
+                <div class="relative z-10 flex flex-col items-center bg-white px-1 md:px-2">
+                    <div
+                        class="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-sm md:text-lg border-2 transition-all"
+                        [ngClass]="{
+                             'bg-[#00a67e] text-white border-[#00a67e]': currentStep >= step,
+                             'bg-white text-gray-400 border-gray-200': currentStep < step
+                         }"
+                    >
+                        @if(currentStep > step) {
+                        <i class="pi pi-check text-xs md:text-base"></i>
+                        } @else { {{ step }} }
+                    </div>
+                    <span class="mt-2 text-xs md:text-sm font-bold text-center w-20 md:w-auto" [ngClass]="{'text-[#00a67e]': currentStep >= step, 'text-gray-400': currentStep < step}">
+                        {{ step === 1 ? 'أول طبيب' : (step === 2 ? 'موظف استقبال' : 'مواعيد العمل') }}
+                    </span>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row flex-1 overflow-hidden">
+            <div class="w-full lg:w-[320px] xl:w-87.5 bg-white border-b lg:border-b-0 lg:border-l border-gray-100 p-4 md:p-6 lg:p-8 flex flex-col justify-between shrink-0 overflow-y-auto max-h-[35vh] lg:max-h-full">
+                <div>
+                    @if(currentStep === 1) {
+                    <div class="bg-[#f8fafc] rounded-2xl p-4 md:p-5 mb-4 lg:mb-8 border border-gray-100">
+                        <h3 class="font-bold text-lg md:text-xl text-[#183153] mb-2 md:mb-4 text-center">هل أنت الطبيب صاحب العيادة؟</h3>
+                        <p class="text-xs md:text-sm text-gray-500 text-center mb-4 md:mb-6">اختر من الخيار المناسب لك</p>
+
+                        <div class="space-y-3 md:space-y-4">
+                            <button
+                                (click)="isOwner = true"
+                                [ngClass]="isOwner ? 'border-[#00a67e] bg-[#f0f9f6]' : 'border-transparent bg-white'"
+                                class="w-full border-2 p-3 md:p-4 rounded-xl text-right flex items-center gap-3 md:gap-4 transition-all shadow-sm"
+                            >
+                                <i class="pi" [ngClass]="isOwner ? 'pi-check-circle text-[#00a67e]' : 'pi-circle text-gray-400'"></i>
+                                <div>
+                                    <div class="font-bold text-sm md:text-base" [ngClass]="isOwner ? 'text-[#00a67e]' : 'text-[#183153]'">أنا الطبيب صاحب العيادة</div>
+                                    <div class="text-[10px] md:text-xs text-gray-500 mt-1">ستستخدم بيانات حسابك كطبيب</div>
+                                </div>
+                            </button>
+
+                            <button
+                                (click)="isOwner = false"
+                                [ngClass]="!isOwner ? 'border-[#00a67e] bg-[#f0f9f6]' : 'border-transparent bg-white'"
+                                class="w-full border-2 p-3 md:p-4 rounded-xl text-right flex items-center gap-3 md:gap-4 transition-all shadow-sm"
+                            >
+                                <i class="pi" [ngClass]="!isOwner ? 'pi-check-circle text-[#00a67e]' : 'pi-circle text-gray-400'"></i>
+                                <div>
+                                    <div class="font-bold text-sm md:text-base" [ngClass]="!isOwner ? 'text-[#00a67e]' : 'text-[#183153]'">إضافة طبيب جديد</div>
+                                    <div class="text-[10px] md:text-xs text-gray-500 mt-1">لإدخال بيانات طبيب آخر</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    } @if(currentStep === 2) {
+                    <div class="text-center bg-[#f8fafc] p-4 md:p-6 rounded-2xl">
+                        <i class="pi pi-users text-4xl md:text-5xl text-[#00a67e] mb-3 md:mb-4"></i>
+                        <h3 class="font-bold text-[#183153] text-base md:text-lg mb-2">إضافة موظف استقبال</h3>
+                        <p class="text-gray-500 text-xs md:text-sm leading-relaxed">موظف الاستقبال هو أول نقطة تواصل مع مرضاك.</p>
+                    </div>
+                    } @if(currentStep === 3) {
+                    <div class="text-center bg-[#f8fafc] p-4 md:p-6 rounded-2xl">
+                        <i class="pi pi-calendar text-4xl md:text-5xl text-[#00a67e] mb-3 md:mb-4"></i>
+                        <h3 class="font-bold text-[#183153] text-base md:text-lg mb-2">مواعيد العمل</h3>
+                        <p class="text-gray-500 text-xs md:text-sm leading-relaxed">حدد أيام وساعات العمل لمساعدة المرضى في الحجز.</p>
+                    </div>
+                    }
+                </div>
+
+                <button (click)="skipSetup()" class="text-gray-400 hover:text-red-500 font-bold mt-4 lg:mt-8 text-sm md:text-base text-right transition-colors w-max pb-2 lg:pb-0">إلغاء التخطي</button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto bg-gray-50 p-0 md:p-4 lg:p-8 relative w-full">
+                <div class="max-w-300 mx-auto w-full">
+                    @if(currentStep === 1) {
+                    <app-doctor-form [hideUserSection]="isOwner" (stepCompleted)="onStepSuccess()"></app-doctor-form>
+                    } @if(currentStep === 2) {
+                    <app-receptionist-form (stepCompleted)="onStepSuccess()"></app-receptionist-form>
+                    } @if(currentStep === 3) {
+                    <app-clinic-working-hour-form (stepCompleted)="onStepSuccess()"></app-clinic-working-hour-form>
+                    } @if(currentStep === 4) {
+                    <app-setup-completed-step (goToDashboard)="isVisible = false"></app-setup-completed-step>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

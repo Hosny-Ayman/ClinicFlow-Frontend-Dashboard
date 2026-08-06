@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
@@ -15,6 +15,7 @@ import { DayOfWeek } from '@/app/shared/enums/DayOfWeek';
     styleUrl: './clinic-working-hour-form.scss'
 })
 export class ClinicWorkingHourForm implements OnInit {
+    stepCompleted = output<void>();
     private readonly fb = inject(FormBuilder);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly workingHoursService = inject(ClinicWorkingHoursAndDaysService);
@@ -133,6 +134,7 @@ export class ClinicWorkingHourForm implements OnInit {
             this.workingHoursService.CreateClinicWorkingHour(payload as any).subscribe({
                 next: () => {
                     this.notificationService.success('تم إعداد أوقات العمل بنجاح');
+                    this.stepCompleted.emit();
                     this.isEditMode = true;
                     this.loadData();
                 },

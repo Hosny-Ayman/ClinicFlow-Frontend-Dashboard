@@ -1,0 +1,58 @@
+@if(isVisible) {
+<div class="bg-white rounded-4xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col md:flex-row items-center gap-8 md:gap-12 w-full mb-8" dir="rtl">
+    <div class="flex-1 w-full">
+        <h3 class="text-2xl font-extrabold text-[#183153] mb-2">أكمل إعداد عيادتك للبدء</h3>
+        <p class="text-gray-500 font-medium text-sm mb-6">اتبع الخطوات التالية لإعداد عيادتك بشكل صحيح</p>
+
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-[#00a67e] font-bold text-sm">التقدم: {{ progress }}%</span>
+            </div>
+            <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-[#00a67e] h-full rounded-full transition-all duration-500" [style.width.%]="progress"></div>
+            </div>
+        </div>
+
+        <div class="relative flex flex-col gap-6">
+            <div class="absolute right-3.5 top-2 bottom-2 w-0.5 bg-gray-100 -z-10"></div>
+
+            <div class="flex items-start gap-4">
+                <div class="w-7 h-7 rounded-full bg-[#00a67e] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <i class="pi pi-check text-[10px] font-bold"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-[#183153] text-sm">إنشاء العيادة</div>
+                    <div class="text-[#00a67e] text-xs mt-1 font-bold">تم</div>
+                </div>
+            </div>
+
+            @for(step of steps; track step.key) {
+            <div class="flex items-start gap-4">
+                <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5" [ngClass]="step.isCompleted ? 'bg-[#00a67e] text-white shadow-sm' : 'bg-white border-2 border-gray-200 text-transparent'">
+                    @if(step.isCompleted) {
+                    <i class="pi pi-check text-[10px] font-bold"></i>
+                    } @else {
+                    <div class="w-1.5 h-1.5 rounded-full bg-gray-200"></div>
+                    }
+                </div>
+                <div>
+                    <div class="font-bold text-sm" [ngClass]="step.isCompleted ? 'text-[#183153]' : 'text-gray-500'">{{ step.title }}</div>
+                    @if(step.isCompleted) {
+                    <div class="text-[#00a67e] text-xs mt-1 font-bold">تم</div>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="flex items-center gap-4 mt-10">
+            <button (click)="continueSetup()" class="cursor-pointer bg-[#00a67e] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#008f6b] transition-colors shadow-md">متابعة الإعداد</button>
+            <button (click)="hideWidget()" class="cursor-pointer bg-white text-gray-500 border border-gray-200 px-8 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors">لاحقاً</button>
+        </div>
+    </div>
+
+    <div class="hidden md:flex w-64 shrink-0 items-center justify-center bg-linear-to-br from-[#e6f6f2] to-[#f0fbf8] rounded-3xl p-8 h-full min-h-75">
+        <img src="https://res.cloudinary.com/defmelbd8/image/upload/v1786021247/step_cbjbvm.jpg" />
+    </div>
+</div>
+}

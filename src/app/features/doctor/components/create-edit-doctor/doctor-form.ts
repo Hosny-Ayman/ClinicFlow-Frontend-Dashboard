@@ -1,9 +1,8 @@
 import { createUserFormGroup } from '@/app/shared/builders/user-form.builder';
 import { UserForm } from '@/app/shared/components/user-form/user-form';
-import { ChangeDetectorRef, Component, inject, OnInit, input, effect } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common'; // ضفنا دي عشان نتحكم في التنسيق ديناميكياً
-
+import { ChangeDetectorRef, Component, inject, OnInit, input, effect, output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgClass } from '@angular/common';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -22,6 +21,7 @@ import { NotificationService } from '@/app/core/services/notification.service';
     styleUrl: './doctor-form.scss'
 })
 export class DoctorForm implements OnInit {
+    stepCompleted = output<void>();
     private fb = inject(FormBuilder);
     private cdr = inject(ChangeDetectorRef);
     private readonly route = inject(ActivatedRoute);
@@ -37,10 +37,10 @@ export class DoctorForm implements OnInit {
     doctorForm = this.fb.group({
         user: createUserFormGroup(this.fb),
         specialtieName: this.fb.nonNullable.control('', UserValidators.required),
-        consultationFee: this.fb.nonNullable.control<number>(0, UserValidators.required),
+        consultationFee: this.fb.nonNullable.control<number>(100, [...UserValidators.required, Validators.min(1)]),
         bio: this.fb.control(''),
         gender: this.fb.nonNullable.control<number>(1, UserValidators.required),
-        experienceYears: this.fb.nonNullable.control<number>(0, UserValidators.required),
+        experienceYears: this.fb.nonNullable.control<number>(1, [...UserValidators.required, Validators.min(1)]),
         profileImage: this.fb.control<File | null>(null)
     });
 
@@ -48,11 +48,8 @@ export class DoctorForm implements OnInit {
     selectedFileUrl: string | ArrayBuffer | null = null;
 
     constructor() {
-        // مراقبة الداتا اللي جاية من الأب (الـ Wizard)
         effect(() => {
-            // لو اليوزر اختار "أنا الطبيب صاحب العيادة"، هنلغي الفاليديشن بتاع اليوزر عشان الفورم متضربش
             if (this.hideUserSection()) {
-                // ضفنا as FormGroup هنا
                 const userGroup = this.doctorForm.get('user') as FormGroup;
 
                 if (userGroup) {
@@ -159,58 +156,83 @@ export class DoctorForm implements OnInit {
 
         const formValue = this.doctorForm.getRawValue();
         const formData = new FormData();
-
-        if (!this.hideUserSection()) {
-            formData.append('User.FirstName', formValue.user.firstName);
-            formData.append('User.LastName', formValue.user.lastName);
-            formData.append('User.Email', formValue.user.email);
-            formData.append('User.PhoneNumber', formValue.user.phoneNumber);
-
-            if (!this.isEditMode && formValue.user.password) {
-                formData.append('User.Password', formValue.user.password);
-            }
-        }
-
-        if (this.userId) {
-            formData.append('User.Id', this.userId.toString());
-        }
-
-        if (this.isEditMode && this.doctorId) {
-            formData.append('Doctor.Id', this.doctorId);
-        }
-
         const selectedSpecialty = this.specialties.find((s) => s.value === formValue.specialtieName);
         const specialtyId = selectedSpecialty ? selectedSpecialty.id : 0;
 
-        formData.append('Doctor.SpecialtyId', specialtyId.toString());
-        formData.append('Doctor.ConsultationFee', formValue.consultationFee.toString());
-        formData.append('Doctor.Gender', formValue.gender.toString());
-        formData.append('Doctor.ExperienceYears', formValue.experienceYears.toString());
+        if (!this.isEditMode && this.hideUserSection()) {
+            formData.append('SpecialtyId', specialtyId.toString());
+            formData.append('ConsultationFee', formValue.consultationFee.toString());
+            formData.append('Gender', formValue.gender.toString());
+            formData.append('ExperienceYears', formValue.experienceYears.toString());
 
-        if (formValue.bio) {
-            formData.append('Doctor.Bio', formValue.bio);
-        }
-
-        if (formValue.profileImage) {
-            formData.append('Doctor.ProfileImage', formValue.profileImage);
-
-            if (this.isEditMode) {
-                formData.append('Doctor.ProfileImageUrl', formValue.profileImage);
+            if (formValue.bio) {
+                formData.append('Bio', formValue.bio);
             }
-        } else if (this.isEditMode && this.selectedFileUrl === null) {
-            formData.append('Doctor.IsImageDeleted', 'true');
-        }
 
-        if (this.isEditMode) {
-            this.doctorService.UpdateDoctor(formData as any).subscribe({
-                next: () => this.notificationService.success('تم حفظ التعديلات بنجاح'),
+            if (formValue.profileImage) {
+                formData.append('ProfileImage', formValue.profileImage);
+            }
+
+            this.doctorService.CreateDoctorSteps(formData as any).subscribe({
+                next: () => {
+                    this.notificationService.success('تم إعداد بياناتك كطبيب بنجاح');
+                    this.stepCompleted.emit();
+                },
                 error: () => this.notificationService.error('حدث خطأ أثناء حفظ البيانات')
             });
         } else {
-            this.doctorService.CreateDoctor(formData as any).subscribe({
-                next: () => this.notificationService.success('تم إضافة الطبيب بنجاح'),
-                error: () => this.notificationService.error('حدث خطأ أثناء حفظ البيانات')
-            });
+            if (!this.hideUserSection()) {
+                formData.append('User.FirstName', formValue.user.firstName);
+                formData.append('User.LastName', formValue.user.lastName);
+                formData.append('User.Email', formValue.user.email);
+                formData.append('User.PhoneNumber', formValue.user.phoneNumber);
+
+                if (!this.isEditMode && formValue.user.password) {
+                    formData.append('User.Password', formValue.user.password);
+                }
+            }
+
+            if (this.userId) {
+                formData.append('User.Id', this.userId.toString());
+            }
+
+            if (this.isEditMode && this.doctorId) {
+                formData.append('Doctor.Id', this.doctorId);
+            }
+
+            formData.append('Doctor.SpecialtyId', specialtyId.toString());
+            formData.append('Doctor.ConsultationFee', formValue.consultationFee.toString());
+            formData.append('Doctor.Gender', formValue.gender.toString());
+            formData.append('Doctor.ExperienceYears', formValue.experienceYears.toString());
+
+            if (formValue.bio) {
+                formData.append('Doctor.Bio', formValue.bio);
+            }
+
+            if (formValue.profileImage) {
+                formData.append('Doctor.ProfileImage', formValue.profileImage);
+
+                if (this.isEditMode) {
+                    formData.append('Doctor.ProfileImageUrl', formValue.profileImage);
+                }
+            } else if (this.isEditMode && this.selectedFileUrl === null) {
+                formData.append('Doctor.IsImageDeleted', 'true');
+            }
+
+            if (this.isEditMode) {
+                this.doctorService.UpdateDoctor(formData as any).subscribe({
+                    next: () => this.notificationService.success('تم حفظ التعديلات بنجاح'),
+                    error: () => this.notificationService.error('حدث خطأ أثناء حفظ البيانات')
+                });
+            } else {
+                this.doctorService.CreateDoctor(formData as any).subscribe({
+                    next: () => {
+                        this.notificationService.success('تم إضافة الطبيب بنجاح');
+                        this.stepCompleted.emit();
+                    },
+                    error: () => this.notificationService.error('حدث خطأ أثناء حفظ البيانات')
+                });
+            }
         }
     }
 
