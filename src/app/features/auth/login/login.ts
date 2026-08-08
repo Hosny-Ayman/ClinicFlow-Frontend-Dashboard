@@ -7,6 +7,7 @@ import { SettingService } from '@/app/core/services/setting.service';
 import { finalize, switchMap } from 'rxjs';
 import { NotificationService } from '@/app/core/services/notification.service';
 import { Router } from '@angular/router';
+import { ClinicSetupCardService } from '../../clinic-setup/services/clinic-setup-card.service';
 
 @Component({
     selector: 'app-login',
@@ -22,6 +23,7 @@ export class Login {
     readonly logo = this.settingService.logo;
     private readonly notification = inject(NotificationService);
     private readonly router = inject(Router);
+    private readonly clinicSetupCardService = inject(ClinicSetupCardService);
 
     readonly loginForm = this.fb.group({
         email: this.fb.control('', {

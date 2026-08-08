@@ -8,23 +8,28 @@ import { PublicLayout } from './app/layout/public/public-layout/public-layout';
 export const appRoutes: Routes = [
     {
         path: '',
-        component: PublicLayout,
-        children: [
-            {
-                path: '',
-                loadComponent: () => import('./app/features/public/home/home').then((c) => c.Home)
-            }
-        ]
-    },
-
-    {
-        path: 'dashboard',
         component: AppLayout,
         canActivate: [authGuard],
         children: [
             {
                 path: '',
+                redirectTo: 'dashboard',
+                pathMatch: 'full'
+            },
+            {
+                path: 'dashboard',
                 component: Dashboard
+            }
+        ]
+    },
+
+    {
+        path: 'home',
+        component: PublicLayout,
+        children: [
+            {
+                path: '',
+                loadComponent: () => import('./app/features/public/home/home').then((c) => c.Home)
             }
         ]
     },
@@ -40,15 +45,24 @@ export const appRoutes: Routes = [
 
     {
         path: 'doctor',
+        canActivate: [authGuard],
         loadChildren: () => import('./app/features/doctor/doctor.routes').then((c) => c.doctor)
     },
 
     {
+        path: 'clinic',
+        canActivate: [authGuard],
+        loadChildren: () => import('./app/features/clinic/clinic-form.routes').then((c) => c.ClinicForm)
+    },
+
+    {
         path: 'receptionist',
+        canActivate: [authGuard],
         loadChildren: () => import('./app/features/user/user.routes').then((c) => c.user)
     },
     {
         path: 'clinicWorkingHours',
+        canActivate: [authGuard],
         loadChildren: () => import('./app/features/clinic-working-hour/clinic-working-hour.routes').then((c) => c.ClinicWorkingHours)
     },
 

@@ -3,13 +3,15 @@
 
     @if (activeStep() === 1) {
 
-    <app-clinic-information-step [form]="clinicForm" (next)="nextStep()"> </app-clinic-information-step>
+    <app-clinic-form (clinicDtaInfo)="clinicDataInfo($event)" (loginDtaInfo)="loginDataInfo($event)" (stepCompleted)="nextStep()"></app-clinic-form>
 
-    } @else if (activeStep() === 2) {
+    }
+    <!-- @else if (activeStep() === 2) {
 
     <app-admin-account-step [form]="adminForm" (submit)="createClinic()" (previous)="previousStep()"> </app-admin-account-step>
 
-    } @else {
+    } -->
+    @else {
 
     <app-success-step [data]="clinicResponse" (goToDashboard)="autoLogin()"></app-success-step>
 

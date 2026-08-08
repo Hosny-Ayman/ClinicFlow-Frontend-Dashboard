@@ -1,7 +1,7 @@
-import { CreateClinicDtoRequest } from './Create-ClinicDto-Request';
-import { CreateUserDtoRequest } from './Create-UserDto-Request ';
+import { CreateAndEditUserRequest } from '@/app/features/user/models/requests/create-and-edit-user-request';
+import { CreateAndEditClinicDtoRequest } from '../../../../clinic/models/requests/create-and-edit-clinic-request';
 
 export interface CreateClinicRequest {
-    clinic: CreateClinicDtoRequest;
-    user: CreateUserDtoRequest;
+    clinic: CreateAndEditClinicDtoRequest;
+    user: CreateAndEditUserRequest;
 }

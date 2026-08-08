@@ -1,6 +1,4 @@
 export interface CreateClinicResponse {
-    clinicId: number;
-
     clinicName: string;
 
     clinicEmail: string;

@@ -58,7 +58,7 @@ export class AuthService {
         return this.http.post<void>(`${environment.apiUrl}/Authentication/logout`, null).pipe(
             tap(() => {
                 this.currentUser.set(null);
-                this.router.navigate(['/auth/login']);
+                this.router.navigate(['home']);
             })
         );
     }

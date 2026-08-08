@@ -1,5 +1,5 @@
 import { ApiResponse } from '@/app/core/models/api-response';
-import { CreateAndEditUserRequest } from '@/app/shared/models/requests/create-and-edit-user-request';
+import { CreateAndEditUserRequest } from '@/app/features/user/models/requests/create-and-edit-user-request';
 import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';

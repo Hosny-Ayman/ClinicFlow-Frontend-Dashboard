@@ -12,7 +12,7 @@
 
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <app-text-input label="البريد الإلكتروني" placeholder="ادخل البريد الإلكتروني" icon="pi pi-envelope" type="email" [control]="userForm().controls.email"></app-text-input>
-            <app-text-input label="رقم الهاتف" placeholder="ادخل رقم الهاتف" icon="pi pi-phone" [control]="userForm().controls.phoneNumber"></app-text-input>
+            <app-number-input label="رقم الهاتف" placeholder="ادخل رقم الهاتف" icon="pi pi-phone" type="tel" [control]="userForm().controls.phoneNumber"> </app-number-input>
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">

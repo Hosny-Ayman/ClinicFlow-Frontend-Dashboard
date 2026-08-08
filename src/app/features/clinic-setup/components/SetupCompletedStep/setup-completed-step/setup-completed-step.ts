@@ -7,12 +7,6 @@ import { ClinicSetupCardService } from '../../../services/clinic-setup-card.serv
     templateUrl: './setup-completed-step.html',
     styleUrl: './setup-completed-step.scss'
 })
-export class SetupCompletedStep implements OnInit {
-    private readonly clinicSetupCardService = inject(ClinicSetupCardService);
-
+export class SetupCompletedStep {
     @Output() goToDashboard = new EventEmitter<void>();
-
-    ngOnInit(): void {
-        this.clinicSetupCardService.CreateClinicSetupCard({ hasSkippedSetup: false }).subscribe();
-    }
 }

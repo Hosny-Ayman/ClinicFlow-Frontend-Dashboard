@@ -13,6 +13,27 @@
         <span class="mt-4 text-sm md:text-base whitespace-nowrap transition-all duration-300" [class]="currentStep() >= 1 ? 'text-[#183153] font-extrabold' : 'text-gray-400 font-medium'"> معلومات العيادة </span>
     </div>
 
+    <!-- <div
+        class="flex-auto h-1 mx-2 md:mx-4 rounded-full transition-all duration-500 ease-in-out"
+        [class]="currentStep() >= 2
+            ? 'bg-[#00a67e]'
+            : 'bg-gray-200'"
+    ></div> -->
+
+    <!-- <div class="flex flex-col items-center relative z-10 w-28">
+        <div
+            class="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-500 ease-in-out"
+            [class]="currentStep() >= 2
+                ? 'bg-[#00a67e] text-white shadow-lg shadow-[#00a67e]/40 ring-4 ring-[#00a67e]/10'
+                : 'bg-gray-100 text-gray-400'"
+        >
+            @if (currentStep() > 2) {
+            <i class="pi pi-check font-extrabold"></i>
+            } @else { 2 }
+        </div>
+        <span class="mt-4 text-sm md:text-base whitespace-nowrap transition-all duration-300" [class]="currentStep() >= 2 ? 'text-[#183153] font-extrabold' : 'text-gray-400 font-medium'"> حساب المدير </span>
+    </div> -->
+
     <div
         class="flex-auto h-1 mx-2 md:mx-4 rounded-full transition-all duration-500 ease-in-out"
         [class]="currentStep() >= 2
@@ -27,31 +48,10 @@
                 ? 'bg-[#00a67e] text-white shadow-lg shadow-[#00a67e]/40 ring-4 ring-[#00a67e]/10'
                 : 'bg-gray-100 text-gray-400'"
         >
-            @if (currentStep() > 2) {
+            @if (currentStep() === 2) {
             <i class="pi pi-check font-extrabold"></i>
             } @else { 2 }
         </div>
-        <span class="mt-4 text-sm md:text-base whitespace-nowrap transition-all duration-300" [class]="currentStep() >= 2 ? 'text-[#183153] font-extrabold' : 'text-gray-400 font-medium'"> حساب المدير </span>
-    </div>
-
-    <div
-        class="flex-auto h-1 mx-2 md:mx-4 rounded-full transition-all duration-500 ease-in-out"
-        [class]="currentStep() >= 3
-            ? 'bg-[#00a67e]'
-            : 'bg-gray-200'"
-    ></div>
-
-    <div class="flex flex-col items-center relative z-10 w-28">
-        <div
-            class="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-500 ease-in-out"
-            [class]="currentStep() >= 3
-                ? 'bg-[#00a67e] text-white shadow-lg shadow-[#00a67e]/40 ring-4 ring-[#00a67e]/10'
-                : 'bg-gray-100 text-gray-400'"
-        >
-            @if (currentStep() === 3) {
-            <i class="pi pi-check font-extrabold"></i>
-            } @else { 3 }
-        </div>
-        <span class="mt-4 text-sm md:text-base whitespace-nowrap transition-all duration-300" [class]="currentStep() >= 3 ? 'text-[#183153] font-extrabold' : 'text-gray-400 font-medium'"> تم الإنشاء </span>
+        <span class="mt-4 text-sm md:text-base whitespace-nowrap transition-all duration-300" [class]="currentStep() >= 2 ? 'text-[#183153] font-extrabold' : 'text-gray-400 font-medium'"> تم الإنشاء </span>
     </div>
 </div>
