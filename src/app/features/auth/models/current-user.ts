@@ -4,4 +4,5 @@ export interface CurrentUser {
     email: string;
     clinicId: number;
     roles: string[];
+    permissions: number;
 }
