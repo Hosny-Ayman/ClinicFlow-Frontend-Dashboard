@@ -9,17 +9,21 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class UserService {
-    private readonly htpp = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
     CreateReceptionists(request: CreateAndEditUserRequest): Observable<ApiResponse<CreateAndEditUserRequest>> {
-        return this.htpp.post<ApiResponse<CreateAndEditUserRequest>>(`${environment.apiUrl}/Users/CreateReceptionists`, request);
+        return this.http.post<ApiResponse<CreateAndEditUserRequest>>(`${environment.apiUrl}/Users/CreateReceptionists`, request);
     }
 
     GetUser(userId: number): Observable<ApiResponse<CreateAndEditUserRequest>> {
-        return this.htpp.get<ApiResponse<CreateAndEditUserRequest>>(`${environment.apiUrl}/Users/${userId}`);
+        return this.http.get<ApiResponse<CreateAndEditUserRequest>>(`${environment.apiUrl}/Users/${userId}`);
     }
 
     UpdateUser(request: CreateAndEditUserRequest): Observable<ApiResponse<CreateAndEditUserRequest>> {
-        return this.htpp.put<ApiResponse<CreateAndEditUserRequest>>(`${environment.apiUrl}/Users/UpdateUsers`, request);
+        return this.http.put<ApiResponse<CreateAndEditUserRequest>>(`${environment.apiUrl}/Users/UpdateUsers`, request);
+    }
+
+    ToggleUserStatus(userId: number): Observable<ApiResponse<boolean>> {
+        return this.http.put<ApiResponse<boolean>>(`${environment.apiUrl}/Users/ToggleUserStatus?userId=${userId}`, null);
     }
 }

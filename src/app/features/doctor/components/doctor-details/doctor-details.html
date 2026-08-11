@@ -1,0 +1,167 @@
+<div dir="rtl" class="p-6 md:p-8 bg-[#f8f9fc] min-h-screen font-sans text-right relative overflow-hidden">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 relative z-10">
+        <div>
+            <h1 class="text-3xl font-extrabold text-[#183153] mb-2">تفاصيل الطبيب</h1>
+            <div class="text-sm text-gray-500 font-medium">
+                <a routerLink="/" class="hover:text-[#6366f1] transition-colors cursor-pointer no-underline">الرئيسية</a>
+                <i class="pi pi-angle-left text-[10px] mx-1"></i>
+                <a routerLink="/doctor/show" class="hover:text-[#6366f1] transition-colors cursor-pointer no-underline">الأطباء</a>
+                <i class="pi pi-angle-left text-[10px] mx-1"></i>
+                <span class="text-[#183153]">تفاصيل الطبيب</span>
+            </div>
+        </div>
+
+        <button routerLink="/doctor/show" class="bg-white border border-gray-200 hover:bg-gray-50 text-[#183153] px-6 py-3 rounded-2xl font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer outline-none">
+            <i class="pi pi-arrow-right text-sm mt-0.5"></i>
+            الرجوع للأطباء
+        </button>
+    </div>
+
+    @if(loading) {
+    <div class="flex justify-center items-center py-32">
+        <i class="pi pi-spin pi-spinner text-5xl text-[#6366f1]"></i>
+    </div>
+    } @if(error && !loading) {
+    <div class="bg-red-50 text-red-600 p-6 rounded-3xl text-center font-bold text-lg border border-red-100">حدث خطأ أثناء تحميل بيانات الطبيب، أو الطبيب غير موجود.</div>
+    } @if(!loading && doctorData) {
+    <div class="bg-white rounded-4xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-8 relative overflow-hidden">
+        <div class="absolute left-0 top-0 opacity-[0.03] pointer-events-none hidden md:block">
+            <i class="pi pi-heart-fill text-[20rem] -translate-x-1/4 -translate-y-1/4 text-[#6366f1]"></i>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-10 relative z-10">
+            <div class="relative shrink-0 flex flex-col items-center">
+                <div class="w-40 h-40 md:w-48 md:h-48 rounded-full border-[6px] border-gray-50 shadow-sm overflow-hidden bg-gray-100">
+                    <img [src]="doctorData.doctor.profileImageUrl || 'assets/default-avatar.png'" alt="Doctor Profile" class="w-full h-full object-cover" />
+                </div>
+                <div class="mt-4 px-5 py-2 rounded-full text-sm font-bold flex items-center gap-2" [ngClass]="doctorData.user.isActive !== false ? 'bg-[#eefcf4] text-[#10b981]' : 'bg-red-50 text-red-600'">
+                    <div class="w-2 h-2 rounded-full" [ngClass]="doctorData.user.isActive !== false ? 'bg-[#10b981]' : 'bg-red-500'"></div>
+                    {{ doctorData.user.isActive !== false ? 'نشط' : 'غير نشط' }}
+                </div>
+            </div>
+
+            <div class="flex-1 w-full text-center md:text-right mt-2">
+                <div class="inline-block bg-[#eef2ff] text-[#6366f1] px-4 py-1.5 rounded-xl text-sm font-bold tracking-wider mb-4">ID: #{{ doctorData.doctor.id }}</div>
+
+                <h2 class="text-3xl md:text-5xl font-extrabold text-[#183153] mb-3">د. {{ doctorData.user.firstName }} {{ doctorData.user.lastName }}</h2>
+
+                <div class="text-[#183153] font-bold text-lg flex items-center justify-center md:justify-start gap-2 mb-10">
+                    <div class="w-8 h-8 rounded-full bg-[#f5f3ff] flex items-center justify-center">
+                        <i class="pi pi-heart-fill text-[#6366f1] text-sm"></i>
+                    </div>
+                    {{ doctorData.doctor.specialtieName }}
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 pt-2">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center shrink-0">
+                            <i class="pi pi-envelope text-xl"></i>
+                        </div>
+                        <div class="text-right truncate overflow-hidden">
+                            <div class="text-sm font-bold text-[#183153] mb-1">البريد الإلكتروني</div>
+                            <div class="text-sm text-gray-500 truncate max-w-30 md:max-w-37.5" title="{{ doctorData.user.email }}">{{ doctorData.user.email }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center shrink-0">
+                            <i class="pi pi-phone text-xl"></i>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-[#183153] mb-1">رقم الهاتف</div>
+                            <div class="text-sm text-gray-500" dir="ltr">{{ doctorData.user.phoneNumber }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center shrink-0">
+                            <i class="pi pi-mars text-xl"></i>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-[#183153] mb-1">النوع</div>
+                            <div class="text-sm text-gray-500">{{ doctorData.doctor.gender === 'Male' ? 'ذكر' : 'أنثى' }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center shrink-0">
+                            <i class="pi pi-calendar text-xl"></i>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-[#183153] mb-1">الخبرة</div>
+                            <div class="text-sm text-gray-500">{{ doctorData.doctor.experienceYears }} سنوات</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white rounded-4xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-full bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center">
+                    <i class="pi pi-user text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-extrabold text-[#183153]">معلومات الحساب</h3>
+            </div>
+
+            <div class="flex flex-col space-y-2">
+                <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                    <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-user text-[#6366f1] w-6 text-center"></i> الاسم الأول</div>
+                    <div class="text-gray-600 font-medium">{{ doctorData.user.firstName }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                    <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-user text-[#6366f1] w-6 text-center"></i> الاسم الأخير</div>
+                    <div class="text-gray-600 font-medium">{{ doctorData.user.lastName }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                    <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-envelope text-[#6366f1] w-6 text-center"></i> البريد الإلكتروني</div>
+                    <div class="text-gray-600 font-medium">{{ doctorData.user.email }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                    <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-phone text-[#6366f1] w-6 text-center"></i> رقم الهاتف</div>
+                    <div class="text-gray-600 font-medium" dir="ltr">{{ doctorData.user.phoneNumber }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-5">
+                    <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-shield text-[#6366f1] w-6 text-center"></i> الحالة</div>
+                    <div class="px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2" [ngClass]="doctorData.user.isActive !== false ? 'bg-[#eefcf4] text-[#10b981]' : 'bg-red-50 text-red-600'">
+                        <div class="w-1.5 h-1.5 rounded-full" [ngClass]="doctorData.user.isActive !== false ? 'bg-[#10b981]' : 'bg-red-500'"></div>
+                        {{ doctorData.user.isActive !== false ? 'نشط' : 'غير نشط' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-4xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 h-fit">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-full bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center">
+                    <i class="pi pi-briefcase text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-extrabold text-[#183153]">معلومات الطبيب</h3>
+            </div>
+
+            <div class="flex flex-col space-y-2">
+                <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                    <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-heart text-[#6366f1] w-6 text-center"></i> التخصص</div>
+                    <div class="text-gray-600 font-medium">{{ doctorData.doctor.specialtieName }}</div>
+                </div>
+
+                <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                    <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-money-bill text-[#6366f1] w-6 text-center"></i> سعر الكشف</div>
+                    <div class="text-gray-600 font-medium">{{ doctorData.doctor.consultationFee }} ج.م</div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 py-5">
+                    <div class="flex items-start gap-4 text-[#183153] font-bold text-lg shrink-0"><i class="pi pi-align-right text-[#6366f1] w-6 text-center mt-1"></i> النبذة التعريفية</div>
+                    <div class="text-gray-600 font-medium text-base leading-relaxed sm:w-2/3 text-right">{{ doctorData.doctor.bio || 'لا توجد نبذة تعريفية مضافة لهذا الطبيب حتى الآن.' }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

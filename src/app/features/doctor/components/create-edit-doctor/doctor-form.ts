@@ -9,14 +9,14 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { NumberInput } from '@/app/shared/components/inputs/number-input/number-input';
 import { UserValidators } from '@/app/shared/validators/user.validators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DoctorService } from '../../services/doctor.service';
 import { SpecialityService } from '@/app/core/services/speciality.service';
 import { NotificationService } from '@/app/core/services/notification.service';
 
 @Component({
     selector: 'app-doctor-form',
-    imports: [UserForm, ReactiveFormsModule, SelectModule, TextareaModule, RadioButtonModule, InputTextModule, NumberInput, NgClass],
+    imports: [UserForm, ReactiveFormsModule, SelectModule, TextareaModule, RadioButtonModule, InputTextModule, NumberInput, NgClass, RouterLink],
     templateUrl: './doctor-form.html',
     styleUrl: './doctor-form.scss'
 })

@@ -75,7 +75,7 @@ export class AppMenu implements OnInit {
                                                 {
                                                     label: 'جميع الدكاتره',
                                                     icon: 'pi pi-fw pi-times-circle',
-                                                    routerLink: ['/auth/error']
+                                                    routerLink: ['/doctor/show']
                                                 }
                                             ]
                                           : []),

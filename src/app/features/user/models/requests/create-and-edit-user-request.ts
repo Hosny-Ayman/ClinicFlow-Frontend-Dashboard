@@ -5,4 +5,5 @@ export interface CreateAndEditUserRequest {
     email: string;
     password?: string;
     phoneNumber: string;
+    isActive: boolean;
 }
