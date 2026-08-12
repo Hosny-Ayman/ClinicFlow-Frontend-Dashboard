@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnInit, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { NotificationService } from '@/app/core/services/notification.service';
 import { createUserFormGroup } from '@/app/shared/builders/user-form.builder';
@@ -8,7 +8,7 @@ import { UserForm } from '@/app/shared/components/user-form/user-form';
 
 @Component({
     selector: 'app-receptionist-form',
-    imports: [ReactiveFormsModule, UserForm],
+    imports: [ReactiveFormsModule, UserForm, RouterLink],
     templateUrl: './receptionist-form.html',
     styleUrl: './receptionist-form.scss'
 })

@@ -14,5 +14,18 @@ export const user: Routes = [
         canActivate: [permissionGuard],
         data: { requiredPermission: Permission.ReceptionistsUpdate },
         loadComponent: () => import('./components/receptionist-form/receptionist-form').then((m) => m.ReceptionistForm)
+    },
+    {
+        path: 'show',
+        canActivate: [permissionGuard],
+        data: { requiredPermission: Permission.ReceptionistsViewAll },
+        loadComponent: () => import('./components/receptionists-show/receptionists-show').then((m) => m.ReceptionistsShow)
+    },
+
+    {
+        path: ':id/details',
+        canActivate: [permissionGuard],
+        data: { requiredPermission: Permission.ReceptionistsView },
+        loadComponent: () => import('./components/receptionist-details/receptionist-details').then((m) => m.ReceptionistDetails)
     }
 ];

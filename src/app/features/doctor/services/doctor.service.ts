@@ -6,9 +6,9 @@ import { ApiResponse } from '@/app/core/models/api-response';
 import { environment } from '@/environments/environment';
 import { GetDoctorFullInformationRequest } from '../models/responses/get-doctor-full-information-response';
 import { CreateAndEditDoctorRequest } from '../models/requests/create-and-edit-doctor-request';
-import { PagedResponse } from '../models/requests/paged-response';
+import { PagedResponse } from '../../../shared/models/responses/paged-response';
 import { GetAllDoctorsInformationsResponse } from '../models/requests/get-all-doctors-informations-response';
-import { DoctorSearchRequest } from '../models/responses/doctor-search-response';
+import { DoctorSearchRequest } from '../models/requests/doctor-search-request';
 
 @Injectable({
     providedIn: 'root'

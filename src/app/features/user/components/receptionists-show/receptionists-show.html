@@ -1,0 +1,177 @@
+<div dir="rtl" class="p-6 md:p-8 bg-[#f8f9fc] min-h-screen font-sans text-right">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold text-[#183153] mb-2">موظفي الاستقبال</h1>
+            <div class="text-sm text-gray-500 font-medium">
+                <a [routerLink]="['/']" class="text-gray-500 hover:text-[#6366f1] no-underline transition-colors cursor-pointer">الرئيسية</a>
+                <i class="pi pi-angle-left text-[10px] mx-1"></i>
+                موظفي الاستقبال
+            </div>
+        </div>
+        <button routerLink="/receptionist/create" class="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer border-none outline-none">
+            <i class="pi pi-plus text-sm"></i>
+            إضافة موظف استقبال
+        </button>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-8">
+        <div class="flex justify-between items-center mb-6">
+            <div class="font-bold text-[#183153] text-lg flex items-center gap-2"><i class="pi pi-filter text-gray-400"></i> الفلاتر</div>
+            <button (click)="clearFilters()" class="text-gray-500 hover:text-gray-800 font-medium flex items-center gap-2 text-sm transition-colors cursor-pointer bg-transparent border-none outline-none">
+                <i class="pi pi-sync"></i> إعادة ضبط الفلاتر
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6 items-end">
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">الاسم بالكامل</label>
+                <div class="relative w-full">
+                    <i class="pi pi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
+                    <input
+                        pInputText
+                        [(ngModel)]="request.fullNameSearch"
+                        placeholder="ابحث بالاسم..."
+                        class="w-full rounded-xl py-3 pr-4 pl-10 border border-gray-200 outline-none focus:border-[#6366f1] transition-all bg-white text-right font-medium"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">البريد الإلكتروني</label>
+                <div class="relative w-full">
+                    <i class="pi pi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
+                    <input
+                        pInputText
+                        [(ngModel)]="request.emailSearch"
+                        placeholder="ابحث بالبريد..."
+                        class="w-full rounded-xl py-3 pr-4 pl-10 border border-gray-200 outline-none focus:border-[#6366f1] transition-all bg-white text-right font-medium"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">رقم الهاتف</label>
+                <div class="relative w-full">
+                    <i class="pi pi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
+                    <input
+                        pInputText
+                        [(ngModel)]="request.phoneNumberSearch"
+                        placeholder="ابحث بالهاتف..."
+                        class="w-full rounded-xl py-3 pr-4 pl-10 border border-gray-200 outline-none focus:border-[#6366f1] transition-all bg-white text-right font-medium text-left-dir"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">الحالة</label>
+                <p-select [options]="statuses" [(ngModel)]="request.status" placeholder="كل الحالات" styleClass="w-full h-[48px] rounded-xl border-gray-200 bg-white flex items-center shadow-none font-medium"></p-select>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-3 w-full border-t border-gray-50 pt-5">
+            <button (click)="search()" class="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-8 py-3 rounded-xl font-bold shadow-sm transition-colors cursor-pointer flex-1 lg:flex-none flex items-center justify-center gap-2 border-none outline-none">
+                <i class="pi pi-search text-sm"></i> بحث
+            </button>
+            <button
+                (click)="clearFilters()"
+                class="bg-white border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors cursor-pointer flex-1 lg:flex-none flex items-center justify-center gap-2 outline-none"
+            >
+                <i class="pi pi-times text-sm"></i> مسح
+            </button>
+        </div>
+    </div>
+
+    <div id="receptionistsTable" class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-lg font-bold text-[#183153]">قائمة موظفي الاستقبال</h2>
+
+            <div>
+                <button
+                    (click)="exportMenu.toggle($event)"
+                    class="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl font-bold hover:bg-gray-50 transition-colors cursor-pointer flex items-center gap-2 text-sm shadow-sm outline-none"
+                >
+                    <i class="pi pi-download"></i> تصدير <i class="pi pi-angle-down ml-1 text-xs"></i>
+                </button>
+                <p-menu #exportMenu [model]="exportItems" [popup]="true"></p-menu>
+            </div>
+        </div>
+
+        <p-table
+            [value]="receptionists"
+            [lazy]="true"
+            (onLazyLoad)="loadReceptionists($event)"
+            [paginator]="true"
+            [rows]="5"
+            [totalRecords]="totalRecords"
+            [loading]="loading"
+            [rowsPerPageOptions]="[5, 10, 20]"
+            styleClass="p-datatable-sm"
+            responsiveLayout="scroll"
+        >
+            <ng-template pTemplate="header">
+                <tr class="border-b border-gray-100 bg-transparent">
+                    <th class="py-4 px-4 text-gray-500 font-bold text-sm bg-transparent">#</th>
+                    <th pSortableColumn="fullname" class="py-4 px-4 text-gray-500 font-bold text-sm bg-transparent whitespace-nowrap">الاسم بالكامل <p-sortIcon field="fullname"></p-sortIcon></th>
+                    <th pSortableColumn="email" class="py-4 px-4 text-gray-500 font-bold text-sm bg-transparent whitespace-nowrap">البريد الإلكتروني <p-sortIcon field="email"></p-sortIcon></th>
+                    <th pSortableColumn="phonenumber" class="py-4 px-4 text-gray-500 font-bold text-sm bg-transparent whitespace-nowrap">رقم الهاتف <p-sortIcon field="phonenumber"></p-sortIcon></th>
+                    <th pSortableColumn="status" class="py-4 px-4 text-gray-500 font-bold text-sm bg-transparent whitespace-nowrap">الحالة <p-sortIcon field="status"></p-sortIcon></th>
+                    <th class="py-4 px-4 text-gray-500 font-bold text-sm bg-transparent text-center" data-html2canvas-ignore>الإجراءات</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-receptionist let-rowIndex="rowIndex">
+                <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                    <td class="py-4 px-4 font-bold text-gray-500">{{ rowIndex + 1 }}</td>
+                    <td class="py-4 px-4 font-bold text-[#183153] whitespace-nowrap">{{ receptionist.fullName }}</td>
+                    <td class="py-4 px-4 text-gray-500 font-medium whitespace-nowrap">{{ receptionist.email }}</td>
+                    <td class="py-4 px-4 text-gray-600 font-medium whitespace-nowrap" dir="ltr">{{ receptionist.phoneNumber }}</td>
+
+                    <td class="py-4 px-4 whitespace-nowrap">
+                        <span class="px-3 py-1.5 rounded-lg text-xs font-bold" [ngClass]="receptionist.status === 'Active' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'"> {{ receptionist.status === 'Active' ? 'نشط' : 'غير نشط' }} </span>
+                    </td>
+
+                    <td class="py-4 px-4" data-html2canvas-ignore>
+                        <div class="flex items-center justify-center gap-2">
+                            <button
+                                pTooltip="عرض"
+                                (click)="detailsReceptionist(receptionist.id)"
+                                tooltipPosition="top"
+                                class="w-8 h-8 rounded-lg border border-purple-100 bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors cursor-pointer outline-none"
+                            >
+                                <i class="pi pi-eye text-sm"></i>
+                            </button>
+
+                            <button
+                                (click)="editReceptionist(receptionist.id)"
+                                pTooltip="تعديل"
+                                tooltipPosition="top"
+                                class="w-8 h-8 rounded-lg border border-yellow-100 bg-yellow-50 text-yellow-600 flex items-center justify-center hover:bg-yellow-100 transition-colors cursor-pointer outline-none"
+                            >
+                                <i class="pi pi-pencil text-sm"></i>
+                            </button>
+
+                            <button
+                                (click)="toggleStatus(receptionist)"
+                                [pTooltip]="receptionist.status === 'Active' ? 'إيقاف حساب الموظف' : 'تفعيل حساب الموظف'"
+                                tooltipPosition="top"
+                                class="w-8 h-8 rounded-lg border flex items-center justify-center transition-colors cursor-pointer outline-none"
+                                [ngClass]="receptionist.status === 'Active' ? 'border-red-100 bg-red-50 text-red-600 hover:bg-red-100' : 'border-green-100 bg-green-50 text-green-600 hover:bg-green-100'"
+                            >
+                                <i class="pi text-sm" [ngClass]="receptionist.status === 'Active' ? 'pi-ban' : 'pi-check-circle'"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="6" class="text-center py-12 text-gray-500 font-medium text-lg">
+                        <i class="pi pi-inbox text-4xl text-gray-300 mb-3 block"></i>
+                        لا يوجد موظفي استقبال لعرضهم حالياً.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

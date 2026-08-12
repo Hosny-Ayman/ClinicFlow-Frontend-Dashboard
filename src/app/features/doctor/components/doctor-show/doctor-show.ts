@@ -16,7 +16,7 @@ import { SpecialityService } from '@/app/core/services/speciality.service';
 import { NotificationService } from '@/app/core/services/notification.service';
 
 import { GetAllDoctorsInformationsResponse } from '../../models/requests/get-all-doctors-informations-response';
-import { DoctorSearchRequest } from '../../models/responses/doctor-search-response';
+import { DoctorSearchRequest } from '../../models/requests/doctor-search-request';
 
 import * as htmlToImage from 'html-to-image';
 import { jsPDF } from 'jspdf';

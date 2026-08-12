@@ -1,0 +1,140 @@
+<div dir="rtl" class="p-6 md:p-8 bg-[#f8f9fc] min-h-screen font-sans text-right relative overflow-hidden">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 relative z-10">
+        <div>
+            <h1 class="text-3xl font-extrabold text-[#183153] mb-2">تفاصيل موظف الاستقبال</h1>
+            <div class="text-sm text-gray-500 font-medium">
+                <a routerLink="/" class="hover:text-[#6366f1] transition-colors cursor-pointer no-underline">الرئيسية</a>
+                <i class="pi pi-angle-left text-[10px] mx-1"></i>
+                <a routerLink="/receptionist/show" class="hover:text-[#6366f1] transition-colors cursor-pointer no-underline">موظفي الاستقبال</a>
+                <i class="pi pi-angle-left text-[10px] mx-1"></i>
+                <span class="text-[#183153]">تفاصيل الموظف</span>
+            </div>
+        </div>
+
+        <button routerLink="/receptionist/create" class="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-6 py-3 rounded-2xl font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer border-none outline-none">
+            <i class="pi pi-plus text-sm mt-0.5"></i>
+            إضافة موظف استقبال
+        </button>
+    </div>
+
+    @if(loading) {
+    <div class="flex justify-center items-center py-32">
+        <i class="pi pi-spin pi-spinner text-5xl text-[#6366f1]"></i>
+    </div>
+    } @if(error && !loading) {
+    <div class="bg-red-50 text-red-600 p-6 rounded-3xl text-center font-bold text-lg border border-red-100">حدث خطأ أثناء تحميل بيانات الموظف، أو الموظف غير موجود.</div>
+    } @if(!loading && receptionistData) {
+    <div class="bg-white rounded-4xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-8 relative overflow-hidden">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-10 relative z-10">
+            <div class="relative shrink-0 flex flex-col items-center">
+                <div class="w-40 h-40 md:w-44 md:h-44 rounded-full bg-[#f5f3ff] flex items-center justify-center border-[6px] border-gray-50 shadow-sm">
+                    <i class="pi pi-user text-[5rem] text-[#6366f1]"></i>
+                </div>
+                <div class="mt-4 px-5 py-2 rounded-full text-sm font-bold flex items-center gap-2 shadow-sm" [ngClass]="receptionistData.isActive ? 'bg-[#eefcf4] text-[#10b981]' : 'bg-red-50 text-red-600'">
+                    <div class="w-2 h-2 rounded-full" [ngClass]="receptionistData.isActive ? 'bg-[#10b981]' : 'bg-red-500'"></div>
+                    {{ receptionistData.isActive ? 'نشط' : 'غير نشط' }}
+                </div>
+            </div>
+
+            <div class="flex-1 w-full text-center md:text-right mt-2">
+                <div class="inline-block bg-[#eef2ff] text-[#6366f1] px-4 py-1.5 rounded-xl text-sm font-bold tracking-wider mb-4">ID: #{{ receptionistData.id }}</div>
+
+                <h2 class="text-3xl md:text-5xl font-extrabold text-[#183153] mb-3">{{ receptionistData.firstName }} {{ receptionistData.lastName }}</h2>
+
+                <div class="text-gray-500 font-bold text-lg flex items-center justify-center md:justify-start gap-2 mb-10">
+                    <div class="w-8 h-8 rounded-full bg-[#f5f3ff] flex items-center justify-center">
+                        <i class="pi pi-users text-[#6366f1] text-sm"></i>
+                    </div>
+                    موظف استقبال
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 pt-2">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center shrink-0">
+                            <i class="pi pi-envelope text-xl"></i>
+                        </div>
+                        <div class="text-right truncate overflow-hidden">
+                            <div class="text-sm font-bold text-[#183153] mb-1">البريد الإلكتروني</div>
+                            <div class="text-sm text-gray-500 truncate max-w-37.5 md:max-w-50" title="{{ receptionistData.email }}">{{ receptionistData.email }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center shrink-0">
+                            <i class="pi pi-phone text-xl"></i>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-[#183153] mb-1">رقم الهاتف</div>
+                            <div class="text-sm text-gray-500" dir="ltr">{{ receptionistData.phoneNumber }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center shrink-0">
+                            <i class="pi pi-shield text-xl"></i>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-[#183153] mb-1">الحالة</div>
+                            <div class="text-sm font-bold" [ngClass]="receptionistData.isActive ? 'text-[#10b981]' : 'text-red-500'">{{ receptionistData.isActive ? 'نشط' : 'غير نشط' }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-4xl p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-8">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="w-12 h-12 rounded-full bg-[#f5f3ff] text-[#6366f1] flex items-center justify-center">
+                <i class="pi pi-id-card text-xl"></i>
+            </div>
+            <h3 class="text-2xl font-extrabold text-[#183153]">معلومات موظف الاستقبال</h3>
+        </div>
+
+        <div class="flex flex-col space-y-2">
+            <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-user text-[#6366f1] w-6 text-center"></i> الاسم بالكامل</div>
+                <div class="text-gray-600 font-medium">{{ receptionistData.firstName }} {{ receptionistData.lastName }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-envelope text-[#6366f1] w-6 text-center"></i> البريد الإلكتروني</div>
+                <div class="text-gray-600 font-medium">{{ receptionistData.email }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-5 border-b border-gray-50">
+                <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-phone text-[#6366f1] w-6 text-center"></i> رقم الهاتف</div>
+                <div class="text-gray-600 font-medium" dir="ltr">{{ receptionistData.phoneNumber }}</div>
+            </div>
+
+            <div class="flex items-center justify-between py-5">
+                <div class="flex items-center gap-4 text-[#183153] font-bold text-lg"><i class="pi pi-shield text-[#6366f1] w-6 text-center"></i> الحالة</div>
+                <div class="px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2" [ngClass]="receptionistData.isActive ? 'bg-[#eefcf4] text-[#10b981]' : 'bg-red-50 text-red-600'">
+                    <div class="w-1.5 h-1.5 rounded-full" [ngClass]="receptionistData.isActive ? 'bg-[#10b981]' : 'bg-red-500'"></div>
+                    {{ receptionistData.isActive ? 'نشط' : 'غير نشط' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-end gap-4 mt-4">
+        <button routerLink="/receptionist/show" class="bg-white border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-gray-50 transition-colors cursor-pointer outline-none shadow-sm">
+            <i class="pi pi-arrow-right text-sm"></i> الرجوع للقائمة
+        </button>
+
+        <button (click)="editReceptionist()" class="bg-white border border-[#6366f1] text-[#6366f1] px-10 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-[#f5f3ff] transition-colors cursor-pointer outline-none shadow-sm">
+            <i class="pi pi-pencil text-sm"></i> تعديل
+        </button>
+
+        <button
+            (click)="toggleStatus()"
+            class="bg-white border px-8 py-3 rounded-xl font-bold flex items-center gap-2 transition-colors cursor-pointer outline-none shadow-sm"
+            [ngClass]="receptionistData.isActive ? 'border-red-500 text-red-500 hover:bg-red-50' : 'border-[#10b981] text-[#10b981] hover:bg-[#eefcf4]'"
+        >
+            <i class="pi" [ngClass]="receptionistData.isActive ? 'pi-ban' : 'pi-check-circle'"></i>
+            {{ receptionistData.isActive ? 'إيقاف الموظف' : 'تفعيل الموظف' }}
+        </button>
+    </div>
+
+    }
+</div>

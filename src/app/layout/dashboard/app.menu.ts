@@ -60,22 +60,22 @@ export class AppMenu implements OnInit {
                                   icon: 'pi pi-fw pi-user',
                                   path: '/s',
                                   items: [
-                                      ...(this.permissionService.hasPermission(Permission.DoctorsCreate)
+                                      ...(this.permissionService.hasPermission(Permission.DoctorsViewAll)
                                           ? [
                                                 {
-                                                    label: 'انشاء دكتور',
-                                                    icon: 'pi pi-fw pi-times-circle',
-                                                    routerLink: ['/doctor/create']
+                                                    label: 'الأطباء',
+                                                    icon: 'pi pi-fw pi-users',
+                                                    routerLink: ['/doctor/show']
                                                 }
                                             ]
                                           : []),
 
-                                      ...(this.permissionService.hasPermission(Permission.DoctorsUpdate)
+                                      ...(this.permissionService.hasPermission(Permission.DoctorsCreate)
                                           ? [
                                                 {
-                                                    label: 'جميع الدكاتره',
-                                                    icon: 'pi pi-fw pi-times-circle',
-                                                    routerLink: ['/doctor/show']
+                                                    label: 'انشاء طبيب',
+                                                    icon: 'pi pi-fw pi-user-plus',
+                                                    routerLink: ['/doctor/create']
                                                 }
                                             ]
                                           : []),
@@ -86,6 +86,36 @@ export class AppMenu implements OnInit {
                                                     label: 'Add',
                                                     icon: 'pi pi-fw pi-lock',
                                                     routerLink: ['/auth/access']
+                                                }
+                                            ]
+                                          : [])
+                                  ]
+                              }
+                          ]
+                        : []),
+                    ...(this.permissionService.hasPermission(Permission.ReceptionistsView)
+                        ? [
+                              {
+                                  label: 'موظفي الاستقبال',
+                                  icon: 'pi pi-fw pi-user',
+                                  path: '/d',
+                                  items: [
+                                      ...(this.permissionService.hasPermission(Permission.ReceptionistsViewAll)
+                                          ? [
+                                                {
+                                                    label: 'موظفي الاستقبال',
+                                                    icon: 'pi pi-fw pi-users',
+                                                    routerLink: ['/receptionist/show']
+                                                }
+                                            ]
+                                          : []),
+
+                                      ...(this.permissionService.hasPermission(Permission.ReceptionistsCreate)
+                                          ? [
+                                                {
+                                                    label: 'انشاء موظف استقبال',
+                                                    icon: 'pi pi-fw pi-user-plus',
+                                                    routerLink: ['/receptionist/create']
                                                 }
                                             ]
                                           : [])
