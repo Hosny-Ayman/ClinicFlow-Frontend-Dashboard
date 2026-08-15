@@ -49,6 +49,12 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./app/features/doctor/doctor.routes').then((c) => c.doctor)
     },
     {
+        path: 'patient',
+        canActivate: [authGuard, permissionGuard],
+        data: { requiredPermission: Permission.PatientsView },
+        loadChildren: () => import('./app/features/patient/patient.routes').then((c) => c.patient)
+    },
+    {
         path: 'clinic',
         canActivate: [authGuard, permissionGuard],
         data: { requiredPermission: Permission.ClinicsView },

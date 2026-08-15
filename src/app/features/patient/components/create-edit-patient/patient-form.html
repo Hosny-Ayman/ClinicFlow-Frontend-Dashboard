@@ -1,0 +1,117 @@
+<form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="max-w-5xl mx-auto w-full mt-12 mb-12 px-4">
+    <div dir="rtl" class="bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 rounded-4xl p-8 md:p-12 text-right">
+        <div class="mb-10 text-right">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">
+                {{ isEditMode ? 'تعديل بيانات المريض' : 'بيانات المريض الأساسية' }}
+            </h2>
+            <p class="text-gray-500 font-medium text-base md:text-lg">
+                {{ isEditMode ? 'قم بتحديث المعلومات الحالية للمريض' : 'أدخل بيانات المريض الأساسية لإنشاء سجل جديد' }}
+            </p>
+        </div>
+
+        <div class="space-y-8">
+            <!-- First Name and Last Name -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <app-text-input label="الاسم الأول" placeholder="ادخل الاسم الأول" icon="pi pi-user" [control]="patientForm.controls.firstName"></app-text-input>
+                <app-text-input label="الاسم الأخير" placeholder="ادخل الاسم الأخير" icon="pi pi-user" [control]="patientForm.controls.lastName"></app-text-input>
+            </div>
+
+            <!-- Phone Number and Email -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <app-number-input label="رقم الهاتف" placeholder="ادخل رقم الهاتف" [control]="patientForm.controls.phoneNumber"></app-number-input>
+                <app-text-input label="البريد الإلكتروني" placeholder="ادخل البريد الإلكتروني" icon="pi pi-envelope" type="email" [control]="patientForm.controls.email"></app-text-input>
+            </div>
+
+            <!-- National ID and Date of Birth -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <app-number-input label="الرقم القومي" placeholder="ادخل الرقم القومي" [control]="patientForm.controls.nationalId"></app-number-input>
+                
+                <div class="flex flex-col text-right w-full">
+                    <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">
+                        تاريخ الميلاد
+                        <span class="text-red-500 mx-1">*</span>
+                    </label>
+                    <input
+                        pInputText
+                        type="date"
+                        formControlName="dateOfBirth"
+                        class="w-full rounded-2xl p-4 text-lg border outline-none transition-all bg-white text-right focus:border-[#00a67e] focus:shadow-[0_0_0_4px_rgba(0,166,126,0.1)] border-gray-200 h-14"
+                    />
+                </div>
+            </div>
+
+            <!-- Gender and Blood Type -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div class="flex flex-col text-right w-full">
+                    <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">
+                        النوع
+                        <span class="text-red-500 mx-1">*</span>
+                    </label>
+                    <div class="flex items-center gap-8 h-14">
+                        <div class="flex items-center gap-3 cursor-pointer">
+                            <p-radioButton [value]="1" formControlName="gender" inputId="male"></p-radioButton>
+                            <label for="male" class="text-lg text-[#183153] font-medium cursor-pointer">ذكر</label>
+                        </div>
+                        <div class="flex items-center gap-3 cursor-pointer">
+                            <p-radioButton [value]="2" formControlName="gender" inputId="female"></p-radioButton>
+                            <label for="female" class="text-lg text-[#183153] font-medium cursor-pointer">أنثى</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col text-right w-full">
+                    <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">فصيلة الدم</label>
+                    <p-select
+                        [options]="bloodTypes"
+                        formControlName="bloodType"
+                        placeholder="اختر فصيلة الدم"
+                        styleClass="w-full rounded-2xl h-14 text-lg border-gray-200 focus:border-[#00a67e] shadow-none flex items-center bg-white"
+                        [style]="{'width': '100%'}"
+                    ></p-select>
+                </div>
+            </div>
+
+            <!-- Emergency Contact -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <app-text-input label="اسم جهة اتصال الطوارئ" placeholder="ادخل اسم جهة الاتصال" icon="pi pi-user" [control]="patientForm.controls.emergencyContactName"></app-text-input>
+                <app-number-input label="هاتف الطوارئ" placeholder="ادخل رقم هاتف الطوارئ" [control]="patientForm.controls.emergencyContactPhone"></app-number-input>
+            </div>
+
+            <!-- Address -->
+            <div class="flex flex-col text-right w-full">
+                <app-text-input label="العنوان" placeholder="ادخل عنوان المريض بالتفصيل" icon="pi pi-map-marker" [control]="patientForm.controls.address"></app-text-input>
+            </div>
+
+            <!-- Notes -->
+            <div class="flex flex-col text-right w-full">
+                <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">ملاحظات إضافية</label>
+                <textarea
+                    pTextarea
+                    formControlName="notes"
+                    rows="3"
+                    placeholder="اكتب أي ملاحظات خاصة بالمريض أو حالته الصحية"
+                    class="w-full rounded-2xl p-4 text-lg border outline-none transition-all bg-white text-right focus:border-[#00a67e] focus:shadow-[0_0_0_4px_rgba(0,166,126,0.1)] border-[#d9e1ec] resize-none"
+                ></textarea>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center items-center pt-10 mt-12 border-t border-gray-100 gap-6 w-full">
+            <button
+                routerLink="/patient/show"
+                type="button"
+                class="cursor-pointer w-full sm:w-50 flex items-center justify-center gap-3 bg-white hover:bg-gray-50 border border-[#d9e1ec] rounded-2xl px-6 py-4 text-lg font-bold text-[#183153] transition-all duration-200"
+            >
+                <i class="pi pi-arrow-right text-sm"></i> رجوع
+            </button>
+            <button
+                type="submit"
+                [disabled]="patientForm.invalid"
+                class="cursor-pointer w-full sm:w-62.5 flex items-center justify-center gap-3 bg-[#00a67e] hover:bg-[#008f6b] disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed border-none rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+                {{ isEditMode ? 'حفظ التعديلات' : 'حفظ وإضافة' }}
+                <i class="pi text-sm" [class.pi-pencil]="isEditMode" [class.pi-check]="!isEditMode"></i>
+            </button>
+        </div>
+    </div>
+</form>
