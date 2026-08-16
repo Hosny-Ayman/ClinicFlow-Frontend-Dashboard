@@ -24,5 +24,10 @@ export enum Permission {
     ClinicsViewAll = 1 << 17,
     ClinicsUpdate = 1 << 18,
     ClinicsDelete = 1 << 19,
-    ClinicsSettings = 1 << 20
+    ClinicsSettings = 1 << 20,
+
+    DoctorSchedulesView = 1 << 21,
+    DoctorSchedulesCreate = 1 << 22,
+    DoctorSchedulesUpdate = 1 << 23,
+    DoctorSchedulesDelete = 1 << 24
 }
