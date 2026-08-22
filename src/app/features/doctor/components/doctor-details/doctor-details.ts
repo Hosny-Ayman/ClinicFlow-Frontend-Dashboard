@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { DoctorService } from '../../services/doctor.service'; // اتأكد من المسار
+import { DoctorService } from '../../services/doctor.service';
 import { GetDoctorFullInformationRequest } from '../../models/responses/get-doctor-full-information-response';
 
 @Component({

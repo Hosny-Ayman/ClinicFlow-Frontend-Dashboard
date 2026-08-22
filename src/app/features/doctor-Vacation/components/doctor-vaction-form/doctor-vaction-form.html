@@ -1,0 +1,113 @@
+<div dir="rtl" class="p-6 md:p-8 bg-[#f8f9fc] min-h-screen font-sans text-right pb-20">
+    <div class="max-w-5xl mx-auto">
+        <div class="mb-8">
+            <div class="text-sm text-gray-500 font-medium mb-2">
+                <a routerLink="/" class="hover:text-[#2563eb] transition-colors cursor-pointer no-underline">الرئيسية</a>
+                <i class="pi pi-angle-left text-[10px] mx-2"></i>
+                <span class="hover:text-[#2563eb] transition-colors cursor-pointer">الإجازات</span>
+                <i class="pi pi-angle-left text-[10px] mx-2"></i>
+                <span class="text-[#183153] font-bold">{{ isEditMode ? 'تعديل الإجازة' : 'إضافة إجازة جديدة' }}</span>
+            </div>
+        </div>
+
+        <form [formGroup]="vacationForm" (ngSubmit)="onSubmit()" class="w-full">
+            <div class="bg-[#eff6ff] rounded-2xl p-6 flex items-center justify-between gap-6 mb-8 border border-[#bfdbfe]">
+                <div class="flex-1 text-right">
+                    <h3 class="flex items-center justify-start gap-2 text-[#1e3a8a] font-extrabold text-lg mb-2">معلومات مهمة <i class="pi pi-info-circle"></i></h3>
+                    <p class="text-[#1e40af] font-medium text-base leading-relaxed m-0">
+                        سيتم منع حجز مواعيد لهذا الطبيب خلال فترة الإجازة المحددة. <br />
+                        تأكد من تحديد الفترة والسبب بشكل صحيح.
+                    </p>
+                </div>
+
+                <div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-[#2563eb] relative">
+                    <i class="pi pi-calendar text-5xl"></i>
+                    <div class="absolute -bottom-2 -right-2 bg-[#2563eb] text-white rounded-full w-8 h-8 flex items-center justify-center border-4 border-[#eff6ff]">
+                        <i class="pi pi-check text-sm font-bold"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100 space-y-10 relative">
+                @if(loading) {
+                <div class="absolute inset-0 bg-white/80 z-50 rounded-3xl flex items-center justify-center">
+                    <i class="pi pi-spin pi-spinner text-5xl text-[#2563eb]"></i>
+                </div>
+                }
+
+                <section>
+                    <h2 class="text-xl font-extrabold text-[#183153] mb-6">1. فترة الإجازة</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-bold text-[#183153]">تاريخ البداية <span class="text-red-500">*</span></label>
+                            <input
+                                type="date"
+                                formControlName="startDate"
+                                class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 text-right font-medium text-[#183153] outline-none transition-all focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
+                                [ngClass]="{'border-red-500': vacationForm.get('startDate')?.invalid && vacationForm.get('startDate')?.touched}"
+                            />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-bold text-[#183153]">تاريخ النهاية <span class="text-red-500">*</span></label>
+                            <input
+                                type="date"
+                                formControlName="endDate"
+                                class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 text-right font-medium text-[#183153] outline-none transition-all focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
+                                [ngClass]="{'border-red-500': vacationForm.get('endDate')?.invalid && vacationForm.get('endDate')?.touched}"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mt-4 bg-[#f0fdf4] border border-[#bbf7d0] rounded-xl p-3 flex items-center justify-center gap-2 text-[#166534] font-bold text-sm">
+                        <i class="pi pi-calendar-clock"></i>
+                        <span>مدة الإجازة: {{ vacationDuration }}</span>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-extrabold text-[#183153] mb-6">2. سبب الإجازة (اختياري)</h2>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-bold text-[#183153]">السبب</label>
+                        <textarea
+                            formControlName="reason"
+                            rows="4"
+                            placeholder="اكتب سبب الإجازة... (يمكنك كتابة ملاحظات إضافية هنا)"
+                            class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 text-right font-medium text-[#183153] outline-none transition-all focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 resize-none"
+                        ></textarea>
+                        <div class="text-left text-xs font-bold text-gray-400 mt-1" dir="ltr">{{ vacationForm.get('reason')?.value?.length || 0 }}/500</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-extrabold text-[#183153] mb-6">3. حالة الإجازة</h2>
+
+                    <div class="flex flex-col gap-2 md:w-1/2">
+                        <label class="text-sm font-bold text-[#183153]">الحالة <span class="text-red-500">*</span></label>
+                        <p-select [options]="statuses" formControlName="status" placeholder="اختر حالة الإجازة" styleClass="w-full h-[52px] rounded-xl border-gray-200 bg-white flex items-center shadow-none font-medium text-right"> </p-select>
+                    </div>
+                </section>
+
+                <div class="flex items-center gap-4 pt-6 border-t border-gray-50 mt-10">
+                    <button
+                        type="button"
+                        (click)="cancel()"
+                        class="bg-white border border-gray-200 text-gray-700 px-8 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors cursor-pointer outline-none shadow-sm"
+                    >
+                        <i class="pi pi-times text-sm"></i> إلغاء
+                    </button>
+
+                    <button
+                        type="submit"
+                        [disabled]="vacationForm.invalid || loading"
+                        class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-10 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer outline-none shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                        <i class="pi pi-save text-sm"></i> حفظ الإجازة
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

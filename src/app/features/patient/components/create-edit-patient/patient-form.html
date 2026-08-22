@@ -1,31 +1,24 @@
 <form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="max-w-5xl mx-auto w-full mt-12 mb-12 px-4">
     <div dir="rtl" class="bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 rounded-4xl p-8 md:p-12 text-right">
         <div class="mb-10 text-right">
-            <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">
-                {{ isEditMode ? 'تعديل بيانات المريض' : 'بيانات المريض الأساسية' }}
-            </h2>
-            <p class="text-gray-500 font-medium text-base md:text-lg">
-                {{ isEditMode ? 'قم بتحديث المعلومات الحالية للمريض' : 'أدخل بيانات المريض الأساسية لإنشاء سجل جديد' }}
-            </p>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">{{ isEditMode ? 'تعديل بيانات المريض' : 'بيانات المريض الأساسية' }}</h2>
+            <p class="text-gray-500 font-medium text-base md:text-lg">{{ isEditMode ? 'قم بتحديث المعلومات الحالية للمريض' : 'أدخل بيانات المريض الأساسية لإنشاء سجل جديد' }}</p>
         </div>
 
         <div class="space-y-8">
-            <!-- First Name and Last Name -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <app-text-input label="الاسم الأول" placeholder="ادخل الاسم الأول" icon="pi pi-user" [control]="patientForm.controls.firstName"></app-text-input>
                 <app-text-input label="الاسم الأخير" placeholder="ادخل الاسم الأخير" icon="pi pi-user" [control]="patientForm.controls.lastName"></app-text-input>
             </div>
 
-            <!-- Phone Number and Email -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <app-number-input label="رقم الهاتف" placeholder="ادخل رقم الهاتف" [control]="patientForm.controls.phoneNumber"></app-number-input>
                 <app-text-input label="البريد الإلكتروني" placeholder="ادخل البريد الإلكتروني" icon="pi pi-envelope" type="email" [control]="patientForm.controls.email"></app-text-input>
             </div>
 
-            <!-- National ID and Date of Birth -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <app-number-input label="الرقم القومي" placeholder="ادخل الرقم القومي" [control]="patientForm.controls.nationalId"></app-number-input>
-                
+
                 <div class="flex flex-col text-right w-full">
                     <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">
                         تاريخ الميلاد
@@ -40,7 +33,6 @@
                 </div>
             </div>
 
-            <!-- Gender and Blood Type -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <div class="flex flex-col text-right w-full">
                     <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">
@@ -71,18 +63,15 @@
                 </div>
             </div>
 
-            <!-- Emergency Contact -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 <app-text-input label="اسم جهة اتصال الطوارئ" placeholder="ادخل اسم جهة الاتصال" icon="pi pi-user" [control]="patientForm.controls.emergencyContactName"></app-text-input>
                 <app-number-input label="هاتف الطوارئ" placeholder="ادخل رقم هاتف الطوارئ" [control]="patientForm.controls.emergencyContactPhone"></app-number-input>
             </div>
 
-            <!-- Address -->
             <div class="flex flex-col text-right w-full">
                 <app-text-input label="العنوان" placeholder="ادخل عنوان المريض بالتفصيل" icon="pi pi-map-marker" [control]="patientForm.controls.address"></app-text-input>
             </div>
 
-            <!-- Notes -->
             <div class="flex flex-col text-right w-full">
                 <label class="block mb-3 font-bold text-[#183153] text-base md:text-lg">ملاحظات إضافية</label>
                 <textarea
@@ -95,7 +84,6 @@
             </div>
         </div>
 
-        <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row justify-center items-center pt-10 mt-12 border-t border-gray-100 gap-6 w-full">
             <button
                 routerLink="/patient/show"

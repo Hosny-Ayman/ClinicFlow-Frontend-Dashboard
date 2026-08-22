@@ -29,5 +29,11 @@ export enum Permission {
     DoctorSchedulesView = 1 << 21,
     DoctorSchedulesCreate = 1 << 22,
     DoctorSchedulesUpdate = 1 << 23,
-    DoctorSchedulesDelete = 1 << 24
+    DoctorSchedulesDelete = 1 << 24,
+
+    DoctorVacationsView = 1 << 25,
+    DoctorVacationsViewAll = 1 << 26,
+    DoctorVacationsCreate = 1 << 27,
+    DoctorVacationsUpdate = 1 << 28,
+    DoctorVacationsDelete = 1 << 29
 }

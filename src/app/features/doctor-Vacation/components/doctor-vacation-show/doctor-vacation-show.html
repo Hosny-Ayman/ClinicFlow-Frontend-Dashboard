@@ -1,0 +1,217 @@
+<div dir="rtl" class="p-6 md:p-8 bg-[#f8f9fc] min-h-screen font-sans text-right">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <div class="text-sm text-gray-500 font-medium mb-2">
+                <a routerLink="/" class="hover:text-[#2563eb] transition-colors cursor-pointer no-underline">الرئيسية</a>
+                <i class="pi pi-angle-left text-[10px] mx-2"></i>
+                <span class="hover:text-[#2563eb] transition-colors cursor-pointer">الإجازات</span>
+                <i class="pi pi-angle-left text-[10px] mx-2"></i>
+                <span class="text-[#183153] font-bold">إجازات الأطباء</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-[#2563eb] font-bold text-sm mb-1">إجازات منتهية</p>
+                <h3 class="text-3xl font-extrabold text-[#183153] m-0">{{ dashboardData.completedLeavesCount }}</h3>
+                <span class="text-gray-400 text-xs font-medium">إجازة</span>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-[#eff6ff] text-[#2563eb] flex items-center justify-center text-2xl">
+                <i class="pi pi-calendar"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-emerald-500 font-bold text-sm mb-1">إجازات نشطة الآن</p>
+                <h3 class="text-3xl font-extrabold text-[#183153] m-0">{{ dashboardData.activeLeavesCount }}</h3>
+                <span class="text-gray-400 text-xs font-medium">إجازات</span>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center text-2xl">
+                <i class="pi pi-check-circle"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-amber-500 font-bold text-sm mb-1">إجازات قادمة</p>
+                <h3 class="text-3xl font-extrabold text-[#183153] m-0">{{ dashboardData.upcomingLeavesCount }}</h3>
+                <span class="text-gray-400 text-xs font-medium">إجازات</span>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-2xl">
+                <i class="pi pi-hourglass"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-red-500 font-bold text-sm mb-1">إجمالي الإجازات</p>
+                <h3 class="text-3xl font-extrabold text-[#183153] m-0">{{ dashboardData.totalLeavesCount }}</h3>
+                <span class="text-gray-400 text-xs font-medium">إجازة</span>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-2xl">
+                <i class="pi pi-calendar-times"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100">
+        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-gray-50 pb-6 mb-6 gap-4">
+            <h2 class="text-xl font-extrabold text-[#183153] m-0">تصفية الإجازات</h2>
+            <button routerLink="/doctorVacation/create" class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-colors outline-none shadow-sm">
+                <i class="pi pi-plus text-sm"></i> إضافة إجازة جديدة
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">البحث بالاسم الكامل</label>
+                <div class="relative">
+                    <i class="pi pi-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input
+                        type="text"
+                        [(ngModel)]="searchDto.fullNameSearch"
+                        placeholder="ابحث بالاسم الكامل"
+                        class="w-full bg-[#f8f9fc] border border-gray-200 rounded-xl py-3 pr-11 pl-4 text-right font-medium text-[#183153] outline-none focus:border-[#2563eb] focus:bg-white transition-colors"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">البحث بالبريد الإلكتروني</label>
+                <div class="relative">
+                    <i class="pi pi-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input
+                        type="text"
+                        [(ngModel)]="searchDto.emailSearch"
+                        placeholder="ابحث بالبريد الإلكتروني"
+                        class="w-full bg-[#f8f9fc] border border-gray-200 rounded-xl py-3 pr-11 pl-4 text-right font-medium text-[#183153] outline-none focus:border-[#2563eb] focus:bg-white transition-colors"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">البحث برقم الهاتف</label>
+                <div class="relative">
+                    <i class="pi pi-phone absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input
+                        type="text"
+                        [(ngModel)]="searchDto.phoneNumberSearch"
+                        placeholder="ابحث برقم الهاتف"
+                        class="w-full bg-[#f8f9fc] border border-gray-200 rounded-xl py-3 pr-11 pl-4 text-right font-medium text-[#183153] outline-none focus:border-[#2563eb] focus:bg-white transition-colors"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">الجنس</label>
+                <p-select [options]="genders" [(ngModel)]="searchDto.gender" placeholder="كل الجنس" styleClass="w-full h-[50px] rounded-xl border-gray-200 bg-[#f8f9fc] flex items-center shadow-none font-medium text-right"></p-select>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">التخصص</label>
+                <p-select [options]="specialties" [(ngModel)]="searchDto.specialtyId" placeholder="كل التخصصات" styleClass="w-full h-[50px] rounded-xl border-gray-200 bg-[#f8f9fc] flex items-center shadow-none font-medium text-right"></p-select>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">الحالة</label>
+                <p-select [options]="statuses" [(ngModel)]="searchDto.status" placeholder="كل الحالات" styleClass="w-full h-[50px] rounded-xl border-gray-200 bg-[#f8f9fc] flex items-center shadow-none font-medium text-right"></p-select>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">من تاريخ</label>
+                <input type="date" [(ngModel)]="searchDto.from" class="w-full bg-[#f8f9fc] border border-gray-200 rounded-xl py-3 px-4 text-right font-medium text-[#183153] outline-none focus:border-[#2563eb] focus:bg-white transition-colors" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-[#183153]">إلى تاريخ</label>
+                <input type="date" [(ngModel)]="searchDto.to" class="w-full bg-[#f8f9fc] border border-gray-200 rounded-xl py-3 px-4 text-right font-medium text-[#183153] outline-none focus:border-[#2563eb] focus:bg-white transition-colors" />
+            </div>
+
+            <div class="flex items-end gap-3 lg:col-span-1">
+                <button (click)="applyFilter()" class="flex-1 bg-[#2563eb] hover:bg-[#1d4ed8] text-white h-12.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors outline-none shadow-sm">
+                    <i class="pi pi-filter text-sm"></i> تطبيق الفلتر
+                </button>
+                <button
+                    (click)="resetFilter()"
+                    class="w-12.5 md:w-auto md:px-6 bg-white border border-gray-200 text-gray-700 h-12.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors outline-none shadow-sm"
+                >
+                    <i class="pi pi-refresh text-sm"></i> <span class="hidden md:inline">إعادة تعيين</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-gray-100">
+            <p-table [value]="vacations" [loading]="loading" Class="p-datatable-sm" [tableStyle]="{ 'min-width': '60rem' }">
+                <ng-template pTemplate="header">
+                    <tr class="bg-[#f8f9fc] border-b border-gray-100">
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">#</th>
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">الصورة</th>
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">الاسم بالكامل</th>
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">البريد الإلكتروني</th>
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">النوع</th>
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">رقم الهاتف</th>
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">التخصص</th>
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">الخبرة</th>
+                        <th class="text-right text-[#183153] font-extrabold py-4 px-4 text-sm">الحالة</th>
+                        <th class="text-center text-[#183153] font-extrabold py-4 px-4 text-sm">الإجراءات</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-vacation let-i="rowIndex">
+                    <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                        <td class="py-4 px-4 text-sm font-bold text-gray-500">{{ (searchDto.pageNumber - 1) * searchDto.pageSize + i + 1 }}</td>
+                        <td class="py-4 px-4">
+                            <img [src]="vacation.profileImage || 'assets/layout/images/avatar.png'" class="w-10 h-10 rounded-full object-cover border border-gray-200" />
+                        </td>
+                        <td class="py-4 px-4 text-sm font-bold text-[#183153]">{{ vacation.fullName }}</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-500">{{ vacation.email }}</td>
+
+                        <td class="py-4 px-4 text-sm font-bold" [ngClass]="getGenderText(vacation.gender) === 'ذكر' ? 'text-[#2563eb]' : 'text-pink-500'">{{ getGenderText(vacation.gender) }}</td>
+
+                        <td class="py-4 px-4 text-sm font-medium text-gray-500" dir="ltr">{{ vacation.phoneNumber }}</td>
+                        <td class="py-4 px-4 text-sm font-bold text-gray-700">{{ vacation.specialty }}</td>
+                        <td class="py-4 px-4 text-sm font-bold text-gray-700">{{ vacation.experience }} سنوات</td>
+
+                        <td class="py-4 px-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-extrabold" [ngClass]="getStatusStyle(vacation.status)"> {{ getStatusText(vacation.status) }} </span>
+                        </td>
+
+                        <td class="py-4 px-4">
+                            <div class="flex items-center justify-center gap-2">
+                                <button class="w-8 h-8 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors outline-none"><i class="pi pi-eye text-sm"></i></button>
+                                <button (click)="editVacation(vacation.userId,vacation.id)" class="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center hover:bg-amber-100 transition-colors outline-none">
+                                    <i class="pi pi-pencil text-sm"></i>
+                                </button>
+                                <button class="w-8 h-8 rounded-full bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 transition-colors outline-none"><i class="pi pi-ban text-sm"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="10" class="text-center py-10">
+                            <div class="flex flex-col items-center justify-center text-gray-400">
+                                <i class="pi pi-folder-open text-4xl mb-4"></i>
+                                <span class="font-bold">لا توجد إجازات لعرضها</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div class="mt-6 flex justify-between items-center" dir="ltr">
+            <p-paginator
+                (onPageChange)="onPageChange($event)"
+                [first]="(searchDto.pageNumber - 1) * searchDto.pageSize"
+                [rows]="searchDto.pageSize"
+                [totalRecords]="totalRecords"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="عرض {first} إلى {last} من {totalRecords} إجازة"
+            ></p-paginator>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,7 @@ import { Permission } from '@/app/core/enums/Permission';
 import { permissionGuard } from '@/app/core/guards/permission.guard';
 import { Routes } from '@angular/router';
 
-export const DoctorSchedule: Routes = [
+export const doctorSchedule: Routes = [
     {
         path: 'show',
         canActivate: [permissionGuard],

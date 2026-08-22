@@ -21,9 +21,52 @@ export const appRoutes: Routes = [
             {
                 path: 'dashboard',
                 component: Dashboard
+            },
+            {
+                path: 'doctor',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.DoctorsView },
+                loadChildren: () => import('./app/features/doctor/doctor.routes').then((c) => c.doctor)
+            },
+            {
+                path: 'doctorSchedule',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.DoctorSchedulesView },
+                loadChildren: () => import('./app/features/doctor-shedule/doctor-shedule.routes').then((c) => c.doctorSchedule)
+            },
+            {
+                path: 'doctorVacation',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.DoctorVacationsView },
+                loadChildren: () => import('./app/features/doctor-Vacation/doctor-Vacation.routes').then((c) => c.doctorVacation)
+            },
+            {
+                path: 'patient',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.PatientsView },
+                loadChildren: () => import('./app/features/patient/patient.routes').then((c) => c.patient)
+            },
+            {
+                path: 'clinic',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.ClinicsView },
+                loadChildren: () => import('./app/features/clinic/clinic-form.routes').then((c) => c.ClinicForm)
+            },
+            {
+                path: 'receptionist',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.ReceptionistsView },
+                loadChildren: () => import('./app/features/user/user.routes').then((c) => c.user)
+            },
+            {
+                path: 'clinicWorkingHours',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.ClinicsView },
+                loadChildren: () => import('./app/features/clinic-working-hour/clinic-working-hour.routes').then((c) => c.ClinicWorkingHours)
             }
         ]
     },
+
     {
         path: 'home',
         component: PublicLayout,
@@ -41,43 +84,6 @@ export const appRoutes: Routes = [
     {
         path: 'createClinic',
         loadChildren: () => import('./app/features/public/create-clinic/create-clinic.routes').then((c) => c.createClinic)
-    },
-    {
-        path: 'doctor',
-        canActivate: [authGuard, permissionGuard],
-        data: { requiredPermission: Permission.DoctorsView },
-        loadChildren: () => import('./app/features/doctor/doctor.routes').then((c) => c.doctor)
-    },
-
-    {
-        path: 'DoctorSchedule',
-        canActivate: [authGuard, permissionGuard],
-        data: { requiredPermission: Permission.DoctorSchedulesView },
-        loadChildren: () => import('./app/features/doctor-shedule/doctor-shedule.routes').then((c) => c.DoctorSchedule)
-    },
-    {
-        path: 'patient',
-        canActivate: [authGuard, permissionGuard],
-        data: { requiredPermission: Permission.PatientsView },
-        loadChildren: () => import('./app/features/patient/patient.routes').then((c) => c.patient)
-    },
-    {
-        path: 'clinic',
-        canActivate: [authGuard, permissionGuard],
-        data: { requiredPermission: Permission.ClinicsView },
-        loadChildren: () => import('./app/features/clinic/clinic-form.routes').then((c) => c.ClinicForm)
-    },
-    {
-        path: 'receptionist',
-        canActivate: [authGuard, permissionGuard],
-        data: { requiredPermission: Permission.ReceptionistsView },
-        loadChildren: () => import('./app/features/user/user.routes').then((c) => c.user)
-    },
-    {
-        path: 'clinicWorkingHours',
-        canActivate: [authGuard, permissionGuard],
-        data: { requiredPermission: Permission.ClinicsView },
-        loadChildren: () => import('./app/features/clinic-working-hour/clinic-working-hour.routes').then((c) => c.ClinicWorkingHours)
     },
     {
         path: 'notfound',
