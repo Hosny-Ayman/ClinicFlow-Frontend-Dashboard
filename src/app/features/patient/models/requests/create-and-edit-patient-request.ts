@@ -4,7 +4,7 @@ export interface CreateAndEditPatientRequest {
     firstName: string;
     lastName: string;
     email?: string | null;
-    phoneNumber?: string | null;
+    phoneNumber: string;
 
     dateOfBirth: string | Date;
     gender: number;

@@ -175,6 +175,15 @@
                             </button>
 
                             <button
+                                (click)="editSchedule(doctor.userId)"
+                                pTooltip="جدول المواعيد"
+                                tooltipPosition="top"
+                                class="w-8 h-8 rounded-lg border border-cyan-100 bg-cyan-50 text-cyan-600 flex items-center justify-center hover:bg-cyan-100 transition-colors cursor-pointer outline-none"
+                            >
+                                <i class="pi pi-calendar-plus text-sm"></i>
+                            </button>
+
+                            <button
                                 (click)="toggleStatus(doctor)"
                                 [pTooltip]="doctor.status === 'Active' ? 'إيقاف حساب الطبيب' : 'تفعيل حساب الطبيب'"
                                 tooltipPosition="top"

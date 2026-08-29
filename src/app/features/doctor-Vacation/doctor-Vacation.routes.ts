@@ -22,5 +22,12 @@ export const doctorVacation: Routes = [
         canActivate: [permissionGuard],
         data: { requiredPermission: Permission.DoctorVacationsUpdate },
         loadComponent: () => import('./components/doctor-vaction-form/doctor-vaction-form').then((m) => m.DoctorVactionForm)
+    },
+
+    {
+        path: ':userId/details',
+        canActivate: [permissionGuard],
+        data: { requiredPermission: Permission.DoctorVacationsView },
+        loadComponent: () => import('./components/doctor-vacation-details/doctor-vacation-details').then((m) => m.DoctorVacationDetails)
     }
 ];

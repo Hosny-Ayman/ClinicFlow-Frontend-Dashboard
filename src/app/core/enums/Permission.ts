@@ -1,39 +1,46 @@
-export enum Permission {
-    None = 0,
+export const Permission = {
+    None: 0n,
 
-    DoctorsView = 1 << 0,
-    DoctorsViewAll = 1 << 1,
-    DoctorsCreate = 1 << 2,
-    DoctorsUpdate = 1 << 3,
-    DoctorsDelete = 1 << 4,
+    DoctorsView: 1n << 0n,
+    DoctorsViewAll: 1n << 1n,
+    DoctorsCreate: 1n << 2n,
+    DoctorsUpdate: 1n << 3n,
+    DoctorsDelete: 1n << 4n,
 
-    PatientsView = 1 << 5,
-    PatientsViewAll = 1 << 6,
-    PatientsCreate = 1 << 7,
-    PatientsUpdate = 1 << 8,
-    PatientsDelete = 1 << 9,
+    PatientsView: 1n << 5n,
+    PatientsViewAll: 1n << 6n,
+    PatientsCreate: 1n << 7n,
+    PatientsUpdate: 1n << 8n,
+    PatientsDelete: 1n << 9n,
 
-    ReceptionistsView = 1 << 10,
-    ReceptionistsViewAll = 1 << 11,
-    ReceptionistsCreate = 1 << 12,
-    ReceptionistsUpdate = 1 << 13,
-    ReceptionistsDelete = 1 << 14,
+    ReceptionistsView: 1n << 10n,
+    ReceptionistsViewAll: 1n << 11n,
+    ReceptionistsCreate: 1n << 12n,
+    ReceptionistsUpdate: 1n << 13n,
+    ReceptionistsDelete: 1n << 14n,
 
-    ClinicsCreate = 1 << 15,
-    ClinicsView = 1 << 16,
-    ClinicsViewAll = 1 << 17,
-    ClinicsUpdate = 1 << 18,
-    ClinicsDelete = 1 << 19,
-    ClinicsSettings = 1 << 20,
+    ClinicsCreate: 1n << 15n,
+    ClinicsView: 1n << 16n,
+    ClinicsViewAll: 1n << 17n,
+    ClinicsUpdate: 1n << 18n,
+    ClinicsDelete: 1n << 19n,
+    ClinicsSettings: 1n << 20n,
 
-    DoctorSchedulesView = 1 << 21,
-    DoctorSchedulesCreate = 1 << 22,
-    DoctorSchedulesUpdate = 1 << 23,
-    DoctorSchedulesDelete = 1 << 24,
+    DoctorSchedulesView: 1n << 21n,
+    DoctorSchedulesCreate: 1n << 22n,
+    DoctorSchedulesUpdate: 1n << 23n,
+    DoctorSchedulesDelete: 1n << 24n,
 
-    DoctorVacationsView = 1 << 25,
-    DoctorVacationsViewAll = 1 << 26,
-    DoctorVacationsCreate = 1 << 27,
-    DoctorVacationsUpdate = 1 << 28,
-    DoctorVacationsDelete = 1 << 29
-}
+    DoctorVacationsView: 1n << 25n,
+    DoctorVacationsViewAll: 1n << 26n,
+    DoctorVacationsCreate: 1n << 27n,
+    DoctorVacationsUpdate: 1n << 28n,
+    DoctorVacationsDelete: 1n << 29n,
+
+    AppointmentsCreate: 1n << 30n,
+    AppointmentsView: 1n << 31n,
+    AppointmentsViewAll: 1n << 32n,
+    AppointmentsUpdate: 1n << 33n
+} as const;
+
+export type PermissionType = (typeof Permission)[keyof typeof Permission];

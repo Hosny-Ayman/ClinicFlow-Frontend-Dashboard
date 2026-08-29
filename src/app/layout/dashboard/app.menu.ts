@@ -95,6 +95,38 @@ export class AppMenu implements OnInit {
                               }
                           ]
                         : []),
+
+                    ...(this.permissionService.hasPermission(Permission.DoctorVacationsView)
+                        ? [
+                              {
+                                  label: 'إدارة الإجازات',
+                                  icon: 'pi pi-fw pi-calendar-times',
+                                  path: '/v',
+                                  items: [
+                                      ...(this.permissionService.hasPermission(Permission.DoctorVacationsViewAll)
+                                          ? [
+                                                {
+                                                    label: 'قائمة الإجازات',
+                                                    icon: 'pi pi-fw pi-list',
+                                                    routerLink: ['/doctorVacation']
+                                                }
+                                            ]
+                                          : []),
+
+                                      ...(this.permissionService.hasPermission(Permission.DoctorVacationsCreate)
+                                          ? [
+                                                {
+                                                    label: 'إضافة إجازة جديدة',
+                                                    icon: 'pi pi-fw pi-calendar-plus',
+                                                    routerLink: ['/doctorVacation/create']
+                                                }
+                                            ]
+                                          : [])
+                                  ]
+                              }
+                          ]
+                        : []),
+
                     ...(this.permissionService.hasPermission(Permission.ReceptionistsView)
                         ? [
                               {
@@ -149,6 +181,37 @@ export class AppMenu implements OnInit {
                                                     label: 'إضافة مريض جديد',
                                                     icon: 'pi pi-fw pi-user-plus',
                                                     routerLink: ['/patient/create']
+                                                }
+                                            ]
+                                          : [])
+                                  ]
+                              }
+                          ]
+                        : []),
+
+                    ...(this.permissionService.hasPermission(Permission.ClinicsView)
+                        ? [
+                              {
+                                  label: 'إدارة العيادة',
+                                  icon: 'pi pi-fw pi-building',
+                                  path: '/c',
+                                  items: [
+                                      ...(this.permissionService.hasPermission(Permission.ClinicsSettings)
+                                          ? [
+                                                {
+                                                    label: 'إعدادات العيادة',
+                                                    icon: 'pi pi-fw pi-cog',
+                                                    routerLink: [`/clinic/${this.authService.currentUser()?.clinicId}/edit`]
+                                                }
+                                            ]
+                                          : []),
+
+                                      ...(this.permissionService.hasPermission(Permission.ClinicsUpdate)
+                                          ? [
+                                                {
+                                                    label: 'أوقات عمل العيادة',
+                                                    icon: 'pi pi-fw pi-clock',
+                                                    routerLink: ['/clinicWorkingHours']
                                                 }
                                             ]
                                           : [])

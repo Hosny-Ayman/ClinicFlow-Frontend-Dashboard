@@ -147,6 +147,10 @@ export class DoctorShow implements OnInit {
         this.router.navigate(['/doctor', id, 'edit']);
     }
 
+    editSchedule(id: number) {
+        this.router.navigate(['/doctorSchedule', id, 'edit']);
+    }
+
     detailsDoctor(id: number) {
         this.router.navigate(['/doctor', id, 'details']);
     }

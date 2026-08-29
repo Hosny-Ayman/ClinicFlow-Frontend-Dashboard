@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -23,6 +23,9 @@ import { CreateAndEditPatientRequest } from '../../models/requests/create-and-ed
     styleUrl: './patient-form.scss'
 })
 export class PatientForm implements OnInit {
+    @Input() isModal: boolean = false;
+    @Output() onPatientSaved = new EventEmitter<any>();
+
     private readonly fb = inject(FormBuilder);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly route = inject(ActivatedRoute);
@@ -36,7 +39,7 @@ export class PatientForm implements OnInit {
         firstName: this.fb.nonNullable.control('', UserValidators.firstName),
         lastName: this.fb.nonNullable.control('', UserValidators.lastName),
         email: this.fb.control<string | null>(null, [Validators.email]),
-        phoneNumber: this.fb.control<string | null>(null, [Validators.minLength(11), Validators.maxLength(20)]),
+        phoneNumber: this.fb.nonNullable.control<string>('', [Validators.minLength(11), Validators.maxLength(20), Validators.required]),
         dateOfBirth: this.fb.nonNullable.control<string>('', UserValidators.required),
         gender: this.fb.nonNullable.control<number>(1, UserValidators.required),
         nationalId: this.fb.control<string | null>(null, [Validators.maxLength(20)]),
@@ -60,7 +63,7 @@ export class PatientForm implements OnInit {
     ];
 
     ngOnInit(): void {
-        if (this.isEditMode) {
+        if (this.isEditMode && !this.isModal) {
             this.loadPatient();
         }
     }
@@ -90,14 +93,30 @@ export class PatientForm implements OnInit {
                     } else {
                         const btStr = String(data.bloodType).toLowerCase().trim();
                         const map: { [k: string]: number } = {
-                            'a+': 1, 'apositive': 1, 'a_positive': 1,
-                            'a-': 2, 'anegative': 2, 'a_negative': 2,
-                            'b+': 3, 'bpositive': 3, 'b_positive': 3,
-                            'b-': 4, 'bnegative': 4, 'b_negative': 4,
-                            'ab+': 5, 'abpositive': 5, 'ab_positive': 5,
-                            'ab-': 6, 'abnegative': 6, 'ab_negative': 6,
-                            'o+': 7, 'opositive': 7, 'o_positive': 7,
-                            'o-': 8, 'onegative': 8, 'o_negative': 8
+                            'a+': 1,
+                            apositive: 1,
+                            a_positive: 1,
+                            'a-': 2,
+                            anegative: 2,
+                            a_negative: 2,
+                            'b+': 3,
+                            bpositive: 3,
+                            b_positive: 3,
+                            'b-': 4,
+                            bnegative: 4,
+                            b_negative: 4,
+                            'ab+': 5,
+                            abpositive: 5,
+                            ab_positive: 5,
+                            'ab-': 6,
+                            abnegative: 6,
+                            ab_negative: 6,
+                            'o+': 7,
+                            opositive: 7,
+                            o_positive: 7,
+                            'o-': 8,
+                            onegative: 8,
+                            o_negative: 8
                         };
                         bloodTypeValue = map[btStr] ?? null;
                     }
@@ -107,7 +126,7 @@ export class PatientForm implements OnInit {
                     firstName: data.firstName,
                     lastName: data.lastName,
                     email: data.email || null,
-                    phoneNumber: data.phoneNumber || null,
+                    phoneNumber: data.phoneNumber!,
                     dateOfBirth: formattedDate,
                     gender: genderValue,
                     nationalId: data.nationalId || null,
@@ -139,7 +158,7 @@ export class PatientForm implements OnInit {
             firstName: formValue.firstName,
             lastName: formValue.lastName,
             email: formValue.email || null,
-            phoneNumber: formValue.phoneNumber || null,
+            phoneNumber: formValue.phoneNumber,
             dateOfBirth: formValue.dateOfBirth,
             gender: Number(formValue.gender),
             nationalId: formValue.nationalId || null,
@@ -150,7 +169,7 @@ export class PatientForm implements OnInit {
             notes: formValue.notes || null
         };
 
-        if (this.isEditMode) {
+        if (this.isEditMode && !this.isModal) {
             this.patientService.UpdatePatient(payload).subscribe({
                 next: () => {
                     this.notificationService.success('تم حفظ التعديلات بنجاح');
@@ -162,9 +181,18 @@ export class PatientForm implements OnInit {
             });
         } else {
             this.patientService.CreatePatient(payload).subscribe({
-                next: () => {
+                next: (res) => {
                     this.notificationService.success('تم إضافة المريض بنجاح');
-                    this.router.navigate(['/patient/show']);
+
+                    if (this.isModal) {
+                        const savedPatient = {
+                            ...payload,
+                            id: res.data
+                        };
+                        this.onPatientSaved.emit(savedPatient);
+                    } else {
+                        this.router.navigate(['/patient/show']);
+                    }
                 },
                 error: () => {
                     this.notificationService.error('حدث خطأ أثناء إضافة المريض');

@@ -1,8 +1,8 @@
 <form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="max-w-5xl mx-auto w-full mt-12 mb-12 px-4">
-    <div dir="rtl" class="bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 rounded-4xl p-8 md:p-12 text-right">
+    <div dir="rtl" [ngClass]="{'shadow-[0_8px_30px_rgb(0,0,0,0.06)]': !isModal}" class="bg-white border border-gray-100 rounded-4xl p-8 md:p-12 text-right">
         <div class="mb-10 text-right">
-            <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">{{ isEditMode ? 'تعديل بيانات المريض' : 'بيانات المريض الأساسية' }}</h2>
-            <p class="text-gray-500 font-medium text-base md:text-lg">{{ isEditMode ? 'قم بتحديث المعلومات الحالية للمريض' : 'أدخل بيانات المريض الأساسية لإنشاء سجل جديد' }}</p>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">{{ isEditMode && !isModal ? 'تعديل بيانات المريض' : 'بيانات المريض الأساسية' }}</h2>
+            <p class="text-gray-500 font-medium text-base md:text-lg">{{ isEditMode && !isModal ? 'قم بتحديث المعلومات الحالية للمريض' : 'أدخل بيانات المريض الأساسية لإنشاء سجل جديد' }}</p>
         </div>
 
         <div class="space-y-8">
@@ -86,19 +86,22 @@
 
         <div class="flex flex-col sm:flex-row justify-center items-center pt-10 mt-12 border-t border-gray-100 gap-6 w-full">
             <button
+                *ngIf="!isModal"
                 routerLink="/patient/show"
                 type="button"
                 class="cursor-pointer w-full sm:w-50 flex items-center justify-center gap-3 bg-white hover:bg-gray-50 border border-[#d9e1ec] rounded-2xl px-6 py-4 text-lg font-bold text-[#183153] transition-all duration-200"
             >
                 <i class="pi pi-arrow-right text-sm"></i> رجوع
             </button>
+
             <button
                 type="submit"
                 [disabled]="patientForm.invalid"
-                class="cursor-pointer w-full sm:w-62.5 flex items-center justify-center gap-3 bg-[#00a67e] hover:bg-[#008f6b] disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed border-none rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200"
+                [ngClass]="isModal ? 'w-full' : 'w-full sm:w-62.5'"
+                class="cursor-pointer flex items-center justify-center gap-3 bg-[#00a67e] hover:bg-[#008f6b] disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed border-none rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200"
             >
-                {{ isEditMode ? 'حفظ التعديلات' : 'حفظ وإضافة' }}
-                <i class="pi text-sm" [class.pi-pencil]="isEditMode" [class.pi-check]="!isEditMode"></i>
+                {{ isEditMode && !isModal ? 'حفظ التعديلات' : 'حفظ وإضافة' }}
+                <i class="pi text-sm" [class.pi-pencil]="isEditMode && !isModal" [class.pi-check]="!isEditMode || isModal"></i>
             </button>
         </div>
     </div>

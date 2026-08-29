@@ -59,6 +59,12 @@ export const appRoutes: Routes = [
                 loadChildren: () => import('./app/features/user/user.routes').then((c) => c.user)
             },
             {
+                path: 'appointment',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.AppointmentsView },
+                loadChildren: () => import('./app/features/appointment/appointment.routes').then((c) => c.appointment)
+            },
+            {
                 path: 'clinicWorkingHours',
                 canActivate: [permissionGuard],
                 data: { requiredPermission: Permission.ClinicsView },

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { CreateAndEditDoctorWithUserequest } from '../models/requests/create-and-edit-doctor-with-user-request';
 import { Observable } from 'rxjs';
@@ -34,5 +34,10 @@ export class DoctorService {
 
     GetAllDoctorsInformations(data: DoctorSearchRequest): Observable<ApiResponse<PagedResponse<GetAllDoctorsInformationsResponse>>> {
         return this.http.post<ApiResponse<PagedResponse<GetAllDoctorsInformationsResponse>>>(`${environment.apiUrl}/Doctors/GetAllDoctors`, data);
+    }
+
+    GetAllDoctorsBySpecialty(specialtyId: number): Observable<ApiResponse<GetAllDoctorsInformationsResponse[]>> {
+        let params = new HttpParams().set('specialtyId', specialtyId.toString());
+        return this.http.get<ApiResponse<GetAllDoctorsInformationsResponse[]>>(`${environment.apiUrl}/Doctors/GetAllDoctorsBySpecialty`, { params });
     }
 }

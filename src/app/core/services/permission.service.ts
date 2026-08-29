@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Permission } from '../enums/Permission';
 
 @Injectable({
     providedIn: 'root'
@@ -8,11 +7,13 @@ import { Permission } from '../enums/Permission';
 export class PermissionService {
     private authService = inject(AuthService);
 
-    hasPermission(permission: Permission): boolean {
+    hasPermission(permission: bigint): boolean {
         const user = this.authService.currentUser();
 
-        if (!user) return false;
+        if (!user || !user.permissions) return false;
 
-        return (user.permissions & permission) === permission;
+        const userPerms = BigInt(user.permissions);
+
+        return (userPerms & permission) === permission;
     }
 }

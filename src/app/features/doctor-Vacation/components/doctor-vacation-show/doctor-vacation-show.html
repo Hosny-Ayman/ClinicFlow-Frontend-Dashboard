@@ -180,11 +180,23 @@
 
                         <td class="py-4 px-4">
                             <div class="flex items-center justify-center gap-2">
-                                <button class="w-8 h-8 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors outline-none"><i class="pi pi-eye text-sm"></i></button>
-                                <button (click)="editVacation(vacation.userId,vacation.id)" class="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center hover:bg-amber-100 transition-colors outline-none">
+                                <button (click)="viewVacation(vacation)" title="عرض تفاصيل الإجازة" class="w-8 h-8 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors outline-none">
+                                    <i class="pi pi-eye text-sm"></i>
+                                </button>
+
+                                <button
+                                    (click)="editVacation(vacation.userId, vacation.id)"
+                                    title="تعديل الإجازة"
+                                    class="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center hover:bg-amber-100 transition-colors outline-none"
+                                >
                                     <i class="pi pi-pencil text-sm"></i>
                                 </button>
-                                <button class="w-8 h-8 rounded-full bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 transition-colors outline-none"><i class="pi pi-ban text-sm"></i></button>
+
+                                @if(vacation.status === 'InProgress' || vacation.status === 'NotStarted') {
+                                <button (click)="cancelVacation(vacation)" title="إلغاء هذه الإجازة نهائياً" class="w-8 h-8 rounded-full bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100 transition-colors outline-none">
+                                    <i class="pi pi-ban text-sm"></i>
+                                </button>
+                                }
                             </div>
                         </td>
                     </tr>

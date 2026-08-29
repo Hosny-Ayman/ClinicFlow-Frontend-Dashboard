@@ -179,4 +179,34 @@ export class DoctorVacationShow implements OnInit {
         if (s === 'cancelled' || s === '4') return 'ملغي';
         return status || 'غير معروف';
     }
+
+    viewVacation(vacation: any) {
+        this.router.navigate([`/doctorVacation/${vacation.userId}/details`], { state: { vacation } });
+    }
+
+    cancelVacation(vacation: any) {
+        if (confirm('هل أنت متأكد من إلغاء هذه الإجازة؟')) {
+            const payload = {
+                userId: vacation.userId,
+                startDate: vacation.startDate,
+                endDate: vacation.endDate,
+                reason: vacation.reason,
+                status: 4,
+                id: vacation.id
+            };
+
+            this.loading = true;
+            this.vacationService.UpdateDoctorVacation(payload).subscribe({
+                next: () => {
+                    this.notificationService.success('تم إلغاء الإجازة بنجاح');
+                    this.loadVacations();
+                    this.loadDashboardData();
+                },
+                error: () => {
+                    this.notificationService.error('حدث خطأ أثناء إلغاء الإجازة');
+                    this.loading = false;
+                }
+            });
+        }
+    }
 }
