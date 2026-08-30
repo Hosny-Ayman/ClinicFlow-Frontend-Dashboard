@@ -8,5 +8,12 @@ export const appointment: Routes = [
         canActivate: [permissionGuard],
         data: { requiredPermission: Permission.AppointmentsCreate },
         loadComponent: () => import('./components/add-appointment/add-appointment').then((m) => m.AddAppointment)
+    },
+
+    {
+        path: 'show',
+        canActivate: [permissionGuard],
+        data: { requiredPermission: Permission.AppointmentsViewAll },
+        loadComponent: () => import('./components/appointment-show/appointment-show').then((m) => m.AppointmentShowComponent)
     }
 ];

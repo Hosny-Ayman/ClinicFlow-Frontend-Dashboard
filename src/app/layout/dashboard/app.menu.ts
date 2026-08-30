@@ -38,40 +38,52 @@ export class AppMenu implements OnInit {
                 icon: 'pi pi-fw pi-briefcase',
                 path: '/pages',
                 items: [
-                    {
-                        label: 'المصادقة والصلاحيات',
-                        icon: 'pi pi-fw pi-shield',
-                        path: '/auth',
-                        items: [
-                            {
-                                label: 'خطأ في النظام',
-                                icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/auth/error']
-                            },
-                            {
-                                label: 'غير مصرح',
-                                icon: 'pi pi-fw pi-lock',
-                                routerLink: ['/auth/access']
-                            }
-                        ]
-                    },
+                    ...(this.permissionService.hasPermission(Permission.AppointmentsViewAll) || this.permissionService.hasPermission(Permission.AppointmentsCreate)
+                        ? [
+                              {
+                                  label: 'إدارة المواعيد',
+                                  icon: 'pi pi-fw pi-calendar',
+                                  path: '/a',
+                                  items: [
+                                      ...(this.permissionService.hasPermission(Permission.AppointmentsViewAll)
+                                          ? [
+                                                {
+                                                    label: 'قائمة المواعيد',
+                                                    icon: 'pi pi-fw pi-list',
+                                                    routerLink: ['/appointment/show']
+                                                }
+                                            ]
+                                          : []),
+                                      ...(this.permissionService.hasPermission(Permission.AppointmentsCreate)
+                                          ? [
+                                                {
+                                                    label: 'حجز موعد جديد',
+                                                    icon: 'pi pi-fw pi-calendar-plus',
+                                                    routerLink: ['/appointment/create']
+                                                }
+                                            ]
+                                          : [])
+                                  ]
+                              }
+                          ]
+                        : []),
+
                     ...(this.permissionService.hasPermission(Permission.DoctorsView)
                         ? [
                               {
                                   label: 'إدارة الأطباء',
-                                  icon: 'pi pi-fw pi-heart',
+                                  icon: 'pi pi-fw pi-user-edit',
                                   path: '/s',
                                   items: [
                                       ...(this.permissionService.hasPermission(Permission.DoctorsViewAll)
                                           ? [
                                                 {
                                                     label: 'قائمة الأطباء',
-                                                    icon: 'pi pi-fw pi-users',
+                                                    icon: 'pi pi-fw pi-list',
                                                     routerLink: ['/doctor/show']
                                                 }
                                             ]
                                           : []),
-
                                       ...(this.permissionService.hasPermission(Permission.DoctorsCreate)
                                           ? [
                                                 {
@@ -81,12 +93,11 @@ export class AppMenu implements OnInit {
                                                 }
                                             ]
                                           : []),
-
                                       ...(this.permissionService.hasPermission(Permission.DoctorSchedulesUpdate)
                                           ? [
                                                 {
                                                     label: 'إعداد جدول المواعيد',
-                                                    icon: 'pi pi-fw pi-calendar',
+                                                    icon: 'pi pi-fw pi-clock',
                                                     routerLink: [`/DoctorSchedule/${this.authService.currentUser()?.id}/edit`]
                                                 }
                                             ]
@@ -112,13 +123,42 @@ export class AppMenu implements OnInit {
                                                 }
                                             ]
                                           : []),
-
                                       ...(this.permissionService.hasPermission(Permission.DoctorVacationsCreate)
                                           ? [
                                                 {
                                                     label: 'إضافة إجازة جديدة',
                                                     icon: 'pi pi-fw pi-calendar-plus',
                                                     routerLink: ['/doctorVacation/create']
+                                                }
+                                            ]
+                                          : [])
+                                  ]
+                              }
+                          ]
+                        : []),
+
+                    ...(this.permissionService.hasPermission(Permission.PatientsView)
+                        ? [
+                              {
+                                  label: 'إدارة المرضى',
+                                  icon: 'pi pi-fw pi-users',
+                                  path: '/p',
+                                  items: [
+                                      ...(this.permissionService.hasPermission(Permission.PatientsViewAll)
+                                          ? [
+                                                {
+                                                    label: 'قائمة المرضى',
+                                                    icon: 'pi pi-fw pi-list',
+                                                    routerLink: ['/patient/show']
+                                                }
+                                            ]
+                                          : []),
+                                      ...(this.permissionService.hasPermission(Permission.PatientsCreate)
+                                          ? [
+                                                {
+                                                    label: 'إضافة مريض جديد',
+                                                    icon: 'pi pi-fw pi-user-plus',
+                                                    routerLink: ['/patient/create']
                                                 }
                                             ]
                                           : [])
@@ -138,49 +178,17 @@ export class AppMenu implements OnInit {
                                           ? [
                                                 {
                                                     label: 'قائمة موظفي الاستقبال',
-                                                    icon: 'pi pi-fw pi-users',
+                                                    icon: 'pi pi-fw pi-list',
                                                     routerLink: ['/receptionist/show']
                                                 }
                                             ]
                                           : []),
-
                                       ...(this.permissionService.hasPermission(Permission.ReceptionistsCreate)
                                           ? [
                                                 {
                                                     label: 'إضافة موظف جديد',
                                                     icon: 'pi pi-fw pi-user-plus',
                                                     routerLink: ['/receptionist/create']
-                                                }
-                                            ]
-                                          : [])
-                                  ]
-                              }
-                          ]
-                        : []),
-
-                    ...(this.permissionService.hasPermission(Permission.PatientsView)
-                        ? [
-                              {
-                                  label: 'إدارة المرضى',
-                                  icon: 'pi pi-fw pi-id-card',
-                                  path: '/p',
-                                  items: [
-                                      ...(this.permissionService.hasPermission(Permission.PatientsViewAll)
-                                          ? [
-                                                {
-                                                    label: 'قائمة المرضى',
-                                                    icon: 'pi pi-fw pi-users',
-                                                    routerLink: ['/patient/show']
-                                                }
-                                            ]
-                                          : []),
-
-                                      ...(this.permissionService.hasPermission(Permission.PatientsCreate)
-                                          ? [
-                                                {
-                                                    label: 'إضافة مريض جديد',
-                                                    icon: 'pi pi-fw pi-user-plus',
-                                                    routerLink: ['/patient/create']
                                                 }
                                             ]
                                           : [])
@@ -205,7 +213,6 @@ export class AppMenu implements OnInit {
                                                 }
                                             ]
                                           : []),
-
                                       ...(this.permissionService.hasPermission(Permission.ClinicsUpdate)
                                           ? [
                                                 {
@@ -221,9 +228,21 @@ export class AppMenu implements OnInit {
                         : []),
 
                     {
-                        label: 'الصفحة غير موجودة',
-                        icon: 'pi pi-fw pi-exclamation-circle',
-                        routerLink: ['/pages/notfound']
+                        label: 'المصادقة والصلاحيات',
+                        icon: 'pi pi-fw pi-shield',
+                        path: '/auth',
+                        items: [
+                            {
+                                label: 'خطأ في النظام',
+                                icon: 'pi pi-fw pi-times-circle',
+                                routerLink: ['/auth/error']
+                            },
+                            {
+                                label: 'غير مصرح',
+                                icon: 'pi pi-fw pi-lock',
+                                routerLink: ['/auth/access']
+                            }
+                        ]
                     }
                 ]
             }

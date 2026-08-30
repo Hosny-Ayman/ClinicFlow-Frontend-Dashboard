@@ -1,0 +1,228 @@
+<div dir="rtl" class="max-w-[1400px] mx-auto p-4 lg:p-8 font-sans text-right">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-3xl font-extrabold text-[#183153] mb-2 flex items-center gap-2">إدارة المواعيد</h1>
+            <div class="text-sm text-gray-500 font-bold">
+                <a routerLink="/" class="text-gray-500 hover:text-[#00a67e] no-underline transition-colors">الرئيسية</a>
+                <i class="pi pi-angle-left text-[10px] mx-2"></i>
+                المواعيد
+                <i class="pi pi-angle-left text-[10px] mx-2"></i>
+                <span class="text-[#00a67e]">إدارة المواعيد</span>
+            </div>
+        </div>
+        <button routerLink="/appointment/create" class="bg-[#00a67e] hover:bg-[#008f6b] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-sm transition-all outline-none">
+            <i class="pi pi-calendar-plus text-sm"></i> حجز موعد جديد
+        </button>
+    </div>
+
+    <div class="bg-white rounded-4xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-6 relative">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+            <div class="flex flex-col gap-2">
+                <div class="relative w-full">
+                    <i class="pi pi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="searchRequest.fullNameOrPhoneNumberSearch"
+                        placeholder="بحث عن مريض أو رقم موبايل"
+                        class="w-full rounded-2xl py-3 pr-4 pl-10 border border-gray-200 outline-none focus:border-[#00a67e] text-right font-medium"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-gray-500 px-1">الحالة</label>
+                <p-select [options]="statuses" [(ngModel)]="searchRequest.statusSearch" placeholder="الكل" styleClass="w-full h-[48px] rounded-2xl border-gray-200 bg-white font-medium"></p-select>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-gray-500 px-1">اختر الطبيب</label>
+                <p-select [options]="doctors" optionLabel="fullName" optionValue="id" [(ngModel)]="searchRequest.doctorIdSearch" placeholder="كل الأطباء" styleClass="w-full h-[48px] rounded-2xl border-gray-200 bg-white font-medium"></p-select>
+            </div>
+
+            <div class="flex flex-col gap-2 relative">
+                <label class="text-sm font-bold text-gray-500 px-1">التاريخ</label>
+                <p-datepicker [(ngModel)]="filterDate" dateFormat="dd/mm/yy" [showIcon]="true" [fluid]="true" styleClass="w-full h-[48px] rounded-2xl"></p-datepicker>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-3 mt-6 border-t border-gray-50 pt-5">
+            <button (click)="clearFilters()" class="bg-red-500 hover:bg-red-600 text-white px-8 py-2.5 rounded-xl font-bold transition-colors outline-none">مسح</button>
+            <button (click)="search()" class="bg-[#3b82f6] hover:bg-[#2563eb] text-white px-10 py-2.5 rounded-xl font-bold transition-colors outline-none">بحث</button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 relative">
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="text-center w-full">
+                <h3 class="text-3xl font-extrabold text-[#183153] mb-1">{{ dashboardData.totalAppointments }}</h3>
+                <p class="text-gray-500 font-bold text-sm m-0 mb-3">مواعيد اليوم</p>
+                <div class="font-extrabold text-[#183153] text-lg whitespace-nowrap">إجمالي المواعيد</div>
+            </div>
+            <div class="w-16 h-16 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center text-3xl absolute left-6 opacity-30">
+                <i class="pi pi-calendar"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="text-center w-full">
+                <h3 class="text-3xl font-extrabold text-[#183153] mb-1">{{ dashboardData.todayAppointments }}</h3>
+                <p class="text-gray-400 font-medium text-xs m-0 mb-3">من إجمالي المواعيد</p>
+                <div class="font-extrabold text-[#183153] text-lg whitespace-nowrap">حضر اليوم</div>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-green-50 text-green-500 border-[6px] border-white shadow-[0_0_0_2px_#eafaf1] flex items-center justify-center text-2xl absolute left-6">
+                <i class="pi pi-check"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="text-center w-full">
+                <h3 class="text-3xl font-extrabold text-[#183153] mb-1">{{ dashboardData.pendingAppointments }}</h3>
+                <p class="text-gray-400 font-medium text-xs m-0 mb-3">من إجمالي المواعيد</p>
+                <div class="font-extrabold text-[#183153] text-lg whitespace-nowrap">في الانتظار</div>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-orange-50 text-orange-500 border-[6px] border-white shadow-[0_0_0_2px_#fff3e0] flex items-center justify-center text-2xl absolute left-6">
+                <i class="pi pi-history"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center justify-between">
+            <div class="text-center w-full">
+                <h3 class="text-3xl font-extrabold text-[#183153] mb-1">{{ dashboardData.cancelledAppointments }}</h3>
+                <p class="text-gray-400 font-medium text-xs m-0 mb-3">من إجمالي المواعيد</p>
+                <div class="font-extrabold text-[#183153] text-lg whitespace-nowrap">مواعيد ملغاة</div>
+            </div>
+            <div class="w-14 h-14 rounded-full bg-red-50 text-red-500 border-[6px] border-white shadow-[0_0_0_2px_#ffebee] flex items-center justify-center text-2xl absolute left-6">
+                <i class="pi pi-times"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-4xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-50">
+            <h2 class="text-xl font-extrabold text-[#183153] flex items-center gap-3 m-0">
+                <i class="pi pi-calendar-times text-[#00a67e]"></i>
+                جدول المواعيد
+            </h2>
+        </div>
+
+        <p-table [value]="appointments" [loading]="loading" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '70rem' }" [rowHover]="true">
+            <ng-template pTemplate="header">
+                <tr class="bg-transparent border-b border-gray-100">
+                    <th class="text-right text-gray-500 font-bold py-4 px-4 text-sm whitespace-nowrap">الوقت</th>
+                    <th class="text-right text-gray-500 font-bold py-4 px-4 text-sm whitespace-nowrap">رقم الانتظار</th>
+                    <th class="text-right text-gray-500 font-bold py-4 px-4 text-sm whitespace-nowrap">المريض</th>
+                    <th class="text-right text-gray-500 font-bold py-4 px-4 text-sm whitespace-nowrap">المركز (الطبيب)</th>
+                    <th class="text-center text-gray-500 font-bold py-4 px-4 text-sm whitespace-nowrap">الحالة</th>
+                    <th class="text-center text-gray-500 font-bold py-4 px-4 text-sm whitespace-nowrap">سعر الكشف (ج.م)</th>
+                    <th class="text-center text-gray-500 font-bold py-4 px-4 text-sm whitespace-nowrap">حالة الدفع</th>
+                    <th class="text-center text-gray-500 font-bold py-4 px-4 text-sm whitespace-nowrap">الإجراءات</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-apt let-i="rowIndex">
+                <tr class="border-b border-gray-50">
+                    <td class="py-4 px-4 text-sm font-extrabold text-[#183153]" dir="ltr">{{ formatTime(apt.time) }}</td>
+
+                    <td class="py-4 px-4 text-sm font-extrabold text-[#183153]">#{{ (searchRequest.pageNumber - 1) * searchRequest.pageSize + i + 1 }}</td>
+
+                    <td class="py-4 px-4">
+                        <div class="flex items-center gap-3">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-extrabold text-[#183153]">{{ apt.patientFullName }}</span>
+                                <span class="text-xs font-bold text-gray-400" dir="ltr">{{ apt.patientPhoneNumber }}</span>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="py-4 px-4">
+                        <div class="flex flex-col">
+                            <span class="text-sm font-extrabold text-[#183153]">د. {{ apt.doctorFullName }}</span>
+                            <span class="text-xs font-bold text-[#3b82f6]">{{ apt.doctorSpecialtie }}</span>
+                        </div>
+                    </td>
+
+                    <td class="py-4 px-4 text-center">
+                        <span
+                            class="px-4 py-2 rounded-full text-xs font-bold flex items-center justify-center gap-1.5 w-max mx-auto"
+                            [ngClass]="{
+                            'bg-gray-100 text-gray-500': apt.status === 'Scheduled',
+                            'bg-orange-50 text-orange-500': apt.status === 'CheckedIn',
+                            'bg-blue-50 text-blue-500': apt.status === 'InProgress',
+                            'bg-green-50 text-green-500': apt.status === 'Completed',
+                            'bg-red-50 text-red-500': apt.status === 'Cancelled',
+                            'bg-gray-200 text-gray-700': apt.status === 'NoShow'
+                        }"
+                        >
+                            <i
+                                class="text-[10px]"
+                                [ngClass]="{
+                                'pi pi-calendar': apt.status === 'Scheduled',
+                                'pi pi-history': apt.status === 'CheckedIn',
+                                'pi pi-spin pi-spinner': apt.status === 'InProgress',
+                                'pi pi-check': apt.status === 'Completed',
+                                'pi pi-times': apt.status === 'Cancelled',
+                                'pi pi-times-circle': apt.status === 'NoShow'
+                            }"
+                            ></i>
+                            {{ apt.status === 'Scheduled' ? 'مجدول' : apt.status === 'CheckedIn' ? 'في الانتظار' : apt.status === 'InProgress' ? 'في الكشف' : apt.status === 'Completed' ? 'تم الحضور' : apt.status === 'Cancelled' ? 'ملغي' : apt.status
+                            === 'NoShow' ? 'لم يحضر' : apt.status }}
+                        </span>
+                    </td>
+
+                    <td class="py-4 px-4">
+                        <div class="flex flex-col">
+                            <span class="text-sm font-extrabold text-[#183153]">{{ apt.consultationFee }}</span>
+                        </div>
+                    </td>
+
+                    <td class="py-4 px-4 text-center">
+                        <span
+                            *ngIf="apt.paymentstatus"
+                            class="px-3 py-1.5 rounded-md text-xs font-bold flex items-center justify-center gap-1 w-max mx-auto"
+                            [ngClass]="{
+                            'border border-green-500 text-green-600 bg-green-50/50': apt.paymentstatus === 'Paid',
+                            'border border-red-500 text-red-600 bg-red-50/50': apt.paymentstatus === 'Unpaid'
+                        }"
+                        >
+                            <i *ngIf="apt.paymentstatus === 'Paid'" class="pi pi-check text-[10px]"></i>
+                            <i *ngIf="apt.paymentstatus === 'Unpaid'" class="pi pi-times text-[10px]"></i>
+                            {{ apt.paymentstatus === 'Paid' ? 'مدفوع' : 'غير مدفوع' }}
+                        </span>
+                        <span *ngIf="!apt.paymentstatus" class="text-gray-300 font-bold">—</span>
+                    </td>
+
+                    <td class="py-4 px-4 text-center">
+                        <button (click)="setupActionMenu(apt); actionMenu.toggle($event)" class="w-8 h-8 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors outline-none">
+                            <i class="pi pi-ellipsis-v text-sm"></i>
+                        </button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7" class="text-center py-16">
+                        <div class="flex flex-col items-center justify-center text-gray-400 relative">
+                            <i class="pi pi-calendar-times text-5xl mb-4 text-gray-300 opacity-60"></i>
+                            <span class="font-extrabold text-lg">لا توجد مواعيد متاحة في هذا اليوم</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p-menu #actionMenu [model]="actionMenuItems" [popup]="true" appendTo="body" styleClass="font-bold text-sm w-44"></p-menu>
+
+        <div class="mt-6 flex justify-between items-center" dir="ltr" *ngIf="totalRecords > 0">
+            <p-paginator
+                (onPageChange)="onPageChange($event)"
+                [first]="(searchRequest.pageNumber - 1) * searchRequest.pageSize"
+                [rows]="searchRequest.pageSize"
+                [totalRecords]="totalRecords"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                styleClass="text-right"
+            ></p-paginator>
+        </div>
+    </div>
+</div>
