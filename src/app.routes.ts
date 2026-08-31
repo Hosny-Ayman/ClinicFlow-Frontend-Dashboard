@@ -65,6 +65,12 @@ export const appRoutes: Routes = [
                 loadChildren: () => import('./app/features/appointment/appointment.routes').then((c) => c.appointment)
             },
             {
+                path: 'doctor-dashboard',
+                canActivate: [permissionGuard],
+                data: { requiredPermission: Permission.AppointmentsView },
+                loadChildren: () => import('./app/features/doctor-dashboard/doctor-dashboard.routes').then((c) => c.doctorDashboard)
+            },
+            {
                 path: 'clinicWorkingHours',
                 canActivate: [permissionGuard],
                 data: { requiredPermission: Permission.ClinicsView },

@@ -38,6 +38,16 @@ export class AppMenu implements OnInit {
                 icon: 'pi pi-fw pi-briefcase',
                 path: '/pages',
                 items: [
+                    ...(this.permissionService.hasPermission(Permission.AppointmentsView)
+                        ? [
+                              {
+                                  label: 'لوحة الطبيب',
+                                  icon: 'pi pi-fw pi-desktop',
+                                  routerLink: ['/doctor-dashboard']
+                              }
+                          ]
+                        : []),
+
                     ...(this.permissionService.hasPermission(Permission.AppointmentsViewAll) || this.permissionService.hasPermission(Permission.AppointmentsCreate)
                         ? [
                               {
