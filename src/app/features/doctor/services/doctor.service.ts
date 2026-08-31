@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '@/app/core/models/api-response';
 import { environment } from '@/environments/environment';
 import { GetDoctorFullInformationRequest } from '../models/responses/get-doctor-full-information-response';
+import { GetDoctorInforamtionRequst } from '../models/responses/get-doctor-information-response';
 import { CreateAndEditDoctorRequest } from '../models/requests/create-and-edit-doctor-request';
 import { PagedResponse } from '../../../shared/models/responses/paged-response';
 import { GetAllDoctorsInformationsResponse } from '../models/requests/get-all-doctors-informations-response';
@@ -26,6 +27,10 @@ export class DoctorService {
 
     GetDoctor(doctorId: number): Observable<ApiResponse<GetDoctorFullInformationRequest>> {
         return this.http.get<ApiResponse<GetDoctorFullInformationRequest>>(`${environment.apiUrl}/Doctors/${doctorId}`);
+    }
+
+    GetDoctorByUserId(userId: number): Observable<ApiResponse<GetDoctorInforamtionRequst>> {
+        return this.http.get<ApiResponse<GetDoctorInforamtionRequst>>(`${environment.apiUrl}/Doctors/GetDoctor/${userId}`);
     }
 
     UpdateDoctor(data: FormData): Observable<ApiResponse<CreateAndEditDoctorWithUserequest>> {

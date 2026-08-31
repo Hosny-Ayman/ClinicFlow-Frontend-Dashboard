@@ -1,0 +1,159 @@
+<p-dialog
+    [(visible)]="visible"
+    (onHide)="close()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '56rem', maxWidth: '96vw' }"
+    styleClass="custom-prescription-dialog"
+    [header]="isEditMode ? 'تعديل الوصفة الطبية (الروشتة)' : 'إرسال وصفة طبية جديدة (روشتة)'"
+>
+    <div dir="rtl" class="font-sans text-right pt-2">
+        <!-- Patient & Appointment Subheader -->
+        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center font-bold text-sm">
+                    <i class="pi pi-receipt"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-gray-400 block">المريض</span>
+                    <span class="text-sm font-extrabold text-[#183153]">{{ patientName || '—' }}</span>
+                </div>
+            </div>
+
+            <div class="text-left">
+                <span class="text-xs font-bold text-gray-400 block">رقم الموعد</span>
+                <span class="text-sm font-extrabold text-[#00a67e]">#{{ appointmentId }}</span>
+            </div>
+        </div>
+
+        @if (loading) {
+        <div class="flex justify-center items-center py-16">
+            <i class="pi pi-spin pi-spinner text-4xl text-[#00a67e]"></i>
+        </div>
+        } @else {
+        <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+            <!-- Prescription Notes (Optional) -->
+            <div>
+                <label class="block text-sm font-extrabold text-[#183153] mb-2"> ملاحظات الوصفة الطبية </label>
+                <textarea
+                    formControlName="notes"
+                    rows="2"
+                    placeholder="أي ملاحظات عامة للروشتة أو الصيدلي..."
+                    class="w-full p-3.5 rounded-2xl border border-gray-200 focus:border-[#00a67e] focus:ring-1 focus:ring-[#00a67e] outline-none text-sm font-bold text-gray-800 transition-all resize-y"
+                ></textarea>
+            </div>
+
+            <!-- Medication Items Section -->
+            <div>
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-100">
+                    <h3 class="text-base font-extrabold text-[#183153] flex items-center gap-2 m-0">
+                        <i class="pi pi-box text-[#00a67e]"></i>
+                        قائمة الأدوية الموصوفة
+                    </h3>
+
+                    <button type="button" (click)="addItem()" class="bg-[#f0fdf4] hover:bg-[#dcfce7] text-[#16a34a] border border-[#bbf7d0] px-3.5 py-1.5 rounded-xl font-extrabold text-xs transition-all cursor-pointer flex items-center gap-1.5">
+                        <i class="pi pi-plus text-xs"></i>
+                        إضافة دواء
+                    </button>
+                </div>
+
+                <!-- Dynamic FormArray Items -->
+                <div formArrayName="prescriptionItems" class="flex flex-col gap-4 max-h-[380px] overflow-y-auto pr-1">
+                    @for (item of items.controls; track $index; let i = $index) {
+                    <div [formGroupName]="i" class="bg-gray-50/70 p-4 rounded-3xl border border-gray-100 relative hover:border-gray-200 transition-all">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-black text-gray-500 bg-white px-2.5 py-1 rounded-lg border border-gray-200"> دواء #{{ i + 1 }} </span>
+
+                            @if (items.length > 1) {
+                            <button type="button" (click)="removeItem(i)" class="w-7 h-7 rounded-lg text-red-500 hover:bg-red-50 flex items-center justify-center transition-all border-none bg-transparent cursor-pointer" title="حذف هذا الدواء">
+                                <i class="pi pi-trash text-xs"></i>
+                            </button>
+                            }
+                        </div>
+
+                        <!-- Fields Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+                            <!-- Medication Name -->
+                            <div class="sm:col-span-2 lg:col-span-1">
+                                <label class="block text-xs font-bold text-gray-500 mb-1">اسم الدواء <span class="text-red-500">*</span></label>
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="medicationName"
+                                    placeholder="مثال: Panadol Extra"
+                                    class="w-full h-10 rounded-xl border-gray-200 text-xs font-bold"
+                                    [class.border-red-400]="item.get('medicationName')?.invalid && item.get('medicationName')?.touched"
+                                />
+                            </div>
+
+                            <!-- Dosage -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 mb-1">الجرعة <span class="text-red-500">*</span></label>
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="dosage"
+                                    placeholder="مثال: 500mg أو قرص واحد"
+                                    class="w-full h-10 rounded-xl border-gray-200 text-xs font-bold"
+                                    [class.border-red-400]="item.get('dosage')?.invalid && item.get('dosage')?.touched"
+                                />
+                            </div>
+
+                            <!-- Frequency -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 mb-1">التكرار <span class="text-red-500">*</span></label>
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="frequency"
+                                    placeholder="مثال: كل 8 ساعات / 3 مرات"
+                                    class="w-full h-10 rounded-xl border-gray-200 text-xs font-bold"
+                                    [class.border-red-400]="item.get('frequency')?.invalid && item.get('frequency')?.touched"
+                                />
+                            </div>
+
+                            <!-- Duration -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 mb-1">المدة <span class="text-red-500">*</span></label>
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="duration"
+                                    placeholder="مثال: 5 أيام / أسبوع"
+                                    class="w-full h-10 rounded-xl border-gray-200 text-xs font-bold"
+                                    [class.border-red-400]="item.get('duration')?.invalid && item.get('duration')?.touched"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Instructions (Optional) -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1">تعليمات الاستخدام</label>
+                            <input pInputText type="text" formControlName="instructions" placeholder="مثال: بعد الأكل مع شرب كمية وفيرة من الماء" class="w-full h-10 rounded-xl border-gray-200 text-xs font-bold" />
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-2">
+                <button type="button" (click)="close()" class="px-5 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-100 transition-all cursor-pointer bg-white">إلغاء</button>
+
+                <button
+                    type="submit"
+                    [disabled]="saving || prescriptionForm.invalid || items.length === 0"
+                    class="px-6 py-2.5 rounded-xl bg-[#00a67e] hover:bg-[#008f6b] disabled:bg-gray-200 disabled:text-gray-400 text-white font-extrabold text-sm transition-all cursor-pointer border-none flex items-center gap-2 shadow-sm"
+                >
+                    @if (saving) {
+                    <i class="pi pi-spin pi-spinner text-xs"></i>
+                    } @else {
+                    <i class="pi pi-send text-xs"></i>
+                    } {{ isEditMode ? 'تحديث الوصفة الطبية' : 'إرسال وحفظ الوصفة' }}
+                </button>
+            </div>
+        </form>
+        }
+    </div>
+</p-dialog>

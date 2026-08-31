@@ -12,6 +12,7 @@ import { AppointmentSearchDtoRequest } from '../models/requests/appointment-sear
 import { PagedResponse } from '@/app/shared/models/responses/paged-response';
 import { GetAllAppointmentDtoResponse } from '../models/responses/get-all-appointment-response';
 import { GetAppointmentDashboardDtoResponse } from '../models/responses/get-appointment-dashboard-response';
+import { GetAdminDashboardStatisticsDtoResponse } from '../models/responses/get-admin-dashboard-statistics-response';
 
 @Injectable({
     providedIn: 'root'
@@ -42,6 +43,15 @@ export class AppointmentService {
     GetAppointmentDashboard(date: string): Observable<ApiResponse<GetAppointmentDashboardDtoResponse>> {
         let params = new HttpParams().set('date', date);
         return this.http.get<ApiResponse<GetAppointmentDashboardDtoResponse>>(`${environment.apiUrl}/Appointments/GetAppointmentDashboard`, { params });
+    }
+
+    GetDoctorAppointmentDashboard(doctorId: number, date: string): Observable<ApiResponse<GetAppointmentDashboardDtoResponse>> {
+        let params = new HttpParams().set('doctorId', doctorId.toString()).set('date', date);
+        return this.http.get<ApiResponse<GetAppointmentDashboardDtoResponse>>(`${environment.apiUrl}/Appointments/GetDoctorAppointmentDashboard`, { params });
+    }
+
+    GetAdminDashboardStatistics(): Observable<ApiResponse<GetAdminDashboardStatisticsDtoResponse>> {
+        return this.http.get<ApiResponse<GetAdminDashboardStatisticsDtoResponse>>(`${environment.apiUrl}/Appointments/GetAdminDashboardStatistics`);
     }
 
     UpdateAppointmentStatus(appointmentId: number, status: number): Observable<ApiResponse<boolean>> {
