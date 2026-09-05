@@ -9,7 +9,6 @@
     [header]="isEditMode ? 'تعديل الوصفة الطبية (الروشتة)' : 'إرسال وصفة طبية جديدة (روشتة)'"
 >
     <div dir="rtl" class="font-sans text-right pt-2">
-        <!-- Patient & Appointment Subheader -->
         <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-6 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center font-bold text-sm">
@@ -33,7 +32,6 @@
         </div>
         } @else {
         <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
-            <!-- Prescription Notes (Optional) -->
             <div>
                 <label class="block text-sm font-extrabold text-[#183153] mb-2"> ملاحظات الوصفة الطبية </label>
                 <textarea
@@ -44,7 +42,6 @@
                 ></textarea>
             </div>
 
-            <!-- Medication Items Section -->
             <div>
                 <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-100">
                     <h3 class="text-base font-extrabold text-[#183153] flex items-center gap-2 m-0">
@@ -58,7 +55,6 @@
                     </button>
                 </div>
 
-                <!-- Dynamic FormArray Items -->
                 <div formArrayName="prescriptionItems" class="flex flex-col gap-4 max-h-[380px] overflow-y-auto pr-1">
                     @for (item of items.controls; track $index; let i = $index) {
                     <div [formGroupName]="i" class="bg-gray-50/70 p-4 rounded-3xl border border-gray-100 relative hover:border-gray-200 transition-all">
@@ -72,9 +68,7 @@
                             }
                         </div>
 
-                        <!-- Fields Grid -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
-                            <!-- Medication Name -->
                             <div class="sm:col-span-2 lg:col-span-1">
                                 <label class="block text-xs font-bold text-gray-500 mb-1">اسم الدواء <span class="text-red-500">*</span></label>
                                 <input
@@ -87,7 +81,6 @@
                                 />
                             </div>
 
-                            <!-- Dosage -->
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 mb-1">الجرعة <span class="text-red-500">*</span></label>
                                 <input
@@ -100,7 +93,6 @@
                                 />
                             </div>
 
-                            <!-- Frequency -->
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 mb-1">التكرار <span class="text-red-500">*</span></label>
                                 <input
@@ -113,7 +105,6 @@
                                 />
                             </div>
 
-                            <!-- Duration -->
                             <div>
                                 <label class="block text-xs font-bold text-gray-500 mb-1">المدة <span class="text-red-500">*</span></label>
                                 <input
@@ -127,7 +118,6 @@
                             </div>
                         </div>
 
-                        <!-- Instructions (Optional) -->
                         <div>
                             <label class="block text-xs font-bold text-gray-500 mb-1">تعليمات الاستخدام</label>
                             <input pInputText type="text" formControlName="instructions" placeholder="مثال: بعد الأكل مع شرب كمية وفيرة من الماء" class="w-full h-10 rounded-xl border-gray-200 text-xs font-bold" />
@@ -137,7 +127,6 @@
                 </div>
             </div>
 
-            <!-- Footer Buttons -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-2">
                 <button type="button" (click)="close()" class="px-5 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-100 transition-all cursor-pointer bg-white">إلغاء</button>
 

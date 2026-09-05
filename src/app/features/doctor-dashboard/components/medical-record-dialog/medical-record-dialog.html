@@ -9,7 +9,6 @@
     [header]="isEditMode ? 'تعديل الملاحظة الطبية / التشخيص' : 'إضافة ملاحظة طبية / تشخيص جديد'"
 >
     <div dir="rtl" class="font-sans text-right pt-2">
-        <!-- Patient & Appointment Subheader -->
         <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-6 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">
@@ -33,7 +32,6 @@
         </div>
         } @else {
         <form [formGroup]="recordForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
-            <!-- Diagnosis (Required) -->
             <div>
                 <label class="block text-sm font-extrabold text-[#183153] mb-2"> التشخيص الطبي <span class="text-red-500">*</span> </label>
                 <textarea
@@ -48,7 +46,6 @@
                 }
             </div>
 
-            <!-- Symptoms (Optional) -->
             <div>
                 <label class="block text-sm font-extrabold text-[#183153] mb-2"> الأعراض والشكوى </label>
                 <textarea
@@ -59,7 +56,6 @@
                 ></textarea>
             </div>
 
-            <!-- Treatment Plan (Required) -->
             <div>
                 <label class="block text-sm font-extrabold text-[#183153] mb-2"> خطة العلاج والتعليمات <span class="text-red-500">*</span> </label>
                 <textarea
@@ -74,7 +70,6 @@
                 }
             </div>
 
-            <!-- Notes (Optional) -->
             <div>
                 <label class="block text-sm font-extrabold text-[#183153] mb-2"> ملاحظات إضافية </label>
                 <textarea
@@ -85,7 +80,6 @@
                 ></textarea>
             </div>
 
-            <!-- Footer Buttons -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-2">
                 <button type="button" (click)="close()" class="px-5 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-100 transition-all cursor-pointer bg-white">إلغاء</button>
 

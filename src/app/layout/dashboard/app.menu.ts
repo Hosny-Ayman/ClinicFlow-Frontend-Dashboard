@@ -108,7 +108,7 @@ export class AppMenu implements OnInit {
                                                 {
                                                     label: 'إعداد جدول المواعيد',
                                                     icon: 'pi pi-fw pi-clock',
-                                                    routerLink: [`/DoctorSchedule/${this.authService.currentUser()?.id}/edit`]
+                                                    routerLink: [`/doctorSchedule/${this.authService.currentUser()?.id}/edit`]
                                                 }
                                             ]
                                           : [])
@@ -235,25 +235,7 @@ export class AppMenu implements OnInit {
                                   ]
                               }
                           ]
-                        : []),
-
-                    {
-                        label: 'المصادقة والصلاحيات',
-                        icon: 'pi pi-fw pi-shield',
-                        path: '/auth',
-                        items: [
-                            {
-                                label: 'خطأ في النظام',
-                                icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/auth/error']
-                            },
-                            {
-                                label: 'غير مصرح',
-                                icon: 'pi pi-fw pi-lock',
-                                routerLink: ['/auth/access']
-                            }
-                        ]
-                    }
+                        : [])
                 ]
             }
         ];

@@ -46,7 +46,6 @@ export class DoctorDashboardComponent implements OnInit {
     private readonly datePipe = inject(DatePipe);
     private readonly cdr = inject(ChangeDetectorRef);
 
-    // State
     today: Date = new Date();
     minDate: Date = new Date();
     selectedDate: Date = new Date();
@@ -63,7 +62,6 @@ export class DoctorDashboardComponent implements OnInit {
         cancelledAppointments: 0
     };
 
-    // Table & Status Filters
     loadingAppointments: boolean = false;
     appointments: GetAllAppointmentDtoResponse[] = [];
     totalRecords: number = 0;
@@ -72,12 +70,12 @@ export class DoctorDashboardComponent implements OnInit {
     selectedStatusTab: number | null = null;
     statusTabs = [
         { label: 'الكل', value: null },
-        { label: 'مجدول', value: 1 }, // Scheduled
-        { label: 'في الانتظار', value: 2 }, // CheckedIn
-        { label: 'في الكشف', value: 3 }, // InProgress
-        { label: 'مكتمل', value: 4 }, // Completed
-        { label: 'ملغي', value: 5 }, // Cancelled
-        { label: 'لم يحضر', value: 6 } // NoShow
+        { label: 'مجدول', value: 1 },
+        { label: 'في الانتظار', value: 2 },
+        { label: 'في الكشف', value: 3 },
+        { label: 'مكتمل', value: 4 },
+        { label: 'ملغي', value: 5 },
+        { label: 'لم يحضر', value: 6 }
     ];
 
     searchRequest: AppointmentSearchDtoRequest = {
@@ -91,17 +89,14 @@ export class DoctorDashboardComponent implements OnInit {
         sortOrder: 1
     };
 
-    // Waiting Queue State
     loadingQueue: boolean = false;
     waitingQueue: GetAllAppointmentDtoResponse[] = [];
     callingNext: boolean = false;
 
-    // Current Patient State
     loadingPatient: boolean = false;
     patientData: GetPatientResponse | null = null;
     actionInProgress: boolean = false;
 
-    // Dialogs
     showMedicalRecordModal: boolean = false;
     showPrescriptionModal: boolean = false;
 
@@ -373,9 +368,9 @@ export class DoctorDashboardComponent implements OnInit {
             pageSize: 50,
             doctorIdSearch: this.selectedDoctorId,
             dateSearch: dateStr,
-            statusSearch: 2, // CheckedIn
+            statusSearch: 2,
             sortField: 'time',
-            sortOrder: 1 // Ascending queue order
+            sortOrder: 1
         };
 
         this.appointmentService.GetAllAppointment(queueRequest).subscribe({
@@ -403,7 +398,6 @@ export class DoctorDashboardComponent implements OnInit {
         this.callingNext = true;
         this.cdr.detectChanges();
 
-        // Valid transition: CheckedIn (2) -> InProgress (3)
         this.appointmentService.UpdateAppointmentStatus(nextPatient.appointmentId, 3).subscribe({
             next: () => {
                 this.callingNext = false;
@@ -428,7 +422,6 @@ export class DoctorDashboardComponent implements OnInit {
         this.actionInProgress = true;
         this.cdr.detectChanges();
 
-        // Transition: CheckedIn (2) -> InProgress (3)
         this.appointmentService.UpdateAppointmentStatus(this.selectedAppointment.appointmentId, 3).subscribe({
             next: () => {
                 this.actionInProgress = false;
@@ -453,7 +446,6 @@ export class DoctorDashboardComponent implements OnInit {
         this.actionInProgress = true;
         this.cdr.detectChanges();
 
-        // Transition: InProgress (3) -> Completed (4)
         this.appointmentService.UpdateAppointmentStatus(this.selectedAppointment.appointmentId, 4).subscribe({
             next: () => {
                 this.actionInProgress = false;
@@ -477,18 +469,14 @@ export class DoctorDashboardComponent implements OnInit {
         this.showMedicalRecordModal = true;
     }
 
-    handleMedicalRecordSaved(recordId: number): void {
-        // Medical Record saved successfully
-    }
+    handleMedicalRecordSaved(recordId: number): void {}
 
     openPrescriptionModal(): void {
         if (!this.selectedAppointment) return;
         this.showPrescriptionModal = true;
     }
 
-    handlePrescriptionSaved(prescriptionId: number): void {
-        // Prescription saved successfully
-    }
+    handlePrescriptionSaved(prescriptionId: number): void {}
 
     calculateAge(dob: string | undefined | null): number | null {
         if (!dob) return null;

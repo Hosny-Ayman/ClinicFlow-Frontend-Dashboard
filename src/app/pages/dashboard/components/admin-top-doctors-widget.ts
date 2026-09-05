@@ -11,20 +11,17 @@ import { TopDoctorDto } from '@/app/features/appointment/models/responses/get-ad
         <ul class="list-none p-0 m-0 flex flex-col gap-6 mt-4">
             @for (doctor of doctors(); track doctor.doctorName) {
                 <li class="flex items-center justify-between">
-                    <!-- اسم وصورة الطبيب (يمين) -->
                     <div class="flex items-center gap-3 w-4/12 justify-end">
                         <span class="font-semibold text-sm whitespace-nowrap text-surface-900 dark:text-surface-0 text-right">د. {{ doctor.doctorName.split(' ').slice(0, 2).join(' ') }}</span>
                         <img [src]="doctor.imageUrl || 'assets/default-avatar.png'" [alt]="doctor.doctorName" class="w-10 h-10 rounded-full shadow-sm object-cover" />
                     </div>
 
-                    <!-- Progress Bar (وسط) -->
                     <div class="w-6/12 px-4 flex justify-center" dir="rtl">
                         <div class="bg-surface-200 dark:bg-surface-700 rounded-full h-2 w-full overflow-hidden">
                             <div class="bg-[#00a67e] h-full rounded-full" [style.width.%]="getPercentage(doctor.appointmentCount)"></div>
                         </div>
                     </div>
 
-                    <!-- الرقم (يسار) -->
                     <div class="w-2/12 text-left font-bold text-lg text-surface-900 dark:text-surface-0">
                         {{ doctor.appointmentCount }}
                     </div>

@@ -32,21 +32,16 @@ import { NotificationService } from '@/app/core/services/notification.service';
                     </div>
                 </div>
 
-                <!-- التعديل هنا: تمرير الـ data ككائن كامل -->
                 <app-admin-stats-widget class="contents" [data]="dashboardData()!"> </app-admin-stats-widget>
 
-                <!-- In RTL grid, DOM order corresponds to Right-to-Left placement visually -->
-                <!-- 1. RIGHT: Time Period Chart -->
                 <div class="col-span-12 xl:col-span-5">
                     <app-admin-time-chart-widget [timeData]="dashboardData()!.appointmentsByTimePeriod"> </app-admin-time-chart-widget>
                 </div>
 
-                <!-- 2. CENTER: Status Chart -->
                 <div class="col-span-12 xl:col-span-4">
                     <app-admin-status-chart-widget [statusData]="dashboardData()!.appointmentsByStatus" [totalAppointments]="dashboardData()!.totalAppointments"> </app-admin-status-chart-widget>
                 </div>
 
-                <!-- 3. LEFT: Top Doctors -->
                 <div class="col-span-12 xl:col-span-3">
                     <app-admin-top-doctors-widget [doctors]="dashboardData()!.topDoctors"> </app-admin-top-doctors-widget>
                 </div>

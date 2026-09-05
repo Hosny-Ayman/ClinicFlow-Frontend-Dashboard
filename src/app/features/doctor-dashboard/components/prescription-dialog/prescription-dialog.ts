@@ -89,7 +89,6 @@ export class PrescriptionDialogComponent implements OnChanges {
         this.items.clear();
         this.cdr.detectChanges();
 
-        // 1. Check if MedicalRecord exists first
         this.medicalRecordService.GetMedicalRecordByAppointmentId(this.appointmentId).subscribe({
             next: (recordRes) => {
                 if (recordRes.data && recordRes.data.id) {
@@ -120,7 +119,6 @@ export class PrescriptionDialogComponent implements OnChanges {
         this.prescriptionService.GetPrescriptionByMedicalRecordId(medicalRecordId).subscribe({
             next: (presRes) => {
                 if (presRes.data) {
-                    // EDIT MODE
                     this.isEditMode = true;
                     this.prescriptionId = presRes.data.id;
                     this.prescriptionForm.patchValue({
@@ -150,7 +148,6 @@ export class PrescriptionDialogComponent implements OnChanges {
             },
             error: (err) => {
                 this.loading = false;
-                // 404 -> CREATE MODE
                 if (err?.status === 404) {
                     this.isEditMode = false;
                     this.prescriptionId = null;

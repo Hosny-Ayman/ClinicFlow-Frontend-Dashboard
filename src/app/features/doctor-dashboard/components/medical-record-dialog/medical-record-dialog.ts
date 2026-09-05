@@ -74,7 +74,6 @@ export class MedicalRecordDialogComponent implements OnChanges {
             },
             error: (err) => {
                 this.loading = false;
-                // If NotFound (404), enter Create mode with fresh form
                 if (err?.status === 404) {
                     this.isEditMode = false;
                     this.medicalRecordId = null;

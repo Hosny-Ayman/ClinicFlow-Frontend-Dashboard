@@ -7,7 +7,6 @@ import { GetAdminDashboardStatisticsDtoResponse } from '@/app/features/appointme
     selector: 'app-admin-stats-widget',
     imports: [CommonModule],
     template: `
-        <!-- إجمالي المواعيد -->
         <div class="col-span-12 md:col-span-6 xl:col-span-3">
             <div class="bg-white dark:bg-surface-900 rounded-2xl p-6 shadow-sm border border-surface-100 dark:border-surface-800 flex flex-col h-full relative">
                 <div class="flex justify-between items-start mb-6">
@@ -29,7 +28,6 @@ import { GetAdminDashboardStatisticsDtoResponse } from '@/app/features/appointme
             </div>
         </div>
 
-        <!-- حضر اليوم -->
         <div class="col-span-12 md:col-span-6 xl:col-span-3">
             <div class="bg-white dark:bg-surface-900 rounded-2xl p-6 shadow-sm border border-surface-100 dark:border-surface-800 flex flex-col h-full relative">
                 <div class="flex justify-between items-start mb-6">
@@ -51,7 +49,6 @@ import { GetAdminDashboardStatisticsDtoResponse } from '@/app/features/appointme
             </div>
         </div>
 
-        <!-- في الانتظار -->
         <div class="col-span-12 md:col-span-6 xl:col-span-3">
             <div class="bg-white dark:bg-surface-900 rounded-2xl p-6 shadow-sm border border-surface-100 dark:border-surface-800 flex flex-col h-full relative">
                 <div class="flex justify-between items-start mb-6">
@@ -73,7 +70,6 @@ import { GetAdminDashboardStatisticsDtoResponse } from '@/app/features/appointme
             </div>
         </div>
 
-        <!-- ملغي -->
         <div class="col-span-12 md:col-span-6 xl:col-span-3">
             <div class="bg-white dark:bg-surface-900 rounded-2xl p-6 shadow-sm border border-surface-100 dark:border-surface-800 flex flex-col h-full relative">
                 <div class="flex justify-between items-start mb-6">

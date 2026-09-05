@@ -2,8 +2,6 @@ import { Component, effect, inject, signal, input } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { LayoutService } from '@/app/layout/service/layout.service';
 import { AppointmentTimeBreakdownDto } from '@/app/features/appointment/models/responses/get-admin-dashboard-statistics-response';
-// لو نزلت البلجن شيل الكومنت من هنا
-// import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
     standalone: true,
@@ -13,7 +11,6 @@ import { AppointmentTimeBreakdownDto } from '@/app/features/appointment/models/r
         <div class="font-bold text-lg mb-8 text-center text-surface-900 dark:text-surface-0">المواعيد حسب الفترة الزمنية</div>
         <div class="flex-grow min-h-[250px]">
             <p-chart type="line" [data]="chartData()" [options]="chartOptions()" class="h-full block w-full" />
-            <!-- ضيف [plugins]="plugins" لو هتستخدم DataLabels -->
         </div>
     </div>`
 })
@@ -23,7 +20,6 @@ export class AdminTimeChartWidget {
 
     chartData = signal<any>(null);
     chartOptions = signal<any>(null);
-    // plugins = [ChartDataLabels]; // فعل السطر ده لو نزلت البلجن
 
     constructor() {
         effect(() => {
@@ -49,10 +45,10 @@ export class AdminTimeChartWidget {
                 {
                     label: 'المواعيد',
                     data: counts,
-                    fill: false, // في التصميم مفيش لون تحت الخط
+                    fill: false,
                     borderColor: '#00a67e',
                     borderWidth: 2,
-                    tension: 0, // الخطوط مستقيمة في التصميم مش منحنية
+                    tension: 0,
                     pointBackgroundColor: '#00a67e',
                     pointBorderColor: '#00a67e',
                     pointRadius: 4,
@@ -66,7 +62,6 @@ export class AdminTimeChartWidget {
             plugins: {
                 legend: { display: false },
                 tooltip: { enabled: true },
-                // إعدادات الـ DataLabels عشان تظهر الرقم فوق النقطة
                 datalabels: {
                     align: 'top',
                     anchor: 'end',
