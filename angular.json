@@ -28,14 +28,17 @@
                                 "input": "public"
                             }
                         ],
-                        "styles": [
-                            "src/assets/styles.scss",
-                            "src/assets/tailwind.css"
-                        ],
+                        "styles": ["src/assets/styles.scss", "src/assets/tailwind.css"],
                         "scripts": []
                     },
                     "configurations": {
                         "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.production.ts"
+                                }
+                            ],
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -50,6 +53,7 @@
                             ],
                             "outputHashing": "all"
                         },
+
                         "development": {
                             "optimization": false,
                             "extractLicenses": false,
@@ -78,13 +82,8 @@
                     "options": {
                         "tsConfig": "tsconfig.spec.json",
                         "inlineStyleLanguage": "scss",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets"
-                        ],
-                        "styles": [
-                            "src/assets/styles.scss"
-                        ],
+                        "assets": ["src/favicon.ico", "src/assets"],
+                        "styles": ["src/assets/styles.scss"],
                         "scripts": []
                     }
                 }
