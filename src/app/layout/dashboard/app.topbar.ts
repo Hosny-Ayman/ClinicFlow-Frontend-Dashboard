@@ -86,7 +86,7 @@ export class AppTopbar implements OnDestroy {
     isMenuOpen = false;
 
     readonly userMenuItems: MenuItem[] = [
-        { label: 'My Profile', icon: 'pi pi-user' },
+        { label: 'My Profile', icon: 'pi pi-user', routerLink: '/profile' },
         { label: 'Settings', icon: 'pi pi-cog' },
         { separator: true },
         {

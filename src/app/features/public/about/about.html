@@ -1,0 +1,143 @@
+<main class="min-h-screen bg-[#f8fafc] px-4 sm:px-6 lg:px-8 py-10 lg:py-14 text-[#183153]" dir="rtl">
+    <div class="max-w-[1400px] mx-auto flex flex-col gap-12 lg:gap-16">
+
+        <!-- Top Hero Section -->
+        <section class="w-full" aria-labelledby="about-heading">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+
+                <!-- Right on Desktop (RTL First Column): Content -->
+                <div class="lg:col-span-6 flex flex-col items-start text-right order-2 lg:order-1">
+                    <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold bg-[#eafaf6] text-[#00a67e] mb-5">
+                        من نحن
+                    </span>
+
+                    <h1 id="about-heading" class="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#183153] leading-[1.25] tracking-tight mb-5">
+                        <span>نبني حلولاً ذكية لإدارة</span>
+                        <span class="block text-[#00a67e] mt-1">العيادات والمراكز الطبية</span>
+                    </h1>
+
+                    <p class="text-base sm:text-[17px] text-[#64748b] leading-[1.85] font-normal mb-8 max-w-2xl">
+                        في ClinicFlow نؤمن أن التكنولوجيا يمكن أن تجعل إدارة العيادات أسهل وأكثر كفاءة. هدفنا هو تمكين الأطباء وفرق العمل من التركيز على ما يهم حقاً — رعاية المرضى — بينما نوفر لهم أدوات حديثة لإدارة المواعيد والسجلات الطبية وسير العمل اليومي بكل سهولة وأمان.
+                    </p>
+
+                    <!-- 4 Feature Highlights -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 w-full">
+                        @for (feature of features; track feature.id) {
+                            <div class="flex flex-col items-center text-center gap-3 group">
+                                <div class="w-14 h-14 rounded-2xl bg-[#eafaf6] text-[#00a67e] flex items-center justify-center text-2xl group-hover:scale-105 group-hover:bg-[#def7f0] transition-all duration-200">
+                                    <i [class]="feature.icon"></i>
+                                </div>
+                                <div class="text-[13px] font-bold text-[#183153] leading-snug flex flex-col items-center">
+                                    <span class="whitespace-nowrap">{{ feature.titleLine1 }}</span>
+                                    <span class="whitespace-nowrap">{{ feature.titleLine2 }}</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Left on Desktop (RTL Second Column): Reception Image -->
+                <div class="lg:col-span-6 flex justify-center items-center w-full order-1 lg:order-2">
+                    <div class="w-full rounded-[28px] overflow-hidden shadow-[0_16px_40px_-12px_rgba(16,24,40,0.08)] border border-slate-200/60 bg-white aspect-[4/3] max-h-[480px]">
+                        <img
+                            src="assets/about-reception.jpg"
+                            alt="مكتب استقبال ClinicFlow ومقر العيادة العصري"
+                            class="w-full h-full object-cover block"
+                            loading="eager"
+                            fetchpriority="high"
+                        />
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Bottom Three Cards Section -->
+        <section class="w-full" aria-label="معلومات إضافية والتواصل">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+
+                <!-- Card 3: Contact Card (Rightmost in RTL) -->
+                <article class="bg-white border border-[#edf2f7] rounded-[28px] p-7 lg:p-9 flex flex-col justify-between min-h-[360px] shadow-[0_8px_30px_-6px_rgba(16,24,40,0.04)] hover:shadow-[0_16px_36px_-8px_rgba(16,24,40,0.08)] hover:-translate-y-1 transition-all duration-200">
+                    <div class="text-right mb-6">
+                        <h2 class="text-[22px] font-extrabold text-[#183153] mb-1">تواصل معي</h2>
+                        <p class="text-[13px] text-[#64748b]">يمكنك التواصل معي لأي استفسار أو تعاون</p>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        @for (item of contactItems; track item.label) {
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-11 h-11 rounded-xl bg-[#eafaf6] text-[#00a67e] flex items-center justify-center text-lg shrink-0">
+                                    <i [class]="item.icon"></i>
+                                </div>
+                                <div class="flex flex-col text-right">
+                                    @if (item.link) {
+                                        <a [href]="item.link" class="text-[15px] font-bold text-[#183153] hover:text-[#00a67e] transition-colors leading-tight" [attr.dir]="item.dir">
+                                            {{ item.value }}
+                                        </a>
+                                    } @else {
+                                        <span class="text-[15px] font-bold text-[#183153] leading-tight" [attr.dir]="item.dir">
+                                            {{ item.value }}
+                                        </span>
+                                    }
+                                    <span class="text-xs text-[#94a3b8] font-medium mt-0.5">{{ item.label }}</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </article>
+
+                <!-- Card 2: Developer Card (Center) -->
+                <article class="bg-white border border-[#edf2f7] rounded-[28px] p-7 lg:p-9 flex flex-col justify-between min-h-[360px] shadow-[0_8px_30px_-6px_rgba(16,24,40,0.04)] hover:shadow-[0_16px_36px_-8px_rgba(16,24,40,0.08)] hover:-translate-y-1 transition-all duration-200 text-right">
+                    <div>
+                        <span class="block text-[13px] font-bold text-[#183153] mb-1">مطور المشروع</span>
+                        <h2 class="text-[28px] font-extrabold text-[#183153] tracking-tight mb-0">Hosny Ayman</h2>
+                        <div class="w-8 h-[3.5px] bg-[#00a67e] rounded-full my-4"></div>
+                        <p class="text-sm text-[#64748b] leading-[1.75] font-normal">
+                            مطور برمجيات متخصص في بناء حلول الويب الحديثة، وشغوف بتطوير أنظمة تساعد في تحسين الخدمات الصحية من خلال التكنولوجيا
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3 mt-6" aria-label="روابط التواصل الاجتماعي">
+                        @for (social of socialLinks; track social.name) {
+                            <a
+                                [href]="social.url"
+                                [attr.aria-label]="social.ariaLabel"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="w-11 h-11 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] text-[#183153] flex items-center justify-center text-[17px] hover:text-[#00a67e] hover:border-[#00a67e] hover:bg-[#eafaf6] hover:-translate-y-0.5 transition-all duration-200"
+                            >
+                                <i [class]="social.icon"></i>
+                            </a>
+                        }
+                    </div>
+                </article>
+
+                <!-- Card 1: Quote Card (Leftmost in RTL) -->
+                <article class="bg-[#ebfaf5] border border-[#00a67e]/15 rounded-[28px] p-7 lg:p-9 flex flex-col justify-between min-h-[360px] hover:shadow-[0_16px_36px_-8px_rgba(16,24,40,0.08)] hover:-translate-y-1 transition-all duration-200 text-right">
+                    <div class="flex justify-end">
+                        <div class="text-[#00a67e]" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="42" height="42" fill="currentColor" class="-scale-x-100">
+                                <path d="M9.983 3v7.391c0 5.704-3.748 9.57-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983zm14.017 0v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <blockquote class="my-4 text-right">
+                        <p class="text-[22px] lg:text-[23px] font-extrabold text-[#183153] leading-[1.65] m-0">
+                            نحن لا نبني مجرد نظام،<br>
+                            بل نبني شريكاً في رحلتك نحو<br>
+                            رعاية صحية أفضل.
+                        </p>
+                    </blockquote>
+
+                    <div class="flex flex-col items-start">
+                        <div class="w-8 h-[3.5px] bg-[#00a67e] rounded-full mb-3"></div>
+                        <span class="text-base font-extrabold text-[#183153] tracking-tight">ClinicFlow</span>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+    </div>
+</main>

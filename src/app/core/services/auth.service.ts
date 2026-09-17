@@ -36,6 +36,13 @@ export class AuthService {
         );
     }
 
+    updateCurrentUser(user: Partial<CurrentUser>): void {
+        const current = this.currentUser();
+        if (current) {
+            this.currentUser.set({ ...current, ...user });
+        }
+    }
+
     initializeAuth(): Promise<void> {
         console.log('Initializer Start');
         return firstValueFrom(

@@ -1,14 +1,25 @@
 <nav class="navbar" dir="rtl">
     <div class="navbar-container">
 
-        <button class="mobile-menu-btn" (click)="isMenuOpen = !isMenuOpen">
+        <button class="mobile-menu-btn" (click)="isMenuOpen = !isMenuOpen" aria-label="قائمة التنقل">
             <i class="pi" [class.pi-bars]="!isMenuOpen" [class.pi-times]="isMenuOpen"></i>
         </button>
 
         <div class="nav-right" [class.open]="isMenuOpen">
+            <a routerLink="/createClinic" class="nav-cta-btn" (click)="isMenuOpen = false">
+                <span>ابدأ الآن</span>
+                <i class="pi pi-arrow-left"></i>
+            </a>
+
             <div class="nav-menu">
                 @for(item of navItems; track item.route){
-                    <a [routerLink]="item.route" class="nav-item" (click)="isMenuOpen = false">
+                    <a
+                        [routerLink]="item.route"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: item.route === '/home' }"
+                        class="nav-item"
+                        (click)="isMenuOpen = false"
+                    >
                         {{ item.label }}
                     </a>
                 }

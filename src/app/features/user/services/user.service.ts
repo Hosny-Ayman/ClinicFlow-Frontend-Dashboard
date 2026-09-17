@@ -1,5 +1,7 @@
 import { ApiResponse } from '@/app/core/models/api-response';
 import { CreateAndEditUserRequest } from '@/app/features/user/models/requests/create-and-edit-user-request';
+import { UpdateMyInformationRequest } from '../models/requests/update-my-information-request';
+import { CurrentUser } from '@/app/features/auth/models/current-user';
 import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
@@ -13,6 +15,14 @@ import { GetAllReceptionistsResponse } from '../models/responses/get-all-recepti
 })
 export class UserService {
     private readonly http = inject(HttpClient);
+
+    GetMyInformation(): Observable<ApiResponse<CurrentUser>> {
+        return this.http.get<ApiResponse<CurrentUser>>(`${environment.apiUrl}/Users/me`);
+    }
+
+    UpdateMyInformation(request: UpdateMyInformationRequest): Observable<ApiResponse<boolean>> {
+        return this.http.put<ApiResponse<boolean>>(`${environment.apiUrl}/Users/me`, request);
+    }
 
     CreateReceptionists(request: CreateAndEditUserRequest): Observable<ApiResponse<CreateAndEditUserRequest>> {
         return this.http.post<ApiResponse<CreateAndEditUserRequest>>(`${environment.apiUrl}/Users/CreateReceptionists`, request);

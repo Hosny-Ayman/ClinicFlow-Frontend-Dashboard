@@ -23,6 +23,10 @@ export const appRoutes: Routes = [
                 component: Dashboard
             },
             {
+                path: 'profile',
+                loadComponent: () => import('./app/features/profile/profile').then((c) => c.Profile)
+            },
+            {
                 path: 'doctor',
                 canActivate: [permissionGuard],
                 data: { requiredPermission: Permission.DoctorsView },
@@ -86,6 +90,26 @@ export const appRoutes: Routes = [
             {
                 path: '',
                 loadComponent: () => import('./app/features/public/home/home').then((c) => c.Home)
+            }
+        ]
+    },
+    {
+        path: 'about',
+        component: PublicLayout,
+        children: [
+            {
+                path: '',
+                loadComponent: () => import('./app/features/public/about/about').then((c) => c.About)
+            }
+        ]
+    },
+    {
+        path: 'features',
+        component: PublicLayout,
+        children: [
+            {
+                path: '',
+                loadComponent: () => import('./app/features/public/features/features').then((c) => c.Features)
             }
         ]
     },

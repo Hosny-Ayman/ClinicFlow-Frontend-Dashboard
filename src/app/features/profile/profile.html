@@ -1,0 +1,131 @@
+<div class="max-w-4xl mx-auto w-full mt-6 mb-12 px-4" dir="rtl">
+    <!-- Breadcrumb / Header -->
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-1">الملف الشخصي</h1>
+            <p class="text-gray-500 font-medium text-sm md:text-base">عرض وتعديل معلومات حسابك وبياناتك الشخصية</p>
+        </div>
+        <a
+            routerLink="/dashboard"
+            class="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[#00a67e] transition-colors py-2 px-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+            <i class="pi pi-home text-xs"></i>
+            <span>الرئيسية</span>
+        </a>
+    </div>
+
+    <!-- Main Card -->
+    <div class="bg-white dark:bg-gray-900 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 dark:border-gray-800 rounded-4xl p-6 md:p-10 text-right transition-all">
+        
+        <!-- Loading State -->
+        @if (isLoading()) {
+            <div class="flex flex-col items-center justify-center py-20 gap-4">
+                <i class="pi pi-spin pi-spinner text-4xl text-[#00a67e]"></i>
+                <span class="text-gray-500 font-medium">جاري تحميل بيانات الملف الشخصي...</span>
+            </div>
+        } @else {
+            <!-- Profile Info Banner -->
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 pb-8 mb-8 border-b border-gray-100 dark:border-gray-800">
+                <div class="relative">
+                    <p-avatar
+                        shape="circle"
+                        size="xlarge"
+                        [label]="authService.currentUser()?.fullName?.charAt(0) || 'U'"
+                        styleClass="w-20 h-20 text-3xl font-bold bg-[#eafaf6] text-[#00a67e] border-2 border-[#00a67e]/20"
+                    ></p-avatar>
+                    <span class="absolute bottom-1 right-1 w-4 h-4 bg-emerald-500 border-2 border-white dark:border-gray-900 rounded-full"></span>
+                </div>
+
+                <div class="flex flex-col items-center sm:items-start text-center sm:text-right gap-1.5 flex-1">
+                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                        <h2 class="text-xl md:text-2xl font-bold text-[#183153] dark:text-gray-100">
+                            {{ authService.currentUser()?.fullName || 'المستخدم' }}
+                        </h2>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#eafaf6] text-[#00a67e] border border-[#00a67e]/20">
+                            {{ authService.currentUser()?.roles?.[0] || 'User' }}
+                        </span>
+                    </div>
+                    <p class="text-gray-400 text-sm flex items-center gap-1.5">
+                        <i class="pi pi-envelope text-xs"></i>
+                        <span>{{ authService.currentUser()?.email || '—' }}</span>
+                    </p>
+                    @if (authService.currentUser()?.clinicId) {
+                        <p class="text-gray-400 text-xs flex items-center gap-1">
+                            <i class="pi pi-building text-xs"></i>
+                            <span>معرّف العيادة: {{ authService.currentUser()?.clinicId }}</span>
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-[#183153] dark:text-gray-200 mb-1">البيانات الأساسية</h3>
+                    <p class="text-gray-400 text-sm">تأكد من صحة البيانات حيث تُستخدم في السجلات والمراسلات</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <app-text-input
+                        label="الاسم الأول"
+                        placeholder="أدخل الاسم الأول"
+                        icon="pi pi-user"
+                        [control]="profileForm.controls.firstName"
+                    ></app-text-input>
+
+                    <app-text-input
+                        label="الاسم الأخير"
+                        placeholder="أدخل الاسم الأخير"
+                        icon="pi pi-user"
+                        [control]="profileForm.controls.lastName"
+                    ></app-text-input>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <app-text-input
+                        label="البريد الإلكتروني"
+                        placeholder="example@domain.com"
+                        icon="pi pi-envelope"
+                        type="email"
+                        [control]="profileForm.controls.email"
+                    ></app-text-input>
+
+                    <app-number-input
+                        label="رقم الهاتف"
+                        placeholder="01XXXXXXXXX"
+                        icon="pi pi-phone"
+                        type="tel"
+                        [control]="profileForm.controls.phoneNumber"
+                    ></app-number-input>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center items-center pt-8 mt-8 border-t border-gray-100 dark:border-gray-800 gap-4">
+                    <button
+                        type="button"
+                        (click)="resetForm()"
+                        [disabled]="!profileForm.dirty || isSaving()"
+                        class="cursor-pointer w-full sm:w-44 flex items-center justify-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed border border-[#d9e1ec] dark:border-gray-700 rounded-2xl px-5 py-3.5 text-base font-bold text-[#183153] dark:text-gray-200 transition-all duration-200 shadow-sm"
+                    >
+                        <i class="pi pi-refresh text-sm"></i>
+                        <span>إلغاء التعديلات</span>
+                    </button>
+
+                    <button
+                        type="submit"
+                        [disabled]="profileForm.invalid || isSaving()"
+                        class="cursor-pointer w-full sm:w-56 flex items-center justify-center gap-2 bg-[#00a67e] hover:bg-[#008f6b] disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:text-gray-500 disabled:shadow-none disabled:cursor-not-allowed border-none rounded-2xl px-6 py-3.5 text-base font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200"
+                    >
+                        @if (isSaving()) {
+                            <i class="pi pi-spin pi-spinner text-sm"></i>
+                            <span>جاري الحفظ...</span>
+                        } @else {
+                            <i class="pi pi-check text-sm"></i>
+                            <span>حفظ التغييرات</span>
+                        }
+                    </button>
+                </div>
+            </form>
+        }
+    </div>
+</div>

@@ -34,12 +34,36 @@
 .nav-right {
     display: flex;
     align-items: center;
+    gap: 28px;
+}
+
+.nav-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #00a67e;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.2s;
+    white-space: nowrap;
+
+    &:hover {
+        background: #008f6b;
+    }
+
+    i {
+        font-size: 13px;
+    }
 }
 
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 28px;
 }
 
 .nav-item {
@@ -48,9 +72,23 @@
     font-size: 15px;
     font-weight: 700;
     transition: 0.2s;
+    position: relative;
+    padding: 6px 0;
 
-    &:hover {
+    &:hover,
+    &.active {
         color: #00a67e;
+    }
+
+    &.active::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2.5px;
+        background: #00a67e;
+        border-radius: 2px;
     }
 }
 
@@ -78,37 +116,52 @@
         top: 86px;
         right: 0;
         left: 0;
-        background: white;
+        background: #fff;
         border-bottom: 1px solid #edf0f5;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-
+        flex-direction: column;
+        padding: 16px 20px 24px;
+        gap: 16px;
         visibility: hidden;
         opacity: 0;
         transform: translateY(-10px);
-        transition: all 0.3s ease;
+        transition: 0.3s;
+
+        &.open {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    .nav-right.open {
-        visibility: visible;
-        opacity: 1;
-        transform: translateY(0);
+    .nav-cta-btn {
+        width: 100%;
+        justify-content: center;
+        order: 2;
     }
 
     .nav-menu {
         flex-direction: column;
         width: 100%;
         gap: 0;
-        padding: 8px 0;
+        order: 1;
     }
 
     .nav-item {
         width: 100%;
-        padding: 16px 24px;
+        padding: 14px 16px;
         display: block;
         border-bottom: 1px solid #f8fafc;
 
         &:last-child {
             border-bottom: none;
+        }
+
+        &.active::after {
+            bottom: 4px;
+            right: 16px;
+            left: auto;
+            width: 24px;
         }
     }
 }

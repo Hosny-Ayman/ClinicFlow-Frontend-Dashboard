@@ -1,0 +1,186 @@
+<main class="min-h-screen bg-[#f8fafc] px-4 sm:px-6 lg:px-8 py-10 lg:py-14 text-[#183153]" dir="rtl">
+    <div class="max-w-[1400px] mx-auto flex flex-col gap-16 lg:gap-20">
+
+        <!-- Top Hero Section -->
+        <section class="w-full" aria-labelledby="features-hero-heading">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+
+                <!-- Right on Desktop (RTL First Column): Content -->
+                <div class="lg:col-span-6 flex flex-col items-start text-right order-2 lg:order-1">
+                    <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold bg-[#eafaf6] text-[#00a67e] mb-5">
+                        المميزات
+                    </span>
+
+                    <h1 id="features-hero-heading" class="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#183153] leading-[1.25] tracking-tight mb-5">
+                        كل ما تحتاجه لإدارة عيادتك في مكان واحد
+                    </h1>
+
+                    <p class="text-base sm:text-[17px] text-[#64748b] leading-[1.85] font-normal mb-8 max-w-2xl">
+                        ClinicFlow يوفر لك مجموعة متكاملة من الأدوات الحديثة التي تساعدك على تنظيم عمل العيادة، توفير الوقت، وتحسين تجربة المرضى.
+                    </p>
+
+                    <a
+                        routerLink="/createClinic"
+                        class="inline-flex items-center gap-2.5 bg-[#00a67e] hover:bg-[#008f6b] text-white font-bold px-7 py-3.5 rounded-xl text-base transition-all duration-200 shadow-sm hover:shadow hover:-translate-y-0.5"
+                    >
+                        <span>ابدأ الآن</span>
+                        <i class="pi pi-arrow-left text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Left on Desktop (RTL Second Column): Dashboard Visual -->
+                <div class="lg:col-span-6 flex justify-center items-center w-full order-1 lg:order-2">
+                    <div class="relative w-full max-w-[620px]">
+
+                        <!-- Background Ambient Glow -->
+                        <div class="absolute -top-6 -right-6 w-60 h-60 bg-[#def7f0] rounded-full blur-3xl opacity-60 pointer-events-none" aria-hidden="true"></div>
+
+                        <!-- Floating Slogan Watermark in Background -->
+                        <div class="hidden sm:flex flex-col items-start absolute -left-4 bottom-6 select-none pointer-events-none z-10 opacity-70" aria-hidden="true">
+                            <span class="text-lg md:text-xl font-bold text-[#183153]/70 tracking-tight">Better Care</span>
+                            <span class="text-lg md:text-xl font-bold text-[#183153]/70 tracking-tight">A Healthier</span>
+                            <span class="text-lg md:text-xl font-bold text-[#00a67e] tracking-tight border-b-2 border-[#00a67e] pb-0.5">Tomorrow</span>
+                        </div>
+
+                        <!-- Floating Badge Card -->
+                        <div class="absolute -top-3 left-3 sm:left-6 z-20 bg-white/95 backdrop-blur-md border border-slate-100 shadow-[0_12px_28px_-6px_rgba(16,24,40,0.12)] rounded-2xl px-4 py-2.5 flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-[#eafaf6] text-[#00a67e] flex items-center justify-center text-lg shrink-0">
+                                <i class="pi pi-shield"></i>
+                            </div>
+                            <div class="text-right text-xs sm:text-sm font-bold text-[#183153] leading-tight">
+                                <span>إدارة أسهل</span>
+                                <span class="block text-[#00a67e]">رعاية أفضل</span>
+                            </div>
+                        </div>
+
+                        <!-- Device Mockup Card -->
+                        <div class="w-full rounded-[28px] overflow-hidden shadow-[0_20px_50px_-15px_rgba(16,24,40,0.12)] border border-slate-200/70 bg-white aspect-[4/3] max-h-[460px]">
+                            <img
+                                src="assets/features-hero.jpg"
+                                alt="واجهة لوحة تحكم ClinicFlow لإدارة العيادات الطبية على جهاز لوحي"
+                                class="w-full h-full object-cover block"
+                                loading="eager"
+                                fetchpriority="high"
+                            />
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Features Grid Section -->
+        <section class="w-full text-center" aria-labelledby="features-section-heading">
+
+            <!-- Section Header -->
+            <div class="flex flex-col items-center mb-12">
+                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold bg-[#eafaf6] text-[#00a67e] mb-3">
+                    المميزات الأساسية
+                </span>
+                <h2 id="features-section-heading" class="text-3xl sm:text-4xl font-extrabold text-[#183153] mb-3">
+                    مميزات ClinicFlow
+                </h2>
+                <p class="text-base sm:text-lg text-[#64748b] max-w-2xl mx-auto m-0">
+                    حل متكامل لإدارة العيادات والمراكز الطبية بكفاءة واحترافية
+                </p>
+            </div>
+
+            <!-- Top Row (6 Feature Cards) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-5 mb-5">
+                @for (feature of topFeatures; track feature.id) {
+                    <article class="bg-white border border-[#edf2f7] rounded-[22px] p-6 flex flex-col items-center text-center justify-start min-h-[220px] shadow-[0_4px_20px_-4px_rgba(16,24,40,0.03)] hover:shadow-[0_12px_32px_-6px_rgba(16,24,40,0.08)] hover:-translate-y-1 transition-all duration-200 group">
+                        <div class="w-12 h-12 rounded-2xl bg-[#eafaf6] text-[#00a67e] flex items-center justify-center text-xl mb-4 group-hover:bg-[#def7f0] group-hover:scale-105 transition-all duration-200 shrink-0">
+                            <i [class]="feature.icon"></i>
+                        </div>
+                        <h3 class="text-[15px] font-bold text-[#183153] mb-2 leading-snug">
+                            {{ feature.title }}
+                        </h3>
+                        <p class="text-xs sm:text-[13px] text-[#64748b] leading-[1.65] font-normal m-0">
+                            {{ feature.description }}
+                        </p>
+                    </article>
+                }
+            </div>
+
+            <!-- Bottom Row (5 Feature Cards) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
+                @for (feature of bottomFeatures; track feature.id) {
+                    <article class="bg-white border border-[#edf2f7] rounded-[22px] p-6 flex flex-col items-center text-center justify-start min-h-[220px] shadow-[0_4px_20px_-4px_rgba(16,24,40,0.03)] hover:shadow-[0_12px_32px_-6px_rgba(16,24,40,0.08)] hover:-translate-y-1 transition-all duration-200 group">
+                        <div class="w-12 h-12 rounded-2xl bg-[#eafaf6] text-[#00a67e] flex items-center justify-center text-xl mb-4 group-hover:bg-[#def7f0] group-hover:scale-105 transition-all duration-200 shrink-0">
+                            <i [class]="feature.icon"></i>
+                        </div>
+                        <h3 class="text-[15px] font-bold text-[#183153] mb-2 leading-snug">
+                            {{ feature.title }}
+                        </h3>
+                        <p class="text-xs sm:text-[13px] text-[#64748b] leading-[1.65] font-normal m-0">
+                            {{ feature.description }}
+                        </p>
+                    </article>
+                }
+            </div>
+
+        </section>
+
+        <!-- Bottom CTA Banner Section -->
+        <section class="w-full" aria-label="ابدأ رحلتك مع ClinicFlow">
+            <div class="bg-[#ebfaf5] border border-[#00a67e]/15 rounded-[28px] lg:rounded-[32px] p-6 sm:p-8 lg:p-12 relative overflow-hidden shadow-[0_8px_30px_-6px_rgba(0,166,126,0.08)]">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-10">
+
+                    <!-- Right on Desktop (RTL first): Checklist -->
+                    <div class="flex flex-col gap-3 shrink-0 order-3 lg:order-1 border-t lg:border-t-0 lg:border-l border-[#00a67e]/20 pt-6 lg:pt-0 lg:pl-10 w-full lg:w-auto">
+                        @for (item of checklistItems; track item) {
+                            <div class="flex items-center gap-2.5 text-right">
+                                <i class="pi pi-check text-[#00a67e] font-bold text-sm"></i>
+                                <span class="text-[15px] font-bold text-[#183153]">{{ item }}</span>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Center on Desktop: Headline and Action Button -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-6 flex-1 order-2 lg:order-2 w-full">
+                        <div class="text-center lg:text-right">
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#183153] mb-2">
+                                ابدأ رحلتك مع ClinicFlow اليوم
+                            </h2>
+                            <p class="text-sm sm:text-base text-[#64748b] max-w-xl m-0">
+                                انضم إلى مئات العيادات التي تثق في ClinicFlow لإدارة أعمالها الطبية
+                            </p>
+                        </div>
+
+                        <a
+                            routerLink="/createClinic"
+                            class="inline-flex items-center gap-2.5 bg-[#00a67e] hover:bg-[#008f6b] text-white font-bold px-8 py-3.5 rounded-xl text-base transition-all duration-200 shrink-0 shadow-sm hover:shadow hover:-translate-y-0.5"
+                        >
+                            <span>ابدأ الآن</span>
+                            <i class="pi pi-arrow-left text-sm"></i>
+                        </a>
+                    </div>
+
+                    <!-- Left on Desktop (RTL third): Stethoscope Medical Visual -->
+                    <div class="order-1 lg:order-3 flex items-center justify-center shrink-0">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#def7f0]/70 flex items-center justify-center p-3 shadow-inner">
+                            <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20 text-[#183153]" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- Earpieces -->
+                                <path d="M32 20 C32 15, 36 12, 40 12" />
+                                <circle cx="40" cy="12" r="3" fill="currentColor" />
+                                <path d="M22 20 C22 15, 18 12, 14 12" />
+                                <circle cx="14" cy="12" r="3" fill="currentColor" />
+                                <!-- Upper tubes forming Y -->
+                                <path d="M14 15 C14 28, 27 34, 27 44" />
+                                <path d="M40 15 C40 28, 27 34, 27 44" />
+                                <!-- Flexible tube loop -->
+                                <path d="M27 44 C27 68, 55 76, 55 58 C55 42, 75 42, 75 62 C75 74, 68 80, 62 80" />
+                                <!-- Chestpiece -->
+                                <circle cx="62" cy="80" r="7" fill="#00a67e" stroke="#183153" stroke-width="4" />
+                                <circle cx="62" cy="80" r="3" fill="white" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
