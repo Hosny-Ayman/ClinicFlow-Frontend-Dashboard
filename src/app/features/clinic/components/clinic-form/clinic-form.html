@@ -1,4 +1,4 @@
-<form [formGroup]="clinicForm" (ngSubmit)="onSubmit()" class="max-w-7xl mx-auto w-full mt-12 mb-12 px-4">
+<form [formGroup]="clinicForm" (ngSubmit)="onSubmit()" class="w-full max-w-[1600px] mx-auto mt-12 mb-12 px-4">
     <div dir="rtl" class="bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 rounded-4xl p-8 md:p-12 text-right">
         <div class="grid grid-cols-1 gap-12" [ngClass]="{'lg:grid-cols-2 lg:gap-16': !isEditMode}">
             @if(!isEditMode) {
@@ -11,20 +11,20 @@
             </div>
             }
 
-            <div [ngClass]="{'mx-auto w-full max-w-2xl': isEditMode}">
+            <div [ngClass]="{'mx-auto w-full max-w-4xl': isEditMode}">
                 <div class="mb-10 text-right">
                     <h2 class="text-2xl md:text-3xl font-extrabold text-[#183153] mb-3">{{ isEditMode ? 'تحديث بيانات العيادة' : 'معلومات العيادة' }}</h2>
                     <p class="text-gray-500 font-medium text-base md:text-lg">{{ isEditMode ? 'قم بتعديل المعلومات الأساسية لعيادتك' : 'أخبرنا عن عيادتك لإنشاء النظام الخاص بك' }}</p>
                 </div>
 
                 <div class="space-y-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 gap-6">
                         <app-text-input label="اسم العيادة" placeholder="أدخل اسم العيادة" icon="pi pi-building" [control]="clinicForm.controls.name"> </app-text-input>
 
                         <app-number-input label="رقم هاتف العيادة" placeholder="رقم الهاتف" icon="pi pi-phone" type="tel" [control]="clinicForm.controls.phone"> </app-number-input>
                     </div>
 
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 gap-6">
                         <app-text-input label="البريد الإلكتروني" placeholder="البريد الإلكتروني" icon="pi pi-envelope" type="email" [control]="clinicForm.controls.email"> </app-text-input>
 
                         <app-text-input label="العنوان" placeholder="العنوان" icon="pi pi-map-marker" [control]="clinicForm.controls.address"> </app-text-input>
