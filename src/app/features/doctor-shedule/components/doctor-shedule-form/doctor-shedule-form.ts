@@ -76,8 +76,8 @@ export class DoctorSheduleForm implements OnInit {
             const clinicDay = clinicHours.find((c) => c.day === i);
             const isClosed = clinicDay ? clinicDay.isClosed : true;
 
-            const open = clinicDay ? this.forceAmPm(clinicDay.openTime, 'start') : '09:00';
-            const close = clinicDay ? this.forceAmPm(clinicDay.closeTime, 'end') : '17:00';
+            const open = clinicDay ? this.formatTimeForInput(clinicDay.openTime) : '09:00';
+            const close = clinicDay ? this.formatTimeForInput(clinicDay.closeTime) : '17:00';
 
             return {
                 id: 0,
@@ -119,25 +119,40 @@ export class DoctorSheduleForm implements OnInit {
         });
     }
 
+    private timeToMinutes(time: string): number {
+        const [hours, minutes] = time.split(':').map(Number);
+        return hours * 60 + minutes;
+    }
+
     onSubmit() {
         if (!this.userId) return;
 
         for (const day of this.schedules) {
-            if (day.isAvailable) {
-                if (day.isClinicClosed) {
-                    this.notificationService.error(`يوم ${day.dayName} العيادة مغلقة، لا يمكنك تعيين مواعيد عمل فيه.`);
-                    return;
-                }
+            if (!day.isAvailable) continue;
 
-                if (day.startTime >= day.endTime) {
-                    this.notificationService.error(`في يوم ${day.dayName}: وقت البدء يجب أن يكون قبل وقت الانتهاء.`);
-                    return;
-                }
+            if (day.isClinicClosed) {
+                this.notificationService.error(`يوم ${day.dayName} العيادة مغلقة، لا يمكنك تعيين مواعيد عمل فيه.`);
+                return;
+            }
 
-                if (day.startTime < day.clinicOpenTime || day.endTime > day.clinicCloseTime) {
-                    this.notificationService.error(`مواعيد يوم ${day.dayName} خارج أوقات العيادة (مسموح من ${this.formatTo12Hour(day.clinicOpenTime)} إلى ${this.formatTo12Hour(day.clinicCloseTime)}).`);
-                    return;
-                }
+            const start = this.timeToMinutes(day.startTime);
+            const end = this.timeToMinutes(day.endTime);
+            const clinicOpen = this.timeToMinutes(day.clinicOpenTime);
+
+            let clinicClose = this.timeToMinutes(day.clinicCloseTime);
+
+            if (clinicClose <= clinicOpen) {
+                clinicClose += 24 * 60;
+            }
+
+            if (start >= end) {
+                this.notificationService.error(`في يوم ${day.dayName}: وقت البدء يجب أن يكون قبل وقت الانتهاء.`);
+                return;
+            }
+
+            if (start < clinicOpen || end > clinicClose) {
+                this.notificationService.error(`مواعيد يوم ${day.dayName} خارج أوقات العيادة.`);
+                return;
             }
         }
 
