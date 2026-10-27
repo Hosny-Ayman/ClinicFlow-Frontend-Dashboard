@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: 'https://clinicflow-backend-654e.onrender.com/api'
+    apiUrl: 'https://clinicflow.runasp.net/api'
 };
